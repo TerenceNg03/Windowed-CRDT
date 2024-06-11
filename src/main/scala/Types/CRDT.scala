@@ -5,7 +5,7 @@ import pekko.actor.Actor
 import pekko.actor.Props
 import pekko.event.Logging
 
-trait CRDT[A, B] extends Lattice[A]:
-  def fork(a: A): A
-  val pure: B => A
-  def runCRDT(a: A): B
+trait CRDT[A: Lattice, B]:
+  extension (x: A) def fork(): A
+  def pure(x: B): A
+  extension (x: A) def run(): B

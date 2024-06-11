@@ -1,8 +1,8 @@
 package Types
 
 trait Lattice[A]:
-    infix def \/(a: A)(b: A): A
-    infix def /\(a: A)(b: A): A
+    extension (a:A) infix def \/(b: A): A
+    extension (a:A) infix def /\(b: A): A
 
 
 trait BoundedJoinSemiLattice[A] extends Lattice[A]:
