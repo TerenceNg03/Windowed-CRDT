@@ -12,4 +12,6 @@ lazy val root = project
     libraryDependencies += "org.scalameta" %% "munit" % "1.0.0" % Test,
     libraryDependencies += "org.apache.pekko" %% "pekko-actor-typed" % pekkoVersion,
     libraryDependencies += "org.apache.pekko" %% "pekko-cluster-typed" % pekkoVersion,
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.18" % Test,
+    libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.18.0" % Test,
   )

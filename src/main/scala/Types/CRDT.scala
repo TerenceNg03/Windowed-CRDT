@@ -5,7 +5,24 @@ import pekko.actor.Actor
 import pekko.actor.Props
 import pekko.event.Logging
 
-trait CRDT[A: Lattice, B]:
-  extension (x: A) def fork(): A
-  def pure(x: B): A
-  extension (x: A) def run(): B
+trait CRDT[A, B, C]:
+  /**
+    * Wrap a value into CRDT
+    *
+    * @param x
+    * @return
+    */
+  def newCRDT(x: B)(procID: C): A
+  /**
+    * Read the value out
+    *
+    * @return
+    */
+  extension (x: A) def read(): B
+  /**
+    * Lattice join
+    *
+    * @param y
+    * @return
+    */
+  extension (x: A) infix def \/(y: A): A
