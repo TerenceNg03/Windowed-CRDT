@@ -13,10 +13,14 @@ class GCounter[A, C](
     assert(x >= summon[Numeric[A]].zero)
     GCounter(procID, incM.updated(procID, incM(procID)+x))
 
-given [A: Numeric, C]: CRDT[GCounter[A, C], A, C] with
-  def newCRDT(x: A)(procID: C): GCounter[A, C] =
+object GCounter:
+  def newGCounter[A: Numeric, C](x: A)(procID: C):GCounter[A, C] = 
     assert(x >= summon[Numeric[A]].zero)
     GCounter(procID, Map((procID -> x)))
+
+given [A: Numeric, C]: CRDT[GCounter[A, C], A, C] with
+  def bottom(procID: C): GCounter[A, C] =
+    GCounter(procID, Map((procID -> summon[Numeric[A]].zero)))
 
   extension (x: GCounter[A, C])
     def \/(y: GCounter[A, C]): GCounter[A, C] =

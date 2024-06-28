@@ -2,12 +2,15 @@ package Instances
 
 import Types.CRDT
 
-opaque type GMap[A,B] = Map[A,B]
+type GMap[A,B] = Map[A,B]
+
+object GMap:
+  def newGMap[A,B](m: Map[A, B]):GMap[A, B] = m
 
 // instance (CRDT b d c) => CRDT (Gmap a b c) (Map a b) c where
 given [A, B, C, D](using x: CRDT[B, D, C]): CRDT[GMap[A, B], Map[A, B], C]
 with
-  def newCRDT(x: Map[A, B])(procID: C): GMap[A, B] = x
+  def bottom(procID: C):GMap[A, B] = Map.empty
 
   extension (x: GMap[A, B]) def read(): Map[A, B] = x
 

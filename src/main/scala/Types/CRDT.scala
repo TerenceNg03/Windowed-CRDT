@@ -7,12 +7,12 @@ import pekko.event.Logging
 
 trait CRDT[A, B, C]:
   /**
-    * Wrap a value into CRDT
+    * Lower bound of semi lattice
     *
     * @param x
     * @return
     */
-  def newCRDT(x: B)(procID: C): A
+  def bottom(procID: C): A
   /**
     * Read the value out
     *
