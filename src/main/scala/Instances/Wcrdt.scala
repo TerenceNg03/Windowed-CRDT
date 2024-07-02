@@ -3,7 +3,7 @@ package Instances
 import Types.CRDT
 import Instances.given
 
-class Wcrdt[A, C](
+case class Wcrdt[A, C](
     val procID: C,
     val local: A,
     val l: GSet[(Int, C)],
@@ -25,6 +25,7 @@ class Wcrdt[A, C](
     val ok = procList map (proc => (w, proc)) forall (x => l contains x)
     if ok then Some(this.w(w)) else None
 
+  def update(f: A => A) = this.copy(local = f(local))
 given [A, B, C](using x: CRDT[A, B, C]): CRDT[Wcrdt[A, C], A, C] with
   def bottom(procID: C): Wcrdt[A, C] = Wcrdt(
     procID,

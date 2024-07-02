@@ -5,7 +5,7 @@ import Types.CRDT
 import scala.math.Numeric.Implicits.infixNumericOps
 import scala.math.Ordering.Implicits.infixOrderingOps
 
-class GCounter[A, C](
+case class GCounter[A, C](
     val procID: C,
     val incM: Map[C, A]
 ):
