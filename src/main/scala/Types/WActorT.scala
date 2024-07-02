@@ -30,7 +30,7 @@ object WActorT:
     */
   def runWActorT[A, B, M](using
       x: CRDT[A, B, Int]
-  )(id: Int)(handle: Handle[A, M]): Behavior[MsgT[A, Int, M]] =
+  )(id: Int)(handle: HandleM[A, M, Unit]): Behavior[MsgT[A, Int, M]] =
     runWActorT_(
       WActorState(
         summon[CRDT[Wcrdt[A, Int], ?, ?]].bottom(id),
@@ -42,7 +42,7 @@ object WActorT:
 
   def runWActorT_[A, B, M](using
       x: CRDT[A, B, Int]
-  )(s: WActorState[A, M])(handle: Handle[A, M]): Behavior[MsgT[A, Int, M]] =
+  )(s: WActorState[A, M])(handle: HandleM[A, M, Unit]): Behavior[MsgT[A, Int, M]] =
     Behaviors.receive[MsgT[A, Int, M]]: (context, msg) =>
       msg match
         case Merge(v) =>
@@ -56,8 +56,8 @@ object WActorT:
         case UpdateRef(f) =>
           runWActorT_(s.copy(actorRefs = f(s.actorRefs)))(handle)
         case Process(m) =>
-          handle(context)(m)(s.wcrdt) match
-            case Propagate(v) =>
+          handle.runHandleM(context)(m)(s.wcrdt)._2 match
+            case UpdateCRDT(v) =>
               s.actorRefs.foreach((id, ref) =>
                 if id != s.actorId then ref ! Merge(v)
               )

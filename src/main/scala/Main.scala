@@ -1,19 +1,30 @@
 import Types.ActorMain
 import org.apache.pekko.actor.typed.ActorSystem
 import Instances.{given, *}
-import Types.Handle
-import Types.Propagate
+import Types.given
+import Types.HandleM
+import Types.UpdateCRDT
+import Types.HandleM.getMsg
+import Types.HandleM.getCRDT
+import Types.HandleM.getContext
+import Types.HandleM.liftIO
+import Types.HandleM.putCRDT
+import scalaz.Scalaz._
+import Types.HandleM.modifyCRDT
 
-/**
-  * Use a grow-only set to construct a windowed CRDT.
-  * Here the message is simple an integer that will be added to the set.
+/** Use a grow-only set to construct a windowed CRDT. Here the message is simple
+  * an integer that will be added to the set.
   */
-val handle: Handle[GSet[Int], Int] = context =>
-  x =>
-    gs =>
-      val gs_ = gs.update(_ + x).nextWindow()
+val handle: HandleM[GSet[Int], Int, Unit] =
+  for {
+    x <- getMsg
+    gs <- getCRDT
+    context <- getContext
+    gs_ <- putCRDT(gs.update(_ + x).nextWindow())
+    _ <- liftIO(
       context.log.info(s"Processor ${gs_.procID}: New value: ${gs_.local}")
-      Propagate(gs_)
+    )
+  } yield ()
 
 @main def hello(): Unit =
   // Here our message is an Int, but the system need to receive an (Int, Int) so

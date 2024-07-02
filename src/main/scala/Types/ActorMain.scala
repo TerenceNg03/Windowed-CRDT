@@ -11,7 +11,7 @@ import org.apache.pekko.actor.typed.ActorRef
   */
 object ActorMain:
   def init[A, B, M](using x: CRDT[A, B, Int])(
-      handles: List[Handle[A, M]]
+      handles: List[HandleM[A, M, Unit]]
   ): Behavior[(Int, M)] =
     Behaviors.setup[(Int, M)]: context =>
       val len = handles.length
