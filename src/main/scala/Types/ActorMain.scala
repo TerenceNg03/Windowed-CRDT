@@ -4,6 +4,11 @@ import org.apache.pekko.actor.typed.Behavior
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
 import org.apache.pekko.actor.typed.ActorRef
 
+/**
+  * Main Actor
+  * 
+  * Note that Message should be passed as (Int, M) so that it is dispatched to Actor i.
+  */
 object ActorMain:
   def init[A, B, M](using x: CRDT[A, B, Int])(
       handles: List[Handle[A, M]]
