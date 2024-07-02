@@ -2,14 +2,14 @@ import Types.ActorMain
 import org.apache.pekko.actor.typed.ActorSystem
 import Instances.{given, *}
 import Types.Handle
-import Types.UpdateCRDT
+import Types.Propagate
 
 val handle: Handle[GSet[Int], Int] = context =>
   x =>
     gs =>
       val gs_ = gs.update(_ + x).nextWindow()
       context.log.info(s"Processor ${gs_.procID}: New value: ${gs_.local}")
-      UpdateCRDT(gs_)
+      Propagate(gs_)
 
 @main def hello(): Unit =
   val system: ActorSystem[(Int, Int)] =

@@ -57,7 +57,7 @@ object WActorT:
           runWActorT_(s.copy(actorRefs = f(s.actorRefs)))(handle)
         case Process(m) =>
           handle(context)(m)(s.wcrdt) match
-            case UpdateCRDT(v) =>
+            case Propagate(v) =>
               s.actorRefs.foreach((id, ref) =>
                 if id != s.actorId then ref ! Merge(v)
               )
