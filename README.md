@@ -1,8 +1,28 @@
-## sbt project compiled with Scala 3
+## Windowed CRDT
 
-### Usage
+Library of windowed CRDT with [Pekko](https://pekko.apache.org) (TODO: Paper link inserted here).
 
-This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
+Example:
+```scala
+import Types.ActorMain
+import org.apache.pekko.actor.typed.ActorSystem
+import Instances.{given, *}
+import Types.Handle
+import Types.Propagate
 
-For more information on the sbt-dotty plugin, see the
-[scala3-example-project](https://github.com/scala/scala3-example-project/blob/main/README.md).
+val handle: Handle[GSet[Int], Int] = context =>
+  x =>
+    gs =>
+      val gs_ = gs.update(_ + x).nextWindow()
+      context.log.info(s"Processor ${gs_.procID}: New value: ${gs_.local}")
+      Propagate(gs_)
+
+@main def hello(): Unit =
+  val system: ActorSystem[(Int, Int)] =
+    ActorSystem(ActorMain.init(List(handle, handle, handle)), "TestSystem")
+
+  system ! (1, 2)
+  system ! (1, 3)
+  system ! (2, 4)
+  system ! (3, 2)
+```
