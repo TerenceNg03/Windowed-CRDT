@@ -8,70 +8,90 @@ import scalaz.Monad
 import scalaz.Applicative
 import scalaz.Scalaz.ToBindOps
 import scalaz.Scalaz.ToFunctorOps
+import Types.Internal._
+import scalaz.StateT.stateTMonadState
+import scalaz.MonadTrans
+import scalaz.StateT
+import scalaz.MonadState
+import scalaz.IndexedStateT.StateMonadTrans
 
-sealed trait HandleResult[A, M]
-case class UpdateCRDT[A, M](v: A) extends HandleResult[A, M]
-case class ModifyBehavior[A, M](b: Behavior[M]) extends HandleResult[A, M]
-case class Pass[A, M]() extends HandleResult[A, M]
+sealed trait HandleResult[A, M, C]
+case class UpdateCRDT[A, M, C](crdt: Wcrdt[A, Int], carry: C)
+    extends HandleResult[A, M, C]
+case class ModifyBehavior[A, M, C](b: Behavior[MsgT[A, Int, M]])
+    extends HandleResult[A, M, C]
+case class Pass[A, M, C](carry: C) extends HandleResult[A, M, C]
+case class AwaitWindow[A, M, C](
+    w: Int,
+    crdt: Wcrdt[A, Int],
+    next: A => HandleM_[A, M, C]
+) extends HandleResult[A, M, C]
 
-class HandleM[A, M, C] private[Types] (
-    val runHandleM: ActorContext[MsgT[A, Int, M]] => M => Wcrdt[
-      A,
-      Int
-    ] => (C, HandleResult[Wcrdt[A, Int], MsgT[A, Int, M]])
+class HandleM_[A, M, C] private[Types] (
+    val runHandleM_ : Wcrdt[A, Int] => HandleResult[A, M, C]
 )
 
-given [A, M, C]: Functor[[C] =>> HandleM[A, M, C]] with
-  def map[C, B](fa: HandleM[A, M, C])(f: C => B): HandleM[A, M, B] =
-    HandleM(a =>
-      b =>
-        c =>
-          val v = fa.runHandleM(a)(b)(c)
-          v.copy(_1 = f(v._1))
-    )
+type HandleM[A, M, C] =
+  StateT[(ActorContext[MsgT[A, Int, M]], M), [C] =>> HandleM_[A, M, C], C]
 
-given [A, M, C]: Applicative[[C] =>> HandleM[A, M, C]] with
-  def point[C](a: => C): HandleM[A, M, C] = HandleM(x => y => z => (a, Pass()))
-  def ap[C, B](fa: => HandleM[A, M, C])(
-      f: => HandleM[A, M, C => B]
-  ): HandleM[A, M, B] = for {
+given [A, M, C]: Functor[[C] =>> HandleM_[A, M, C]] with
+  def map[C, B](fa: HandleM_[A, M, C])(f: C => B): HandleM_[A, M, B] =
+    for {
+      x <- fa
+    } yield f(x)
+
+given [A, M, C]: Applicative[[C] =>> HandleM_[A, M, C]] with
+  def point[C](a: => C): HandleM_[A, M, C] = HandleM_(_ => Pass(a))
+  def ap[C, B](fa: => HandleM_[A, M, C])(
+      f: => HandleM_[A, M, C => B]
+  ): HandleM_[A, M, B] = for {
     f_ <- f
     v <- fa
   } yield f_(v)
 
-given [A, M, C]: Monad[[C] =>> HandleM[A, M, C]] with
-  def point[C](a: => C): HandleM[A, M, C] = HandleM(x => y => z => (a, Pass()))
-  def bind[C, B](fa: HandleM[A, M, C])(
-      f: C => HandleM[A, M, B]
-  ): HandleM[A, M, B] = HandleM(x =>
-    y =>
-      z =>
-        fa.runHandleM(x)(y)(z) match
-          case (c, UpdateCRDT(z_)) => f(c).runHandleM(x)(y)(z_) match
-            case (c_, Pass()) => (c_, UpdateCRDT(z_))
-            case (c_, UpdateCRDT(z__)) => (c_, UpdateCRDT(z__))
-            case (c_, ModifyBehavior(b)) => (c_, ModifyBehavior(b))
-          case (c, Pass())         => f(c).runHandleM(x)(y)(z)
-          case (c, ModifyBehavior(b)) =>
-            f(c).runHandleM(x)(y)(z).copy(_2 = ModifyBehavior(b))
+given [A, M, C]: Monad[[C] =>> HandleM_[A, M, C]] with
+  def point[C](a: => C): HandleM_[A, M, C] = HandleM_(_ => Pass(a))
+  def bind[C, B](fa: HandleM_[A, M, C])(
+      f: C => HandleM_[A, M, B]
+  ): HandleM_[A, M, B] = HandleM_(wcrdt =>
+    fa.runHandleM_(wcrdt) match
+      case UpdateCRDT(z_, c) =>
+        f(c).runHandleM_(z_) match
+          case Pass(c_)                   => UpdateCRDT(z_, c_)
+          case UpdateCRDT(z__, c_)        => UpdateCRDT(z__, c_)
+          case ModifyBehavior(b)          => ModifyBehavior(b)
+          case AwaitWindow(w, crdt, next) => AwaitWindow(w, crdt, next)
+      case Pass(c)           => f(c).runHandleM_(wcrdt)
+      case ModifyBehavior(b) => ModifyBehavior(b)
+      case AwaitWindow(w, crdt, next) =>
+        AwaitWindow(w, crdt, x => next(x) >>= f)
   )
 
 object HandleM:
   def getContext[A, M]: HandleM[A, M, ActorContext[MsgT[A, Int, M]]] =
-    HandleM(a => _ => _ => (a, Pass()))
+    summon[MonadState[?, ?]].get.map(x => x._1)
 
   def getMsg[A, M]: HandleM[A, M, M] =
-    HandleM(_ => m => _ => (m, Pass()))
+    summon[MonadState[?, ?]].get.map(x => x._2)
 
   def getCRDT[A, M]: HandleM[A, M, Wcrdt[A, Int]] =
-    HandleM(_ => _ => c => (c, Pass()))
+    summon[MonadTrans[?]].liftM(HandleM_(c => Pass(c)))
 
   def putCRDT[A, M]: Wcrdt[A, Int] => HandleM[A, M, Wcrdt[A, Int]] =
-    x => HandleM(_ => _ => _ => (x, UpdateCRDT(x)))
+    x => summon[MonadTrans[?]].liftM(HandleM_(_ => UpdateCRDT(x, x)))
 
   def modifyCRDT[A, M]
       : (Wcrdt[A, Int] => Wcrdt[A, Int]) => HandleM[A, M, Wcrdt[A, Int]] =
-    f => HandleM(_ => _ => z => (z, UpdateCRDT(f(z))))
+    f => summon[MonadTrans[?]].liftM(HandleM_(x => UpdateCRDT(f(x), f(x))))
 
   def liftIO[A, B, M]: (=> B) => HandleM[A, M, B] =
-    x => HandleM(_ => m => _ => (x, Pass()))
+    f => summon[MonadTrans[?]].liftM(HandleM_(_ => Pass(f)))
+
+  def await[A, B, M]: Int => HandleM[A, M, A] =
+    w =>
+      summon[MonadTrans[?]]
+        .liftM(HandleM_(c => AwaitWindow(w, c, x => summon[Monad[?]].point(x))))
+
+  def transformMsg[A, B, M] : (M => M) => HandleM[A, M, Unit] =
+    f => 
+      summon[MonadState[?,?]].modify((c,m) => (c, f(m)))
