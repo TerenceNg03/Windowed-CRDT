@@ -1,9 +1,9 @@
+import Instances.{_, given}
+import org.scalacheck.Prop.forAll
 import org.scalatest._
+
 import flatspec._
 import matchers._
-import org.scalacheck.Prop.forAll
-import Instances.{given, *}
-import Types.CRDT
 
 class GCounterSpec extends AnyFlatSpec with should.Matchers:
 
@@ -38,7 +38,7 @@ class GCounterSpec extends AnyFlatSpec with should.Matchers:
     gc1 = gc1.increase(5)
     assert(gc1.read() == 15)
     var gc2 = GCounter.newGCounter(9)(2)
-    assert((gc1 \/ gc2).read() == 15+9)
+    assert((gc1 \/ gc2).read() == 15 + 9)
     var gc3 = gc1 \/ gc2
     gc1 = gc1.increase(3)
-    assert((gc3 \/ gc1).read() == 15+9+3)
+    assert((gc3 \/ gc1).read() == 15 + 9 + 3)

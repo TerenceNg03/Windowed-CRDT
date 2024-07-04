@@ -1,19 +1,16 @@
 package Types.Internal
 
-import org.apache.pekko.actor.typed.scaladsl.Behaviors
-import org.apache.pekko.actor.typed.ActorRef
-import org.apache.pekko.actor.typed.Behavior
+import Instances.{_, given}
 import Types.CRDT
-import Instances.{given, *}
-import scalaz.Const
-import org.apache.pekko.actor.typed.ActorSystem
-import org.apache.pekko.actor.typed.scaladsl.ActorContext
 import Types._
 import Types.given
+import org.apache.pekko.actor.typed.ActorRef
+import org.apache.pekko.actor.typed.Behavior
+import org.apache.pekko.actor.typed.scaladsl.ActorContext
+import org.apache.pekko.actor.typed.scaladsl.Behaviors
+import scalaz.IndexedStateT.StateMonadTrans
 import scalaz.MonadTrans
 import scalaz.Scalaz.ToBindOps
-import scalaz.Scalaz.ToBindOpsUnapply
-import scalaz.IndexedStateT.StateMonadTrans
 
 case class WActorState[A, M](
     val wcrdt: Wcrdt[A, Int],
@@ -55,33 +52,26 @@ object WActorT:
       handle: HandleM[A, M, Unit]
   ): Behavior[MsgT[A, Int, M]] =
     val processResult = (x: HandleResult[A, M, Unit]) =>
-      (m: M) =>
-        x match
-          case UpdateCRDT(v, _) =>
+      x match
+        case UpdateCRDT(v, _) =>
+          // BroadCast finished window
+          if v.window > s.wcrdt.window then
             s.actorRefs.foreach((id, ref) =>
               if id != s.actorId then ref ! Merge(v)
             )
-            runWActorT_(s.copy(wcrdt = v))(handle)
-          case Pass(_)           => runWActorT_(s)(handle)
-          case ModifyBehavior(b) => b
-          case AwaitWindow(w, crdt, next) =>
-            val s_ = s.copy(
-              wcrdt = crdt,
-              queuedHandleM =
-                Some((w, m, x => summon[MonadTrans[?]].liftM(next(x))))
-            )
-            runWActorT_(s_)(handle)
-
-    val continue = (s: WActorState[A, M]) =>
-      (context: ActorContext[MsgT[A, Int, M]]) =>
-        s.queuedHandleM match
-          case None => s
-          case Some(w, m, hm) =>
-            s.wcrdt.query(w)(s.actorIdSet) match
-              case None       => s
-              case Some(crdt) => hm(crdt).eval((context, m)).runHandleM_(s.wcrdt) match
-                case ???
-              
+          runWActorT_(s.copy(wcrdt = v))(handle)
+        // No update to CRDT
+        case Pass(_) => runWActorT_(s)(handle)
+        // Backdoor to replace behavior
+        case ModifyBehavior(b) => b
+        // Waiting for a window, later operation queued
+        case AwaitWindow(w, msg, crdt, next) =>
+          val s_ = s.copy(
+            wcrdt = crdt,
+            queuedHandleM =
+              Some((w, msg, x => summon[MonadTrans[?]].liftM(next(x))))
+          )
+          runWActorT_(s_)(handle)
 
     Behaviors.receive[MsgT[A, Int, M]]: (context, msg) =>
       msg match
@@ -93,9 +83,15 @@ object WActorT:
 
           // Check if we had the window value if there is an await
           // Resume execution if we had
-          // TODO: Need to be recursive in case of multiple awaits
-          val s_ = continue(s.copy(wcrdt = wcrdt))
-          ???
+          s.queuedHandleM match
+            case None => runWActorT_(s)(handle)
+            case Some(w, m, hm) =>
+              s.wcrdt.query(w)(s.actorIdSet) match
+                case None => runWActorT_(s)(handle)
+                case Some(crdt) =>
+                  val result =
+                    hm(crdt).eval((context, m, s)).runHandleM_(s.wcrdt)
+                  processResult(result)
         case UpdateIdSet(f) =>
           runWActorT_(s.copy(actorIdSet = f(s.actorIdSet)))(handle)
         case UpdateRef(f) =>
@@ -113,5 +109,5 @@ object WActorT:
               )
               runWActorT_(s_)(handle)
             case None =>
-              val result = handle.eval((context, m)).runHandleM_(s.wcrdt)
-              processResult(result)(m)
+              val result = handle.eval((context, m, s)).runHandleM_(s.wcrdt)
+              processResult(result)

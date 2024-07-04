@@ -1,7 +1,7 @@
 package Instances
 
-import Types.CRDT
 import Instances.given
+import Types.CRDT
 
 case class Wcrdt[A, C](
     val procID: C,

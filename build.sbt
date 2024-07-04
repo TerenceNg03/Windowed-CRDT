@@ -8,6 +8,7 @@ lazy val root = project
     version := "0.1.0-SNAPSHOT",
 
     scalaVersion := scala3Version,
+    scalacOptions += "-Wunused:imports",
 
     libraryDependencies += "org.scalameta" %% "munit" % "1.0.0" % Test,
     libraryDependencies += "org.apache.pekko" %% "pekko-actor-typed" % pekkoVersion,
@@ -17,3 +18,10 @@ lazy val root = project
     libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3" % Runtime,
     libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.3.8",
   )
+
+inThisBuild(
+   List(
+     scalaVersion := scala3Version,
+     semanticdbEnabled := true, // enable SemanticDB
+   )
+ )

@@ -1,16 +1,9 @@
+import Instances.{_, given}
 import Types.ActorMain
-import org.apache.pekko.actor.typed.ActorSystem
-import Instances.{given, *}
-import Types.given
 import Types.HandleM
-import Types.UpdateCRDT
-import Types.HandleM.getMsg
-import Types.HandleM.getCRDT
-import Types.HandleM.getContext
-import Types.HandleM.liftIO
-import Types.HandleM.putCRDT
-import scalaz.Scalaz._
-import Types.HandleM.modifyCRDT
+import Types.HandleM._
+import Types.given
+import org.apache.pekko.actor.typed.ActorSystem
 
 /** Use a grow-only set to construct a windowed CRDT. Here the message is simple
   * an integer that will be added to the set.
@@ -18,10 +11,8 @@ import Types.HandleM.modifyCRDT
 val handle: HandleM[GSet[Int], Int, Unit] =
   for {
     x <- getMsg
-    gs <- getCRDT
-    context <- getContext
-    gs_ <- putCRDT(gs.update(_ + x).nextWindow())
-    _ <- liftIO(
+    gs_ <- modifyCRDT[GSet[Int], Int](gs => gs.update(_ + x).nextWindow())
+    _ <- liftContextIO[GSet[Int], Int](context =>
       context.log.info(s"Processor ${gs_.procID}: New value: ${gs_.local}")
     )
   } yield ()

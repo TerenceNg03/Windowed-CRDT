@@ -1,10 +1,7 @@
 package Types.Internal
 
-import org.apache.pekko.actor.typed.scaladsl.Behaviors
+import Instances._
 import org.apache.pekko.actor.typed.ActorRef
-import org.apache.pekko.actor.typed.Behavior
-import Types.CRDT
-import Instances.{given, *}
 
 sealed trait MsgT[A, C, M]
 case class Merge[A, C, M](v: Wcrdt[A, C]) extends MsgT[A, C, M]

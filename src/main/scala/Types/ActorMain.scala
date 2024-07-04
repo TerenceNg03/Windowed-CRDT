@@ -1,14 +1,14 @@
 package Types
 
+import Types.Internal._
+import org.apache.pekko.actor.typed.ActorRef
 import org.apache.pekko.actor.typed.Behavior
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
-import org.apache.pekko.actor.typed.ActorRef
-import Types.Internal._
 
-/**
-  * Main Actor
-  * 
-  * Note that Message should be passed as (Int, M) so that it is dispatched to Actor i.
+/** Main Actor
+  *
+  * Note that Message should be passed as (Int, M) so that it is dispatched to
+  * Actor i.
   */
 object ActorMain:
   def init[A, B, M](using x: CRDT[A, B, Int])(

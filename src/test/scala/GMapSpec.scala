@@ -1,9 +1,8 @@
+import Instances.{_, given}
 import org.scalatest._
+
 import flatspec._
 import matchers._
-import org.scalacheck.Prop.forAll
-import Instances.{given, *}
-import Types.CRDT
 
 class GMapSpec extends AnyFlatSpec with should.Matchers:
 

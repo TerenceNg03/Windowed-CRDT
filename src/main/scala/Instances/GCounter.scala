@@ -1,7 +1,7 @@
 package Instances
 
-import java.util.UUID
 import Types.CRDT
+
 import scala.math.Numeric.Implicits.infixNumericOps
 import scala.math.Ordering.Implicits.infixOrderingOps
 
@@ -9,12 +9,12 @@ case class GCounter[A, C](
     val procID: C,
     val incM: Map[C, A]
 ):
-  def increase(x:A)(using a: Numeric[A]):GCounter[A, C] = 
+  def increase(x: A)(using a: Numeric[A]): GCounter[A, C] =
     assert(x >= summon[Numeric[A]].zero)
-    GCounter(procID, incM.updated(procID, incM(procID)+x))
+    GCounter(procID, incM.updated(procID, incM(procID) + x))
 
 object GCounter:
-  def newGCounter[A: Numeric, C](x: A)(procID: C):GCounter[A, C] = 
+  def newGCounter[A: Numeric, C](x: A)(procID: C): GCounter[A, C] =
     assert(x >= summon[Numeric[A]].zero)
     GCounter(procID, Map((procID -> x)))
 
