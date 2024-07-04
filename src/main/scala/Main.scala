@@ -1,7 +1,7 @@
-import Instances.{_, given}
+import Instances.{*, given}
 import Types.ActorMain
 import Types.HandleM
-import Types.HandleM._
+import Types.HandleM.*
 import Types.given
 import org.apache.pekko.actor.typed.ActorSystem
 

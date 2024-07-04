@@ -1,6 +1,6 @@
 package Types.Internal
 
-import Instances._
+import Instances.*
 import org.apache.pekko.actor.typed.ActorRef
 
 sealed trait MsgT[A, C, M]

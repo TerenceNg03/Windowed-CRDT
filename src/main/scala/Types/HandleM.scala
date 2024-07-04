@@ -1,7 +1,7 @@
 package Types
 
 import Instances.Wcrdt
-import Types.Internal._
+import Types.Internal.*
 import org.apache.pekko.actor.typed.Behavior
 import org.apache.pekko.actor.typed.scaladsl.ActorContext
 import scalaz.Applicative
@@ -10,7 +10,7 @@ import scalaz.IndexedStateT.StateMonadTrans
 import scalaz.Monad
 import scalaz.MonadState
 import scalaz.MonadTrans
-import scalaz.Scalaz._
+import scalaz.Scalaz.*
 import scalaz.StateT
 import scalaz.StateT.stateTMonadState
 

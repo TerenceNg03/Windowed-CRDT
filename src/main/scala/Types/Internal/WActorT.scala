@@ -1,8 +1,8 @@
 package Types.Internal
 
-import Instances.{_, given}
+import Instances.{*, given}
+import Types.*
 import Types.CRDT
-import Types._
 import Types.given
 import org.apache.pekko.actor.typed.ActorRef
 import org.apache.pekko.actor.typed.Behavior

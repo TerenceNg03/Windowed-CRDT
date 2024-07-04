@@ -1,8 +1,8 @@
-import Instances.{_, given}
-import org.scalatest._
+import Instances.{*, given}
+import org.scalatest.*
 
-import flatspec._
-import matchers._
+import flatspec.*
+import matchers.*
 
 class GMapSpec extends AnyFlatSpec with should.Matchers:
 

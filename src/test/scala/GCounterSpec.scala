@@ -1,9 +1,9 @@
-import Instances.{_, given}
+import Instances.{*, given}
 import org.scalacheck.Prop.forAll
-import org.scalatest._
+import org.scalatest.*
 
-import flatspec._
-import matchers._
+import flatspec.*
+import matchers.*
 
 class GCounterSpec extends AnyFlatSpec with should.Matchers:
 

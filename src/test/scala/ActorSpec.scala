@@ -1,22 +1,18 @@
-import Instances.{_, given}
+import Instances.{*, given}
 import Types.ActorMain
 import Types.CRDT
 import Types.HandleM
-import Types.HandleM._
+import Types.HandleM.*
 import Types.given
 import Utils.runSystem
 import org.apache.pekko.actor.typed.ActorSystem
-import org.scalatest._
-import scalaz.Scalaz._
+import org.scalatest.*
+import scalaz.Scalaz.*
 
-import java.util.concurrent.atomic._
-import cats.effect.concurrent._
+import java.util.concurrent.atomic.*
 
-import flatspec._
-import matchers._
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import cats.effect.IO
+import flatspec.*
+import matchers.*
 
 object Utils:
   def runSystem[A, B, M](using x: CRDT[A, B, Int])(
@@ -63,7 +59,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     @scala.annotation.tailrec
     def result: Set[Int] = ref.get() match
       case Some(v) => v
-      case None    => 
+      case None =>
         Thread.sleep(100)
         result
 
@@ -103,7 +99,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     @scala.annotation.tailrec
     def result: Set[Int] = ref.get() match
       case Some(v) => v
-      case None    => 
+      case None =>
         Thread.sleep(100)
         result
 
@@ -145,7 +141,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     @scala.annotation.tailrec
     def result: Set[Int] = ref.get() match
       case Some(v) => v
-      case None    => 
+      case None =>
         Thread.sleep(100)
         result
 

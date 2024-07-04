@@ -1,6 +1,6 @@
 package Types
 
-import Types.Internal._
+import Types.Internal.*
 import org.apache.pekko.actor.typed.ActorRef
 import org.apache.pekko.actor.typed.Behavior
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
