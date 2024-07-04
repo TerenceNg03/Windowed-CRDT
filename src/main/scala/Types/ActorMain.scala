@@ -37,9 +37,8 @@ object ActorMain:
     Behaviors.receive[(Int, M)]: (context, m) =>
       refs.get(m._1) match
         case Some(ref) =>
-          context.log.info(s"Received Msg: $m")
           ref ! Process(m._2)
           Behaviors.same
         case None =>
-          context.log.error(s"Can not dispatch Msg: $m")
+          context.log.error(s"[No such Actor]: Can not dispatch Msg: $m")
           Behaviors.same

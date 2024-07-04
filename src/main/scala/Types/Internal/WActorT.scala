@@ -77,20 +77,17 @@ object WActorT:
       msg match
         case Merge(v) =>
           val wcrdt = s.wcrdt \/ v
-          context.log.info(
-            s"Actor ${s.wcrdt.procID}: Merged\n$v\ninto\n${s.wcrdt}\nresulting value\n$wcrdt"
-          )
-
+          val s_ = s.copy(wcrdt = wcrdt)
           // Check if we had the window value if there is an await
           // Resume execution if we had
-          s.queuedHandleM match
-            case None => runWActorT_(s)(handle)
+          s_.queuedHandleM match
+            case None => runWActorT_(s_)(handle)
             case Some(w, m, hm) =>
-              s.wcrdt.query(w)(s.actorIdSet) match
-                case None => runWActorT_(s)(handle)
+              s_.wcrdt.query(w)(s_.actorIdSet) match
+                case None => runWActorT_(s_)(handle)
                 case Some(crdt) =>
                   val result =
-                    hm(crdt).eval((context, m, s)).runHandleM_(s.wcrdt)
+                    hm(crdt).eval((context, m, s_)).runHandleM_(s_.wcrdt)
                   processResult(result)
         case UpdateIdSet(f) =>
           runWActorT_(s.copy(actorIdSet = f(s.actorIdSet)))(handle)

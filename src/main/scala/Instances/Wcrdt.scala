@@ -3,6 +3,17 @@ package Instances
 import Instances.given
 import Types.CRDT
 
+/** Windowed CRDT from a CRDT
+  *
+  * Window are numbered from 0. (After the first call of nextWindow #window
+  * would be 1)
+  *
+  * @param procID
+  * @param local
+  * @param l
+  * @param w
+  * @param window
+  */
 case class Wcrdt[A, C](
     val procID: C,
     val local: A,

@@ -73,6 +73,15 @@ given [A, M, C]: Monad[[C] =>> HandleM_[A, M, C]] with
   )
 
 object HandleM:
+  /** Does nothing.
+    *
+    * A shortcut for point(())
+    *
+    * @return
+    */
+  def void[A, M]: HandleM[A, M, Unit] =
+    summon[Monad[[C] =>> HandleM[A, M, C]]].point(())
+
   /** Handle with context
     *
     * Note that there is no getContext beacuse context may change while
@@ -118,7 +127,7 @@ object HandleM:
     *
     * @return
     */
-  def liftIO[A, B, M]: (=> B) => HandleM[A, M, B] =
+  def liftIO[A, M, B]: (=> B) => HandleM[A, M, B] =
     f => summon[MonadTrans[?]].liftM(HandleM_(_ => Pass(f)))
 
   /** Await for a window's value.
@@ -129,24 +138,40 @@ object HandleM:
     *
     * @return
     */
-  def await[A, B, M]: Int => HandleM[A, M, A] =
-    val getIdSet: HandleM[A, M, Set[Int]] =
-      summon[MonadState[?, ?]].get.map(x => x._3.actorIdSet)
-    w =>
-      getMsg >>= (msg =>
-        getIdSet >>= (idSet =>
-          // Do not block if value is ready
+  def await[A, M]: Int => HandleM[A, M, A] =
+    val getState: HandleM[A, M, WActorState[A, M]] =
+      summon[MonadState[?, ?]].get.map(x => x._3)
+    val wait: Int => M => WActorState[A, M] => HandleM[A, M, A] = w =>
+      msg =>
+        state =>
           summon[MonadTrans[?]]
             .liftM(
               HandleM_(c =>
-                c.query(w)(idSet) match
+                c.query(w)(state.actorIdSet) match
                   case Some(v) => Pass(v)
                   case None =>
                     AwaitWindow(w, msg, c, x => summon[Monad[?]].point(x))
               )
             )
-        )
-      )
+    w =>
+      for {
+        msg <- getMsg
+        state <- getState
+        c <- getCRDT
+        // Detect deadlock for wait on a window itself has not reached
+        _ <-
+          if c.window <= w then
+            liftContextIO[A, M](ctx =>
+              ctx.log.error(
+                s"[Deadlock detected] Actor ${c.procID} " +
+                  s"is waiting for window $w while itself is " +
+                  s"currently at window ${c.window}"
+              )
+            )
+          else void
+        // Do not block if value is ready
+        w <- wait(w)(msg)(state)
+      } yield w
 
-  private[Types] def transformMsg[A, B, M]: (M => M) => HandleM[A, M, Unit] =
+  private[Types] def transformMsg[A, M]: (M => M) => HandleM[A, M, Unit] =
     f => summon[MonadState[?, ?]].modify((c, m, s) => (c, f(m), s))
