@@ -63,7 +63,9 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     @scala.annotation.tailrec
     def result: Set[Int] = ref.get() match
       case Some(v) => v
-      case None    => result
+      case None    => 
+        Thread.sleep(100)
+        result
 
     assert(result == Set(1, 3, 5, 2, 4, 6))
 
@@ -101,7 +103,9 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     @scala.annotation.tailrec
     def result: Set[Int] = ref.get() match
       case Some(v) => v
-      case None    => result
+      case None    => 
+        Thread.sleep(100)
+        result
 
     assert(result == Set(1, 6, 10))
 
@@ -141,6 +145,8 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     @scala.annotation.tailrec
     def result: Set[Int] = ref.get() match
       case Some(v) => v
-      case None    => result
+      case None    => 
+        Thread.sleep(100)
+        result
 
     assert(result == Set(1, 10, 15, 20, 4, 6))
