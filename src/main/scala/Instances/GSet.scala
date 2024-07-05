@@ -13,9 +13,5 @@ object GSet:
   *
   * @return
   */
-given [A, C]: CRDT[GSet[A], Set[A], C] with
-  def bottom(procID: C): GSet[A] = Set.empty
-
+given [A, C]: CRDT[GSet[A]] with
   extension (x: GSet[A]) def \/(y: GSet[A]): GSet[A] = x union y
-
-  extension (x: GSet[A]) def read(): Set[A] = x

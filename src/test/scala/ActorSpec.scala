@@ -1,10 +1,8 @@
 import Instances.{*, given}
 import Types.ActorMain
-import Types.CRDT
 import Types.HandleM
 import Types.HandleM.*
 import Types.given
-import Utils.runSystem
 import org.apache.pekko.actor.typed.ActorSystem
 import org.scalatest.*
 import scalaz.Scalaz.*
@@ -13,17 +11,6 @@ import java.util.concurrent.atomic.*
 
 import flatspec.*
 import matchers.*
-
-object Utils:
-  def runSystem[A, B, M](using x: CRDT[A, B, Int])(
-      l: List[HandleM[A, M, Unit]]
-  )(events: List[(Int, M)]) =
-    val system: ActorSystem[(Int, M)] =
-      ActorSystem(ActorMain.init[A, B, M](l), "TestSystem")
-    events.foreach(e =>
-      system ! e
-      Thread.sleep(100)
-    )
 
 class ActorSpec extends AnyFlatSpec with should.Matchers:
   it should "wait for windows" in:
@@ -52,8 +39,11 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
           else void
       } yield ()
 
-    runSystem(List(handle1, handle2))(
-      List((1, 1), (1, 3), (1, 5), (2, 2), (2, 4), (2, 6))
+    val system = ActorSystem(
+      ActorMain.init[GSet[Int], Int](Set.empty)(
+        List(handle1 -> Stream(1, 3, 5), handle2 -> Stream(2, 4, 6))
+      ),
+      "TestSystem"
     )
 
     @scala.annotation.tailrec
@@ -92,10 +82,12 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
         _ <- modifyCRDT[GSet[Int], Int](gs => gs.nextWindow())
       } yield ()
 
-    runSystem(List(handle1, handle2))(
-      List((2, 1), (1, 6), (1, 10), (1, 20), (2, 4))
+    val system = ActorSystem(
+      ActorMain.init[GSet[Int], Int](Set.empty)(
+        List(handle1 -> Stream(6, 10, 20), handle2 -> Stream(1, 4))
+      ),
+      "TestSystem"
     )
-
     @scala.annotation.tailrec
     def result: Set[Int] = ref.get() match
       case Some(v) => v
@@ -134,8 +126,11 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
         _ <- modifyCRDT[GSet[Int], Int](gs => gs.nextWindow())
       } yield ()
 
-    runSystem(List(handle1, handle2))(
-      List((1, 1), (1, 10), (1, 15), (1, 20), (2, 4), (2, 6))
+    val system = ActorSystem(
+      ActorMain.init[GSet[Int], Int](Set.empty)(
+        List(handle1 -> Stream(1, 10, 15, 20), handle2 -> Stream(4, 6))
+      ),
+      "TestSystem"
     )
 
     @scala.annotation.tailrec

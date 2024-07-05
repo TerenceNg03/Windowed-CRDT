@@ -14,40 +14,52 @@ import Types.CRDT
   * @param w
   * @param window
   */
-case class Wcrdt[A, C](
-    val procID: C,
-    val local: A,
-    val l: GSet[(Int, C)],
-    val w: GMap[Int, A],
-    val window: Int
+
+type ProcID = Int
+type WindowID = Int
+case class Wcrdt[A, R](
+    val procID: LocalWin[ProcID],
+    val innerCRDT: LocalWin[A],
+    val finished: GSet[(WindowID, ProcID)],
+    val globalProgress: GMap[WindowID, (A, GMap[ProcID, LastWriteWin[R]])],
+    val window: LocalWin[WindowID],
+    val msgRef: LocalWin[R]
 ):
-  def nextWindow[B]()(using x: CRDT[A, B, C]): Wcrdt[A, C] =
-    val w_ = w get (window) match
-      case Some(a) => a \/ local
-      case None    => local
-    Wcrdt(
-      procID,
-      local,
-      l + (window -> procID),
-      w updated (window, w_),
-      window + 1
+  def nextWindow[B]()(using x: CRDT[A]): Wcrdt[A, R] =
+    val updatedProgress = globalProgress get (window.v) match
+      case Some(a) =>
+        a \/ (innerCRDT.v, Map(procID.v -> LastWriteWin.newLWW(msgRef.v)))
+      case None => (innerCRDT.v, Map(procID.v -> LastWriteWin.newLWW(msgRef.v)))
+    this.copy(
+      finished = finished + (window.v -> procID.v),
+      globalProgress = globalProgress updated (window.v, updatedProgress),
+      window = LocalWin(window.v + 1)
     )
-  def query(w: Int)(procList: IterableOnce[C]): Option[A] =
-    val ok = procList map (proc => (w, proc)) forall (x => l contains x)
-    if ok then Some(this.w(w)) else None
 
-  def update(f: A => A) = this.copy(local = f(local))
-given [A, B, C](using x: CRDT[A, B, C]): CRDT[Wcrdt[A, C], A, C] with
-  def bottom(procID: C): Wcrdt[A, C] = Wcrdt(
-    procID,
-    summon[CRDT[A, ?, ?]].bottom(procID),
-    summon[CRDT[GSet[(Int, C)], ?, ?]].bottom(procID),
-    summon[CRDT[GMap[Int, A], ?, ?]].bottom(procID),
-    0
-  )
+  def query(w: Int)(procList: IterableOnce[ProcID]): Option[A] =
+    val ok = procList map (proc => (w, proc)) forall (x => finished contains x)
+    if ok then Some(globalProgress(w)._1) else None
 
-  extension (x: Wcrdt[A, C])
-    def \/(y: Wcrdt[A, C]): Wcrdt[A, C] =
-      Wcrdt(x.procID, x.local, x.l \/ y.l, x.w \/ y.w, x.window)
+  def update(f: A => A) = this.copy(innerCRDT = LocalWin(f(innerCRDT.v)))
 
-  extension (x: Wcrdt[A, C]) def read(): A = x.local
+object Wcrdt:
+  def newWcrdt[A, R](procID: ProcID)(initCRDT: A)(initMsgRef: R) =
+    Wcrdt(
+      procID = LocalWin(procID),
+      innerCRDT = LocalWin(initCRDT),
+      finished = Set.empty,
+      globalProgress = Map.empty,
+      window = LocalWin(0),
+      msgRef = LocalWin(initMsgRef)
+    )
+given [A: CRDT, R]: CRDT[Wcrdt[A, R]] with
+  extension (x: Wcrdt[A, R])
+    def \/(y: Wcrdt[A, R]): Wcrdt[A, R] =
+      Wcrdt(
+        procID = x.procID \/ y.procID,
+        innerCRDT = x.innerCRDT \/ y.innerCRDT,
+        globalProgress = x.globalProgress \/ y.globalProgress,
+        finished = x.finished \/ y.finished,
+        window = x.window \/ y.window,
+        msgRef = x.msgRef \/ y.msgRef
+      )

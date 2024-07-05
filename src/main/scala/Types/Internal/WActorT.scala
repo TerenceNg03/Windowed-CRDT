@@ -1,8 +1,9 @@
 package Types.Internal
 
-import Instances.{*, given}
+import Instances.ProcID
+import Instances.Wcrdt
+import Instances.given
 import Types.*
-import Types.CRDT
 import Types.given
 import org.apache.pekko.actor.typed.ActorRef
 import org.apache.pekko.actor.typed.Behavior
@@ -13,12 +14,13 @@ import scalaz.MonadTrans
 import scalaz.Scalaz.ToBindOps
 
 case class WActorState[A, M](
-    val wcrdt: Wcrdt[A, Int],
-    val actorId: Int,
-    val actorIdSet: Set[Int],
-    val actorRefs: Map[Int, ActorRef[MsgT[A, Int, M]]],
+    val wcrdt: Wcrdt[A, Stream[M]],
+    val actorId: ProcID,
+    val actorIdSet: Set[ProcID],
+    val actorRefs: Map[Int, ActorRef[MsgT[A, M]]],
     // Awaits: #Window, Message waiting, Monad Operation to be continued, Following Messages
-    val queuedHandleM: Option[(Int, M, A => HandleM[A, M, Unit])]
+    val queuedHandleM: Option[(Int, M, A => HandleM[A, M, Unit])],
+    val stream: Stream[M]
 )
 
 /** Windowed CRDT Actor Transformer
@@ -33,29 +35,32 @@ object WActorT:
     * @param handle
     * @return
     */
-  def runWActorT[A, B, M](using
-      x: CRDT[A, B, Int]
-  )(id: Int)(handle: HandleM[A, M, Unit]): Behavior[MsgT[A, Int, M]] =
+  def runWActorT[A, M](using
+      x: CRDT[A]
+  )(initCRDT: A)(
+      procID: ProcID
+  )(handle: HandleM[A, M, Unit])(stream: Stream[M]): Behavior[MsgT[A, M]] =
     runWActorT_(
       WActorState(
-        summon[CRDT[Wcrdt[A, Int], ?, ?]].bottom(id),
-        id,
+        Wcrdt.newWcrdt(procID)(initCRDT)(stream),
+        procID,
         Set.empty,
         Map.empty,
-        None
+        None,
+        stream
       )
-    )(handle)
+    )(handle >> HandleM.processNext)
 
-  def runWActorT_[A, B, M](using
-      x: CRDT[A, B, Int]
+  def runWActorT_[A, M](using
+      x: CRDT[A]
   )(s: WActorState[A, M])(
       handle: HandleM[A, M, Unit]
-  ): Behavior[MsgT[A, Int, M]] =
+  ): Behavior[MsgT[A, M]] =
     val processResult = (x: HandleResult[A, M, Unit]) =>
       x match
         case UpdateCRDT(v, _) =>
           // BroadCast finished window
-          if v.window > s.wcrdt.window then
+          if v.window.v > s.wcrdt.window.v then
             s.actorRefs.foreach((id, ref) =>
               if id != s.actorId then ref ! Merge(v)
             )
@@ -73,7 +78,7 @@ object WActorT:
           )
           runWActorT_(s_)(handle)
 
-    Behaviors.receive[MsgT[A, Int, M]]: (context, msg) =>
+    Behaviors.receive[MsgT[A, M]]: (context, msg) =>
       msg match
         case Merge(v) =>
           val wcrdt = s.wcrdt \/ v
@@ -93,7 +98,7 @@ object WActorT:
           runWActorT_(s.copy(actorIdSet = f(s.actorIdSet)))(handle)
         case UpdateRef(f) =>
           runWActorT_(s.copy(actorRefs = f(s.actorRefs)))(handle)
-        case Process(m) =>
+        case Process(m, stream) =>
           // If there are awaits, postpone message handling
           s.queuedHandleM match
             case Some(w, m_, hm) =>
@@ -101,7 +106,7 @@ object WActorT:
                 Some(
                   w,
                   m_,
-                  x => hm(x) >> HandleM.transformMsg(_ => m) >> handle
+                  x => hm(x) >> HandleM.replaceMsg(m)(stream) >> handle
                 )
               )
               runWActorT_(s_)(handle)

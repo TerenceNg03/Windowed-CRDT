@@ -8,11 +8,7 @@ object GMap:
   def newGMap[A, B](m: Map[A, B]): GMap[A, B] = m
 
 // instance (CRDT b d c) => CRDT (Gmap a b c) (Map a b) c where
-given [A, B, C, D](using x: CRDT[B, D, C]): CRDT[GMap[A, B], Map[A, B], C] with
-  def bottom(procID: C): GMap[A, B] = Map.empty
-
-  extension (x: GMap[A, B]) def read(): Map[A, B] = x
-
+given [A, B, C, D](using x: CRDT[B]): CRDT[GMap[A, B]] with
   extension (x: GMap[A, B])
     def \/(y: GMap[A, B]): GMap[A, B] =
       val keys = x.keySet union y.keySet

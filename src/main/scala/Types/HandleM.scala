@@ -1,5 +1,6 @@
 package Types
 
+import Instances.LocalWin
 import Instances.Wcrdt
 import Types.Internal.*
 import org.apache.pekko.actor.typed.Behavior
@@ -15,25 +16,25 @@ import scalaz.StateT
 import scalaz.StateT.stateTMonadState
 
 sealed trait HandleResult[A, M, C]
-case class UpdateCRDT[A, M, C](crdt: Wcrdt[A, Int], carry: C)
+case class UpdateCRDT[A, M, C](crdt: Wcrdt[A, Stream[M]], carry: C)
     extends HandleResult[A, M, C]
-case class ModifyBehavior[A, M, C](b: Behavior[MsgT[A, Int, M]])
+case class ModifyBehavior[A, M, C](b: Behavior[MsgT[A, M]])
     extends HandleResult[A, M, C]
 case class Pass[A, M, C](carry: C) extends HandleResult[A, M, C]
 case class AwaitWindow[A, M, C](
     w: Int,
     msg: M,
-    crdt: Wcrdt[A, Int],
+    crdt: Wcrdt[A, Stream[M]],
     next: A => HandleM_[A, M, C]
 ) extends HandleResult[A, M, C]
 
 class HandleM_[A, M, C] private[Types] (
-    val runHandleM_ : Wcrdt[A, Int] => HandleResult[A, M, C]
+    val runHandleM_ : Wcrdt[A, Stream[M]] => HandleResult[A, M, C]
 )
 
 type HandleM[A, M, C] =
   StateT[
-    (ActorContext[MsgT[A, Int, M]], M, WActorState[A, M]),
+    (ActorContext[MsgT[A, M]], M, WActorState[A, M]),
     [C] =>> HandleM_[A, M, C],
     C
   ]
@@ -90,8 +91,8 @@ object HandleM:
     * @return
     */
   def liftContextIO[A, M]
-      : (ActorContext[MsgT[A, Int, M]] => Unit) => HandleM[A, M, Unit] =
-    val getContext: HandleM[A, M, ActorContext[MsgT[A, Int, M]]] =
+      : (ActorContext[MsgT[A, M]] => Unit) => HandleM[A, M, Unit] =
+    val getContext: HandleM[A, M, ActorContext[MsgT[A, M]]] =
       summon[MonadState[?, ?]].get.map(x => x._1)
     f => getContext >>= (context => liftIO(f(context)))
 
@@ -102,11 +103,7 @@ object HandleM:
   def getMsg[A, M]: HandleM[A, M, M] =
     summon[MonadState[?, ?]].get.map(x => x._2)
 
-  /** Get current windowed crdt
-    *
-    * @return
-    */
-  def getCRDT[A, M]: HandleM[A, M, Wcrdt[A, Int]] =
+  private def getCRDT[A, M]: HandleM[A, M, Wcrdt[A, Stream[M]]] =
     summon[MonadTrans[?]].liftM(HandleM_(c => Pass(c)))
 
   /** Modify current windowed CRDT.
@@ -116,8 +113,9 @@ object HandleM:
     *
     * @return
     */
-  def modifyCRDT[A, M]
-      : (Wcrdt[A, Int] => Wcrdt[A, Int]) => HandleM[A, M, Wcrdt[A, Int]] =
+  def modifyCRDT[A, M]: (
+      Wcrdt[A, Stream[M]] => Wcrdt[A, Stream[M]]
+  ) => HandleM[A, M, Wcrdt[A, Stream[M]]] =
     f => summon[MonadTrans[?]].liftM(HandleM_(x => UpdateCRDT(f(x), f(x))))
 
   /** Lift an IO operation into current context.
@@ -139,8 +137,6 @@ object HandleM:
     * @return
     */
   def await[A, M]: Int => HandleM[A, M, A] =
-    val getState: HandleM[A, M, WActorState[A, M]] =
-      summon[MonadState[?, ?]].get.map(x => x._3)
     val wait: Int => M => WActorState[A, M] => HandleM[A, M, A] = w =>
       msg =>
         state =>
@@ -160,7 +156,7 @@ object HandleM:
         c <- getCRDT
         // Detect deadlock for wait on a window itself has not reached
         _ <-
-          if c.window <= w then
+          if c.window.v <= w then
             liftContextIO[A, M](ctx =>
               ctx.log.error(
                 s"[Deadlock detected] Actor ${c.procID} " +
@@ -173,5 +169,30 @@ object HandleM:
         w <- wait(w)(msg)(state)
       } yield w
 
-  private[Types] def transformMsg[A, M]: (M => M) => HandleM[A, M, Unit] =
-    f => summon[MonadState[?, ?]].modify((c, m, s) => (c, f(m), s))
+  private[Types] def replaceMsg[A, M]: M => Stream[M] => HandleM[A, M, Unit] =
+    msg =>
+      stream =>
+        val replaceStream: HandleM[A, M, Unit] = summon[MonadTrans[?]]
+          .liftM(
+            HandleM_(c => UpdateCRDT(c.copy(msgRef = LocalWin(stream)), ()))
+          )
+
+        replaceStream >> summon[MonadState[?, ?]].modify((c, _, s) =>
+          (c, msg, s)
+        )
+
+  private def getState[A, M]: HandleM[A, M, WActorState[A, M]] =
+    summon[MonadState[?, ?]].get.map(x => x._3)
+
+  /** Send a message to itself if stream has next value.
+    */
+  private[Types] def processNext[A, M]: HandleM[A, M, Unit] =
+    for {
+      state <- getState[A, M]
+      stream = state.stream
+      nextMsg = stream.take(1).toList
+      _ <- nextMsg match
+        case x :: _ =>
+          liftIO(state.actorRefs(state.actorId) ! Process(x, stream.tail))
+        case _ => void
+    } yield ()

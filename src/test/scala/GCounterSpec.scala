@@ -12,33 +12,33 @@ class GCounterSpec extends AnyFlatSpec with should.Matchers:
       val gc1 = GCounter.newGCounter(n1)(1)
       val gc2 = GCounter.newGCounter(n2)(2)
       val gc3 = GCounter.newGCounter(n3)(2)
-      (gc1 \/ (gc2 \/ gc3)).read() == (gc1 \/ gc2 \/ gc3).read()
+      (gc1 \/ (gc2 \/ gc3)).value == (gc1 \/ gc2 \/ gc3).value
     prop.check()
 
   it should "Commutativity" in:
     val prop = forAll: (n1: Int, n2: Int) =>
       val gc1 = GCounter.newGCounter(n1)(1)
       val gc2 = GCounter.newGCounter(n2)(2)
-      (gc1 \/ gc2).read() == (gc2 \/ gc1).read()
+      (gc1 \/ gc2).value == (gc2 \/ gc1).value
     prop.check()
     val prop2 = forAll: (n1: Int, n2: Int) =>
       val gc1 = GCounter.newGCounter(n1)(1)
       val gc2 = GCounter.newGCounter(n2)(1)
-      (gc1 \/ gc2).read() == (gc2 \/ gc1).read()
+      (gc1 \/ gc2).value == (gc2 \/ gc1).value
     prop2.check()
 
   it should "Idempotency" in:
     val prop = forAll: (n1: Int, n2: Int) =>
       val gc1 = GCounter.newGCounter(n1)(1)
-      (gc1 \/ gc1).read() == gc1.read()
+      (gc1 \/ gc1).value == gc1.value
     prop.check()
 
   it should "pass general test" in:
     var gc1 = GCounter.newGCounter(10)(1)
     gc1 = gc1.increase(5)
-    assert(gc1.read() == 15)
+    assert(gc1.value == 15): Unit
     var gc2 = GCounter.newGCounter(9)(2)
-    assert((gc1 \/ gc2).read() == 15 + 9)
+    assert((gc1 \/ gc2).value == 15 + 9): Unit
     var gc3 = gc1 \/ gc2
     gc1 = gc1.increase(3)
-    assert((gc3 \/ gc1).read() == 15 + 9 + 3)
+    assert((gc3 \/ gc1).value == 15 + 9 + 3)
