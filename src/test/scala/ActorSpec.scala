@@ -18,11 +18,11 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     val handle1: HandleM[GSet[Int], Int, Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs.update(_ + msg))
+        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
         _ <-
           if msg >= 5 then
             for {
-              _ <- modifyCRDT[GSet[Int], Int](gs => gs.nextWindow())
+              _ <- nextWindow[GSet[Int], Int]
               v <- await[GSet[Int], Int](0)
               _ <- liftIO[GSet[Int], Int, Unit](ref.set(Some(v)))
             } yield ()
@@ -32,10 +32,10 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     val handle2: HandleM[GSet[Int], Int, Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs.update(_ + msg))
+        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
         _ <-
           if msg >= 6 then
-            modifyCRDT[GSet[Int], Int](gs => gs.nextWindow()) >> void
+            nextWindow[GSet[Int], Int]
           else void
       } yield ()
 
@@ -60,10 +60,10 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     val handle1: HandleM[GSet[Int], Int, Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs.update(_ + msg))
+        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
         _ <-
           if msg == 10 || msg == 20 then
-            modifyCRDT[GSet[Int], Int](gs => gs.nextWindow()) >> void
+            nextWindow[GSet[Int], Int]
           else void
         _ <-
           if msg == 20 then
@@ -78,8 +78,8 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     val handle2: HandleM[GSet[Int], Int, Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs.update(_ + msg))
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs.nextWindow())
+        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+        _ <- nextWindow[GSet[Int], Int]
       } yield ()
 
     val system = ActorSystem(
@@ -102,11 +102,11 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     val handle1: HandleM[GSet[Int], Int, Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs.update(_ + msg))
+        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
         _ <-
           if msg % 10 == 0 then
             for {
-              _ <- modifyCRDT[GSet[Int], Int](gs => gs.nextWindow())
+              _ <- nextWindow[GSet[Int], Int]
               v <- await[GSet[Int], Int](0)
             } yield ()
           else void
@@ -122,8 +122,8 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     val handle2: HandleM[GSet[Int], Int, Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs.update(_ + msg))
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs.nextWindow())
+        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+        _ <- nextWindow[GSet[Int], Int]
       } yield ()
 
     val system = ActorSystem(

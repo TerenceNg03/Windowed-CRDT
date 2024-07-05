@@ -1,31 +1,45 @@
-// import Instances.{*, given}
-// import Types.ActorMain
-// import Types.HandleM
-// import Types.HandleM.*
-// import Types.given
-// import org.apache.pekko.actor.typed.ActorSystem
+import Instances.{*, given}
+import Types.ActorMain
+import Types.HandleM
+import Types.HandleM.*
+import Types.given
+import org.apache.pekko.actor.typed.ActorSystem
+import scalaz.Scalaz.*
 
-// /** Use a grow-only set to construct a windowed CRDT. Here the message is simple
-//   * an integer that will be added to the set.
-//   */
-// val handle: HandleM[GSet[Int], Int, Unit] =
-//   for {
-//     x <- getMsg
-//     gs_ <- modifyCRDT[GSet[Int], Int](gs => gs.update(_ + x).nextWindow())
-//     _ <- liftContextIO[GSet[Int], Int](context =>
-//       context.log.info(s"Processor ${gs_.procID}: New value: ${gs_.local}")
-//     )
-//   } yield ()
+/** Use a grow-only set to construct a windowed CRDT. Here the message is simple
+  * an integer that will be added to the set.
+  */
+val handle1: HandleM[GSet[Int], Int, Unit] =
+  for {
+    msg <- getMsg
+    _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+    _ <-
+      if msg >= 5 then
+        for {
+          _ <- nextWindow[GSet[Int], Int]
+          v <- await[GSet[Int], Int](0)
+          _ <- liftContextIO[GSet[Int], Int](ctx =>
+            ctx.log.info(s"Window 0's value: $v")
+          )
+        } yield ()
+      else void
+  } yield ()
 
-// @main def hello(): Unit =
-//   // Here our message is an Int, but the system need to receive an (Int, Int) so
-//   // that it knows to whom this message should be sent.
-//   val system: ActorSystem[(Int, Int)] =
-//     ActorSystem(ActorMain.init(List(handle, handle, handle)), "TestSystem")
+val handle2: HandleM[GSet[Int], Int, Unit] =
+  for {
+    msg <- getMsg
+    _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+    _ <-
+      if msg >= 6 then nextWindow[GSet[Int], Int]
+      else void
+  } yield ()
 
-//   // system ! (i, j)
-//   // Send a message to Actor i with payload j
-//   system ! (1, 2)
-//   system ! (1, 3)
-//   system ! (2, 4)
-//   system ! (3, 2)
+@main def hello(): Unit =
+  // Here our message is an Int, but the system need to receive an (Int, Int) so
+  // that it knows to whom this message should be sent.
+  val system = ActorSystem(
+    ActorMain.init[GSet[Int], Int](Set.empty)(
+      List(handle1 -> Stream(1, 3, 5), handle2 -> Stream(2, 4, 6))
+    ),
+    "TestSystem"
+  )
