@@ -3,8 +3,8 @@ import Types.ActorMain
 import Types.HandleM
 import Types.HandleM.*
 import Types.given
+import cats.syntax.all.*
 import org.apache.pekko.actor.typed.ActorSystem
-import scalaz.Scalaz.*
 
 /** Use a grow-only set to construct a windowed CRDT. Here the message is simple
   * an integer that will be added to the set.
@@ -15,14 +15,14 @@ val handle1: HandleM[GSet[Int], Int, Unit] =
     _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
     _ <-
       if msg >= 5 then
-        for {
+        for
           _ <- nextWindow[GSet[Int], Int]
           v <- await[GSet[Int], Int](0)
           _ <- liftContextIO[GSet[Int], Int](ctx =>
             ctx.log.info(s"Window 0's value: $v")
           )
-        } yield ()
-      else void
+        yield ()
+      else point(())
   } yield ()
 
 val handle2: HandleM[GSet[Int], Int, Unit] =
@@ -31,7 +31,7 @@ val handle2: HandleM[GSet[Int], Int, Unit] =
     _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
     _ <-
       if msg >= 6 then nextWindow[GSet[Int], Int]
-      else void
+      else point(())
   } yield ()
 
 @main def hello(): Unit =

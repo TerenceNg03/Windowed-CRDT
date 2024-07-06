@@ -1,88 +1,80 @@
 package Types
 
-import Instances.LocalWin
 import Instances.Wcrdt
+import Instances.WindowID
 import Types.Internal.*
+import cats.*
+import cats.syntax.all.*
 import org.apache.pekko.actor.typed.Behavior
 import org.apache.pekko.actor.typed.scaladsl.ActorContext
-import scalaz.Applicative
-import scalaz.Functor
-import scalaz.IndexedStateT.StateMonadTrans
-import scalaz.Monad
-import scalaz.MonadState
-import scalaz.MonadTrans
-import scalaz.Scalaz.*
-import scalaz.StateT
-import scalaz.StateT.stateTMonadState
-import Instances.WindowID
 
 sealed trait HandleResult[A, M, C]
-case class UpdateCRDT[A, M, C](crdt: Wcrdt[A, Stream[M]], carry: C)
-    extends HandleResult[A, M, C]
 case class ModifyBehavior[A, M, C](b: Behavior[MsgT[A, M]])
     extends HandleResult[A, M, C]
-case class Pass[A, M, C](carry: C) extends HandleResult[A, M, C]
+case class Continue[A, M, C](state: HandleState[A, M], v: C)
+    extends HandleResult[A, M, C]
 case class AwaitWindow[A, M, C](
     w: Int,
     msg: M,
-    crdt: Wcrdt[A, Stream[M]],
-    next: A => HandleM_[A, M, C]
+    state: HandleState[A, M],
+    next: A => HandleM[A, M, C]
 ) extends HandleResult[A, M, C]
 
-class HandleM_[A, M, C] private[Types] (
-    val runHandleM_ : Wcrdt[A, Stream[M]] => HandleResult[A, M, C]
+private type HandleState[A, M] = (
+    M,
+    ActorState[A, M],
+    ActorContext[MsgT[A, M]]
+)
+class HandleM[A, M, C] private[Types] (
+    val runHandleM: HandleState[A, M] => HandleResult[A, M, C]
 )
 
-type HandleM[A, M, C] =
-  StateT[
-    (ActorContext[MsgT[A, M]], M, WActorState[A, M]),
-    [C] =>> HandleM_[A, M, C],
-    C
-  ]
-
-given [A, M, C]: Functor[[C] =>> HandleM_[A, M, C]] with
-  def map[C, B](fa: HandleM_[A, M, C])(f: C => B): HandleM_[A, M, B] =
+given [A, M, C]: Functor[[C] =>> HandleM[A, M, C]] with
+  def map[C, B](fa: HandleM[A, M, C])(f: C => B): HandleM[A, M, B] =
     for {
       x <- fa
     } yield f(x)
 
-given [A, M, C]: Applicative[[C] =>> HandleM_[A, M, C]] with
-  def point[C](a: => C): HandleM_[A, M, C] = HandleM_(_ => Pass(a))
-  def ap[C, B](fa: => HandleM_[A, M, C])(
-      f: => HandleM_[A, M, C => B]
-  ): HandleM_[A, M, B] = for {
-    f_ <- f
-    v <- fa
-  } yield f_(v)
+given [A, M, C]: Applicative[[C] =>> HandleM[A, M, C]] with
+  def pure[C](a: C): HandleM[A, M, C] = HandleM(s => Continue(s, a))
+  def ap[C, B](
+      ff: HandleM[A, M, C => B]
+  )(fa: HandleM[A, M, C]): HandleM[A, M, B] =
+    for
+      f_ <- ff
+      v <- fa
+    yield f_(v)
 
-given [A, M, C]: Monad[[C] =>> HandleM_[A, M, C]] with
-  def point[C](a: => C): HandleM_[A, M, C] = HandleM_(_ => Pass(a))
-  def bind[C, B](fa: HandleM_[A, M, C])(
-      f: C => HandleM_[A, M, B]
-  ): HandleM_[A, M, B] = HandleM_(wcrdt =>
-    fa.runHandleM_(wcrdt) match
-      case UpdateCRDT(z_, c) =>
-        f(c).runHandleM_(z_) match
-          case Pass(c_)            => UpdateCRDT(z_, c_)
-          case UpdateCRDT(z__, c_) => UpdateCRDT(z__, c_)
-          case ModifyBehavior(b)   => ModifyBehavior(b)
-          case AwaitWindow(w, msg, crdt, next) =>
-            AwaitWindow(w, msg, crdt, next)
-      case Pass(c)           => f(c).runHandleM_(wcrdt)
-      case ModifyBehavior(b) => ModifyBehavior(b)
-      case AwaitWindow(w, msg, crdt, next) =>
-        AwaitWindow(w, msg, crdt, x => next(x) >>= f)
-  )
+given [A, M, C]: Monad[[C] =>> HandleM[A, M, C]] with
+  def pure[C](a: C): HandleM[A, M, C] = HandleM(s => Continue(s, a))
+  def flatMap[C, B](
+      fa: HandleM[A, M, C]
+  )(f: C => HandleM[A, M, B]): HandleM[A, M, B] =
+    HandleM(state =>
+      fa.runHandleM(state) match
+        case Continue(state_, v) => f(v).runHandleM(state_)
+        case ModifyBehavior(b)   => ModifyBehavior(b)
+        case AwaitWindow(w, msg, state_, next) =>
+          AwaitWindow(w, msg, state_, x => next(x) >>= f)
+    )
+
+  def tailRecM[C, B](
+      a: C
+  )(f: C => HandleM[A, M, Either[C, B]]): HandleM[A, M, B] =
+    for
+      x <- f(a)
+      b <- x match
+        case Right(b) => pure(b)
+        case Left(c)  => tailRecM(c)(f)
+    yield b
 
 object HandleM:
-  /** Does nothing.
-    *
-    * A shortcut for point(())
+  /** A shortcut for point()
     *
     * @return
     */
-  def void[A, M]: HandleM[A, M, Unit] =
-    summon[Monad[[C] =>> HandleM[A, M, C]]].point(())
+  def point[A, M, C]: C => HandleM[A, M, C] =
+    x => summon[Monad[[C] =>> HandleM[A, M, C]]].point(x)
 
   /** Handle with context
     *
@@ -93,19 +85,14 @@ object HandleM:
     */
   def liftContextIO[A, M]
       : (ActorContext[MsgT[A, M]] => Unit) => HandleM[A, M, Unit] =
-    val getContext: HandleM[A, M, ActorContext[MsgT[A, M]]] =
-      summon[MonadState[?, ?]].get.map(x => x._1)
-    f => getContext >>= (context => liftIO(f(context)))
+    f => HandleM(s => Continue(s, f(s._3)))
 
   /** Get current message
     *
     * @return
     */
   def getMsg[A, M]: HandleM[A, M, M] =
-    summon[MonadState[?, ?]].get.map(x => x._2)
-
-  private def getCRDT[A, M]: HandleM[A, M, Wcrdt[A, Stream[M]]] =
-    summon[MonadTrans[?]].liftM(HandleM_(c => Pass(c)))
+    HandleM(s => Continue(s, s._1))
 
   /** Modify current windowed CRDT.
     *
@@ -115,23 +102,39 @@ object HandleM:
     * @return
     */
   def modifyCRDT[A, M]: (A => A) => HandleM[A, M, Unit] =
-    f => summon[MonadTrans[?]].liftM(HandleM_(x => UpdateCRDT(x.update(f), ())))
+    f =>
+      HandleM(s =>
+        Continue(s.copy(_2 = s._2.copy(wcrdt = s._2.wcrdt.update(f))), ())
+      )
 
-  /**
-    * Go to next window
+  /** Go to next window
+    *
+    * Automatically broadcast update to all other actors
     *
     * @return
     */
-  def nextWindow[A: CRDT, M]: HandleM[A, M, Unit] = 
-    summon[MonadTrans[?]].liftM(HandleM_(x => UpdateCRDT(x.nextWindow(), ())))
+  def nextWindow[A: CRDT, M]: HandleM[A, M, Unit] =
+    HandleM(s =>
+      // Broadcast update
+      val (msg, state, ctx) = s
+      val wcrdt = state.wcrdt.nextWindow(state.currentStream)
+      state.actorRefs.foreach((id, ref) =>
+        if id != state.actorId then ref ! Merge(wcrdt)
+      )
+      s._3.log
+        .debug(s"Actor ${s._2.actorId} completed window#${s._2.wcrdt.window.v}")
+      Continue(
+        s.copy(_2 = s._2.copy(wcrdt = wcrdt)),
+        ()
+      )
+    )
 
-  /**
-    * Read current window number
+  /** Read current window number
     *
     * @return
     */
-  def currentWindow[A, M]: HandleM[A, M, WindowID] = 
-    summon[MonadTrans[?]].liftM(HandleM_(x => Pass(x.window.v)))
+  def currentWindow[A, M]: HandleM[A, M, WindowID] =
+    HandleM(s => Continue(s, s._2.wcrdt.window.v))
 
   /** Lift an IO operation into current context.
     *
@@ -141,7 +144,7 @@ object HandleM:
     * @return
     */
   def liftIO[A, M, B]: (=> B) => HandleM[A, M, B] =
-    f => summon[MonadTrans[?]].liftM(HandleM_(_ => Pass(f)))
+    f => HandleM(s => Continue(s, f))
 
   /** Await for a window's value.
     *
@@ -152,75 +155,51 @@ object HandleM:
     * @return
     */
   def await[A, M]: Int => HandleM[A, M, A] =
-    val wait: Int => M => WActorState[A, M] => HandleM[A, M, A] = w =>
-      msg =>
-        state =>
-          summon[MonadTrans[?]]
-            .liftM(
-              HandleM_(c =>
-                c.query(w)(state.actorIdSet) match
-                  case Some(v) => Pass(v)
-                  case None =>
-                    AwaitWindow(w, msg, c, x => summon[Monad[?]].point(x))
-              )
-            )
     w =>
-      for {
-        msg <- getMsg
-        state <- getState
-        c <- getCRDT
-        // Detect deadlock for wait on a window itself has not reached
-        _ <-
-          if c.window.v <= w then
-            liftContextIO[A, M](ctx =>
-              ctx.log.error(
-                s"[Deadlock detected] Actor ${c.procID} " +
-                  s"is waiting for window $w while itself is " +
-                  s"currently at window ${c.window}"
-              )
+      HandleM(s =>
+        val (msg, state, ctx) = s
+        if state.wcrdt.window.v <= w then
+          ctx.log.error(
+            s"[Deadlock detected] Actor ${state.actorId} " +
+              s"is waiting for window $w while itself is " +
+              s"currently at window ${state.wcrdt.window}"
+          )
+        state.wcrdt.query(w)(state.actorIdSet) match
+          case Some(v) => Continue(s, v)
+          case None =>
+            ctx.log.debug(
+              s"Actor ${s._2.actorId} stopped, waiting for window#$w"
             )
-          else void
-        // Do not block if value is ready
-        w <- wait(w)(msg)(state)
-      } yield w
+            AwaitWindow(
+              w,
+              msg,
+              s,
+              x => summon[Monad[[C] =>> HandleM[A, M, C]]].point(x)
+            )
+      )
 
   /** Update state when a new message arrives
-    *   - Update MsgRef in Wcrdt
-    *   - Update Msg in StateT
+    *
+    *   - Update Stream in ActorState
     *   - Send a message to itself of the next msg in the stream
     *
     * @return
     */
-  private[Types] def updateStateOnMsg[A, M]
+  private[Types] def prepareHandleNewMsg[A, M]
       : M => Stream[M] => HandleM[A, M, Unit] =
     msg =>
       stream =>
-        val replaceStream: HandleM[A, M, Unit] = summon[MonadTrans[?]]
-          .liftM(
-            HandleM_(c => UpdateCRDT(c.copy(msgRef = LocalWin(stream)), ()))
-          )
-        for {
-          _ <- replaceStream
-          _ <- summon[MonadState[?, ?]].modify((c, _, s) =>
-            (c, msg, s)
-          ): HandleM[A, M, Unit]
-          state <- getState
-          _ <- stream.take(1).toList match
+        HandleM((_, state, ctx) =>
+          stream.take(1).toList match
             case x :: _ =>
-              liftContextIO[A, M](ctx =>
-                ctx.log.debug(
-                  s"Actor ${state.actorId} queued a new message to mailbox: $x"
-                )
-              ) >>
-                liftIO[A, M, Unit](
-                  state.actorRefs(state.actorId) ! Process(x, stream.tail)
-                )
-            case _ => liftContextIO[A, M](ctx =>
-                ctx.log.debug(
-                  s"Actor ${state.actorId} has finished the stream."
-                )
+              ctx.log.debug(
+                s"Actor ${state.actorId} queued a new message to mailbox: $x"
               )
-        } yield ()
-
-  private def getState[A, M]: HandleM[A, M, WActorState[A, M]] =
-    summon[MonadState[?, ?]].get.map(x => x._3)
+              state.actorRefs(state.actorId) ! Process(x, stream.tail)
+              Continue((msg, state.copy(currentStream = stream.tail), ctx), ())
+            case _ =>
+              ctx.log.debug(
+                s"Actor ${state.actorId} has no more messages in the stream."
+              )
+              Continue((msg, state, ctx), ())
+        )

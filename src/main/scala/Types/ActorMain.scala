@@ -22,7 +22,7 @@ object ActorMain:
         .zip(Stream.from(1))
         .map { case ((handle, stream), id) =>
           context.spawn(
-            WActorT.runWActorT(initCRDT)(id)(handle)(stream),
+            Actor.runActor(initCRDT)(id)(handle)(stream),
             id.toString()
           )
         }

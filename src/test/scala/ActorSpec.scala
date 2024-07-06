@@ -3,9 +3,9 @@ import Types.ActorMain
 import Types.HandleM
 import Types.HandleM.*
 import Types.given
+import cats.syntax.all.*
 import org.apache.pekko.actor.typed.ActorSystem
 import org.scalatest.*
-import scalaz.Scalaz.*
 
 import java.util.concurrent.atomic.*
 
@@ -26,7 +26,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
               v <- await[GSet[Int], Int](0)
               _ <- liftIO[GSet[Int], Int, Unit](ref.set(Some(v)))
             } yield ()
-          else void
+          else point(())
       } yield ()
 
     val handle2: HandleM[GSet[Int], Int, Unit] =
@@ -34,9 +34,8 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
         msg <- getMsg
         _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
         _ <-
-          if msg >= 6 then
-            nextWindow[GSet[Int], Int]
-          else void
+          if msg >= 6 then nextWindow[GSet[Int], Int]
+          else point(())
       } yield ()
 
     val system = ActorSystem(
@@ -62,9 +61,8 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
         msg <- getMsg
         _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
         _ <-
-          if msg == 10 || msg == 20 then
-            nextWindow[GSet[Int], Int]
-          else void
+          if msg == 10 || msg == 20 then nextWindow[GSet[Int], Int]
+          else point(())
         _ <-
           if msg == 20 then
             for {
@@ -72,7 +70,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
               v <- await[GSet[Int], Int](0)
               _ <- liftIO[GSet[Int], Int, Unit](ref.set(Some(v)))
             } yield ()
-          else void
+          else point(())
       } yield ()
 
     val handle2: HandleM[GSet[Int], Int, Unit] =
@@ -97,7 +95,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
 
     assert(result == Set(1, 6, 10))
 
-  it should "queue up messages while waiting" in:
+  it should "clear queue after continuing" in:
     val ref: AtomicReference[Option[Set[Int]]] = AtomicReference(None)
     val handle1: HandleM[GSet[Int], Int, Unit] =
       for {
@@ -109,14 +107,14 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
               _ <- nextWindow[GSet[Int], Int]
               v <- await[GSet[Int], Int](0)
             } yield ()
-          else void
+          else point(())
         _ <-
           if msg == 20 then
             for {
               v <- await[GSet[Int], Int](1)
               _ <- liftIO[GSet[Int], Int, Unit](ref.set(Some(v)))
             } yield ()
-          else void
+          else point(())
       } yield ()
 
     val handle2: HandleM[GSet[Int], Int, Unit] =

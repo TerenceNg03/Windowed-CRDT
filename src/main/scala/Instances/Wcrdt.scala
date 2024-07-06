@@ -22,14 +22,14 @@ case class Wcrdt[A, R](
     val innerCRDT: LocalWin[A],
     val finished: GSet[(WindowID, ProcID)],
     val globalProgress: GMap[WindowID, (A, GMap[ProcID, LastWriteWin[R]])],
-    val window: LocalWin[WindowID],
-    val msgRef: LocalWin[R]
+    val window: LocalWin[WindowID]
 ):
-  def nextWindow[B]()(using x: CRDT[A]): Wcrdt[A, R] =
+  def nextWindow[B](nextMsgRef: R)(using x: CRDT[A]): Wcrdt[A, R] =
     val updatedProgress = globalProgress get (window.v) match
       case Some(a) =>
-        a \/ (innerCRDT.v, Map(procID.v -> LastWriteWin.newLWW(msgRef.v)))
-      case None => (innerCRDT.v, Map(procID.v -> LastWriteWin.newLWW(msgRef.v)))
+        a \/ (innerCRDT.v, Map(procID.v -> LastWriteWin.newLWW(nextMsgRef)))
+      case None =>
+        (innerCRDT.v, Map(procID.v -> LastWriteWin.newLWW(nextMsgRef)))
     this.copy(
       finished = finished + (window.v -> procID.v),
       globalProgress = globalProgress updated (window.v, updatedProgress),
@@ -43,14 +43,13 @@ case class Wcrdt[A, R](
   def update(f: A => A) = this.copy(innerCRDT = LocalWin(f(innerCRDT.v)))
 
 object Wcrdt:
-  def newWcrdt[A, R](procID: ProcID)(initCRDT: A)(initMsgRef: R) =
+  def newWcrdt[A, R](procID: ProcID)(initCRDT: A): Wcrdt[A, R] =
     Wcrdt(
       procID = LocalWin(procID),
       innerCRDT = LocalWin(initCRDT),
       finished = Set.empty,
       globalProgress = Map.empty,
-      window = LocalWin(0),
-      msgRef = LocalWin(initMsgRef)
+      window = LocalWin(0)
     )
 given [A: CRDT, R]: CRDT[Wcrdt[A, R]] with
   extension (x: Wcrdt[A, R])
@@ -60,6 +59,5 @@ given [A: CRDT, R]: CRDT[Wcrdt[A, R]] with
         innerCRDT = x.innerCRDT \/ y.innerCRDT,
         globalProgress = x.globalProgress \/ y.globalProgress,
         finished = x.finished \/ y.finished,
-        window = x.window \/ y.window,
-        msgRef = x.msgRef \/ y.msgRef
+        window = x.window \/ y.window
       )
