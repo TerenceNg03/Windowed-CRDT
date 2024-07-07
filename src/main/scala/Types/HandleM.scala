@@ -58,6 +58,7 @@ given [A, M, C]: Monad[[C] =>> HandleM[A, M, C]] with
           AwaitWindow(w, msg, state_, x => next(x) >>= f)
     )
 
+  // Tail call recursive not possible
   def tailRecM[C, B](
       a: C
   )(f: C => HandleM[A, M, Either[C, B]]): HandleM[A, M, B] =
