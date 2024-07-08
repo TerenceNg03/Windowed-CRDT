@@ -126,7 +126,6 @@ object HandleM:
       val sharedWcrdt =
         state.sharedWcrdt.nextWindow(procId)(stream)
       state.actorRefs.foreach((_, ref) =>
-        if !ref.equals(ctx.self) then
           ref ! Merge(state.delegatedIds, sharedWcrdt)
       )
       ctx.log
@@ -187,6 +186,18 @@ object HandleM:
               x => summon[Monad[[C] =>> HandleM[A, M, C]]].point(x)
             )
       }
+
+  /**
+    * Throw an exception and crash the actor.
+    *
+    * @return
+    */
+  def error[A, M]: String => HandleM[A, M, Unit] = 
+    s => HandleM{
+      case HandleState(msg, stream, procId, state, ctx) => 
+        ctx.log.error(s"Actor $procId crashed actor group ${state.delegatedIds}: $s")
+        throw new RuntimeException(s)
+    }
 
   /** Update state when a new message arrives
     *

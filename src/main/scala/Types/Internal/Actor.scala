@@ -102,7 +102,9 @@ object Actor:
           )
 
         case Merge(fromIds, v) =>
-          val sharedWcrdt = s.sharedWcrdt \/ v
+          val sharedWcrdt =
+            if fromIds != s.delegatedIds then s.sharedWcrdt \/ v
+            else s.sharedWcrdt
           val s_ = s.copy(sharedWcrdt = sharedWcrdt)
           context.log.debug(
             s"Actor group ${s.delegatedIds} (finished#${s.sharedWcrdt.windows.v

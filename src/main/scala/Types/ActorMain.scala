@@ -62,24 +62,29 @@ object ActorMain:
         (HandleM[A, M, Unit], Stream[M], ActorRef[MsgT[A, M]])
       ]
   ): Behavior[Command] =
-    Behaviors.receive: (ctx, msg) =>
-      msg match
-        case ActorFailure(ref, id) =>
-          ctx.log.error(s"Actor $id is down!")
-          val toRecover = delegating(id)
-          val takeOver = delegating
-            .map(x => x._1)
-            .filter(_ != id)
-            .headOption
-            .getOrElse(
-              throw new RuntimeException("All actor failed, unable to recover.")
+    Behaviors
+      .supervise[Command](Behaviors.receive: (ctx, msg) =>
+        msg match
+          case ActorFailure(ref, id) =>
+            ctx.log.error(s"Actor $id is down!")
+            val toRecover = delegating(id)
+            val takeOver = delegating
+              .map(x => x._1)
+              .filter(_ != id)
+              .headOption
+              .getOrElse(
+                throw new RuntimeException(
+                  "All actor failed, unable to recover."
+                )
+              )
+            toRecover.foreach(procId =>
+              val (handle, stream, ref) = handleRefs(procId)
+              handleRefs(takeOver)._3 ! Deleagte(procId, stream, handle)
             )
-          toRecover.foreach(procId =>
-            val (handle, stream, ref) = handleRefs(procId)
-            ref ! Deleagte(procId, stream, handle)
-          )
-          run(
-            delegating
-              .updatedWith(id)(_ => None)
-              .updated(takeOver, delegating(takeOver) ++ toRecover)
-          )(handleRefs)
+            run(
+              delegating
+                .updatedWith(id)(_ => None)
+                .updated(takeOver, delegating(takeOver) ++ toRecover)
+            )(handleRefs)
+      )
+      .onFailure(SupervisorStrategy.stop)

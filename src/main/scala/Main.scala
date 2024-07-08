@@ -5,6 +5,9 @@ import Types.HandleM.*
 import Types.given
 import cats.syntax.all.*
 import org.apache.pekko.actor.typed.ActorSystem
+import java.util.concurrent.atomic.AtomicBoolean
+
+val flag = new AtomicBoolean(true)
 
 /** Use a grow-only set to construct a windowed CRDT. Here the message is simple
   * an integer that will be added to the set.
@@ -19,7 +22,7 @@ val handle1: HandleM[GSet[Int], Int, Unit] =
           _ <- nextWindow[GSet[Int], Int]
           v <- await[GSet[Int], Int](0)
           _ <- liftContextIO[GSet[Int], Int](ctx =>
-            ctx.log.info(s"Window 0's value: $v")
+            ctx.log.info(s"Process finished! Window 0's value: $v")
           )
         yield ()
       else point(())
@@ -29,6 +32,9 @@ val handle2: HandleM[GSet[Int], Int, Unit] =
   for {
     msg <- getMsg
     _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+    _ <-
+      if flag.getAndSet(false) then error("test crash")
+      else point(())
     _ <-
       if msg >= 6 then nextWindow[GSet[Int], Int]
       else point(())
