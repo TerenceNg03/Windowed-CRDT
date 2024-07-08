@@ -1,11 +1,14 @@
 package Types
 
+import Instances.ProcId
 import Types.Internal.*
 import org.apache.pekko.actor.typed.ActorRef
 import org.apache.pekko.actor.typed.Behavior
+import org.apache.pekko.actor.typed.SupervisorStrategy
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
 
 sealed trait Command
+case class ActorFailure[T](ref: ActorRef[T], id: ProcId) extends Command
 
 /** Main Actor
   *
@@ -18,32 +21,65 @@ object ActorMain:
   ): Behavior[Command] =
     Behaviors.setup[Command]: context =>
       val len = handles.length
-      val refs = handles
+      val handleRefs = handles
         .zip(Stream.from(1))
         .map { case ((handle, stream), id) =>
-          context.spawn(
-            Actor.runActor(initCRDT)(id)(handle)(stream),
+          val child = context.spawn[MsgT[A, M]](
+            Actor.runActor(initCRDT),
             id.toString()
           )
+          context.watchWith(child, ActorFailure(child, id))
+          (id, (handle, stream, child))
         }
-        .zip(Stream.from(1))
-        .map((a, b) => (b, a))
         .toMap()
       val idSet = Range(1, len + 1).toSet
       // Notify references
-      refs.values.foreach(ref =>
-        ref ! UpdateIdSet(_ => idSet)
-        ref ! UpdateRef(_ => refs)
-      )
-      // Bootstrap first message (if available)
-      handles
-        .map(x => x._2)
-        .zip(refs.values)
-        .foreach((stream, ref) =>
-          stream.take(1).toList match
-            case x :: _ => ref ! Process(x, stream.tail)
-            case _      => ()
+      handleRefs.values
+        .map(x => x._3)
+        .foreach(ref =>
+          ref ! UpdateIdSet(_ => idSet)
+          ref ! UpdateRef(_ => handleRefs.map(x => (x._1, x._2._3)).toMap)
         )
-      run()
+      // Bootstrap first message (if available)
+      handleRefs
+        .foreach { case (procId, (handle, stream, ref)) =>
+          ref ! Deleagte(procId, stream, handle)
+        }
 
-  def run(): Behavior[Command] = Behaviors.empty
+      Behaviors
+        .supervise(
+          run(
+            Range(1, handles.length + 1)
+              .map(x => (x, List(x)))
+              .toMap
+          )(handleRefs)
+        )
+        .onFailure(SupervisorStrategy.stop)
+
+  def run[A, M](delegating: Map[ProcId, List[ProcId]])(
+      handleRefs: Map[
+        Int,
+        (HandleM[A, M, Unit], Stream[M], ActorRef[MsgT[A, M]])
+      ]
+  ): Behavior[Command] =
+    Behaviors.receive: (ctx, msg) =>
+      msg match
+        case ActorFailure(ref, id) =>
+          ctx.log.error(s"Actor $id is down!")
+          val toRecover = delegating(id)
+          val takeOver = delegating
+            .map(x => x._1)
+            .filter(_ != id)
+            .headOption
+            .getOrElse(
+              throw new RuntimeException("All actor failed, unable to recover.")
+            )
+          toRecover.foreach(procId =>
+            val (handle, stream, ref) = handleRefs(procId)
+            ref ! Deleagte(procId, stream, handle)
+          )
+          run(
+            delegating
+              .updatedWith(id)(_ => None)
+              .updated(takeOver, delegating(takeOver) ++ toRecover)
+          )(handleRefs)

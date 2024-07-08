@@ -20,13 +20,11 @@ class MVar[A](
   def put(x: A): Unit =
     lock1.release(1)
     v = Some(x)
-    println("MVar put")
     lock2.release(1)
 
   def get(): A =
     lock1.acquire(1)
     lock2.acquire(1)
-    println("MVar get")
     val a = v match
       case Some(x) => x
       case None    => ???
@@ -35,16 +33,15 @@ class MVar[A](
 
 object MVar:
   def newMVar[A]: MVar[A] =
-    var lock1 = new Semaphore(1)
-    var lock2 = new Semaphore(1)
+    val lock1 = new Semaphore(1)
+    val lock2 = new Semaphore(1)
     lock1.acquire(1)
     lock2.acquire(1)
-    println("newMVar")
     MVar(None, lock1, lock2)
 
 class ActorSpec extends AnyFlatSpec with should.Matchers:
   it should "wait for windows" in:
-    var result: MVar[Set[Int]] = MVar.newMVar
+    val result: MVar[Set[Int]] = MVar.newMVar
     val handle1: HandleM[GSet[Int], Int, Unit] =
       for {
         msg <- getMsg
@@ -68,7 +65,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
           else point(())
       } yield ()
 
-    val system = ActorSystem(
+    val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int](Set.empty)(
         List(handle1 -> Stream(1, 3, 5), handle2 -> Stream(2, 4, 6))
       ),
@@ -78,7 +75,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     assert(result.get() == Set(1, 3, 5, 2, 4, 6))
 
   it should "not wait if already has the value" in:
-    var result: MVar[Set[Int]] = MVar.newMVar
+    val result: MVar[Set[Int]] = MVar.newMVar
     val handle1: HandleM[GSet[Int], Int, Unit] =
       for {
         msg <- getMsg
@@ -103,7 +100,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
         _ <- nextWindow[GSet[Int], Int]
       } yield ()
 
-    val system = ActorSystem(
+    val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int](Set.empty)(
         List(handle1 -> Stream(6, 10, 20), handle2 -> Stream(1, 4))
       ),
@@ -113,7 +110,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     assert(result.get() == Set(1, 6, 10))
 
   it should "clear queue after continuing" in:
-    var result: MVar[Set[Int]] = MVar.newMVar
+    val result: MVar[Set[Int]] = MVar.newMVar
     val handle1: HandleM[GSet[Int], Int, Unit] =
       for {
         msg <- getMsg
@@ -122,7 +119,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
           if msg % 10 == 0 then
             for {
               _ <- nextWindow[GSet[Int], Int]
-              v <- await[GSet[Int], Int](0)
+              _ <- await[GSet[Int], Int](0)
             } yield ()
           else point(())
         _ <-
@@ -141,7 +138,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
         _ <- nextWindow[GSet[Int], Int]
       } yield ()
 
-    val system = ActorSystem(
+    val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int](Set.empty)(
         List(handle1 -> Stream(1, 10, 15, 20), handle2 -> Stream(4, 6))
       ),

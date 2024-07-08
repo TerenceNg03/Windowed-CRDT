@@ -1,24 +1,38 @@
 package Types.Internal
 
-import Instances.ProcID
-import Instances.Wcrdt
+import Instances.ProcId
+import Instances.SharedWcrdt
 import Instances.given
 import Types.*
 import Types.given
 import cats.syntax.all.*
 import org.apache.pekko.actor.typed.ActorRef
 import org.apache.pekko.actor.typed.Behavior
+import org.apache.pekko.actor.typed.scaladsl.ActorContext
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
 
 case class ActorState[A, M](
-    val wcrdt: Wcrdt[A, Stream[M]],
-    val actorIdSet: Set[ProcID],
-    val actorRefs: Map[Int, ActorRef[MsgT[A, M]]],
+    val sharedWcrdt: SharedWcrdt[A, Stream[M]],
+    val actorIdSet: Set[ProcId],
+    val actorRefs: Map[ProcId, ActorRef[MsgT[A, M]]],
     // Awaits: #Window, Message waiting, Monad Operation to be continued, Following Messages
-    val queuedHandleM: Option[(Int, M, A => HandleM[A, M, Unit])],
-    val currentStream: Stream[M]
+    val queuedHandleM: Map[
+      ProcId,
+      (Int, M, Stream[M], A => HandleM[A, M, Unit])
+    ],
+    val delegated: Map[ProcId, HandleM[A, M, Unit]]
 ):
-  def actorId: ProcID = wcrdt.procID.v
+  def delegatedIds: Set[ProcId] = delegated.keySet
+
+object ActorState:
+  def newActorState[A, M](initCRDT: A) =
+    ActorState(
+      SharedWcrdt.newSharedWcrdt[A, Stream[M]](initCRDT),
+      Set.empty,
+      Map.empty,
+      Map.empty,
+      Map.empty
+    )
 
 /** Windowed CRDT Actor Transformer
   */
@@ -28,94 +42,138 @@ object Actor:
     * Behavior can be modified by returning Right in handle
     *
     * @param x
-    * @param wcrdt
+    * @param SharedWcrdt
     * @param handle
     * @return
     */
   def runActor[A, M](using
       x: CRDT[A]
-  )(initCRDT: A)(
-      procID: ProcID
-  )(handle: HandleM[A, M, Unit])(stream: Stream[M]): Behavior[MsgT[A, M]] =
-    runActor_(
-      ActorState(
-        Wcrdt.newWcrdt[A, Stream[M]](procID)(initCRDT),
-        Set.empty,
-        Map.empty,
-        None,
-        stream
-      )
-    )(handle)
+  )(initCRDT: A): Behavior[MsgT[A, M]] =
+    processMsg(ActorState.newActorState(initCRDT))
 
-  def runActor_[A, M](using
+  def processMsg[A, M](using
       x: CRDT[A]
-  )(s: ActorState[A, M])(
-      handle: HandleM[A, M, Unit]
-  ): Behavior[MsgT[A, M]] =
-    val processResult =
-      (x: HandleResult[A, M, Unit]) =>
-        x match
-          // Continue handle next message
-          case Continue(s, _) => runActor_(s._2)(handle)
-          // Backdoor to replace behavior
-          case ModifyBehavior(b) => b
-          // Waiting for a window, later operation queued
-          case AwaitWindow(w, msg, s, next) =>
-            val s_ = s._2.copy(queuedHandleM = Some(w, msg, next))
-            runActor_(s_)(handle)
+  )(s: ActorState[A, M]): Behavior[MsgT[A, M]] =
+    Behaviors.receive[MsgT[A, M]]: (ctx, msg) =>
+      val s_ = execMsg(s)(ctx, msg)
+      processMsg(s_)
 
-    Behaviors.receive[MsgT[A, M]]: (context, msg) =>
+  def resultToState[A, M]
+      : ProcId => HandleResult[A, M, Unit] => ActorState[A, M] =
+    procId => // Continue handle next message
+      case Continue(s, _) => s.state
+      // Waiting for a window, later operation queued
+      case AwaitWindow(w, msg, stream, s, next) =>
+        val s_ = s.state.copy(queuedHandleM =
+          s.state.queuedHandleM.updated(procId, (w, msg, stream, next))
+        )
+        s_
+
+  def execMsg[A, M](using
+      x: CRDT[A]
+  )(
+      s: ActorState[A, M]
+  ): (ActorContext[MsgT[A, M]], MsgT[A, M]) => ActorState[A, M] =
+    (context, msg) =>
       msg match
-        case Merge(v) =>
-          val wcrdt = s.wcrdt \/ v
-          val s_ = s.copy(wcrdt = wcrdt)
+        case Deleagte(procId, defaultStream, handle) =>
+          val (w, wcrdt) = s.sharedWcrdt.delegate(procId)(s.actorIdSet)
           context.log.debug(
-            s"Actor ${s.actorId} (finished#${s.wcrdt.window.v - 1})" +
-              s" is merging from Actor ${v.procID.v} (finished#${v.window.v - 1})"
+            s"Actor group ${s.delegatedIds} will delegate Actor $procId, window reset to#$w"
+          )
+          val stream: Stream[M] =
+            if w == 0 then defaultStream
+            else wcrdt.globalProgress(w - 1)._2(procId).v._2
+
+          stream.take(1).toList match
+            case x :: _ =>
+              context.log.debug(
+                s"Actor $procId sends initial message after delegation: $x"
+              )
+              context.self ! Process((procId, x), stream.tail)
+            case _ =>
+              context.log.debug(
+                s"Actor $procId is delegated but stream has finished"
+              )
+
+          s.copy(
+            sharedWcrdt = wcrdt,
+            delegated = s.delegated.updated(procId, handle)
+          )
+
+        case Merge(fromIds, v) =>
+          val sharedWcrdt = s.sharedWcrdt \/ v
+          val s_ = s.copy(sharedWcrdt = sharedWcrdt)
+          context.log.debug(
+            s"Actor group ${s.delegatedIds} (finished#${s.sharedWcrdt.windows.v
+                .mapValues(_ - 1)
+                .toMap
+                .toSet})" +
+              s" is merging from Actor group ${fromIds} (finished#${v.windows.v
+                  .mapValues(_ - 1)
+                  .toMap
+                  .toSet})"
           )
           // Check if we had the window value if there is an await
           // Resume execution if we had
-          s_.queuedHandleM match
-            case None => runActor_(s_)(handle)
-            case Some(w, m, hm) =>
-              s_.wcrdt.query(w)(s_.actorIdSet) match
-                case None =>
-                  context.log.debug(
-                    s"Actor ${s.actorId} is still waiting for window#$w"
-                  )
-                  runActor_(s_)(handle)
-                case Some(crdt) =>
-                  context.log.debug(
-                    s"Actor ${s.actorId} is continuing, previously waiting for window#$w"
-                  )
-                  val result =
-                    hm(crdt).runHandleM(
+          var s__ = s_
+          s_.queuedHandleM.foreach { case (procId, (w, m, stream, hm)) =>
+            s__.sharedWcrdt.query(w)(s__.actorIdSet) match
+              case None =>
+                context.log.debug(
+                  s"Actor ${procId} is still waiting for window#$w"
+                )
+              case Some(crdt) =>
+                context.log.debug(
+                  s"Actor ${procId} is continuing, previously waiting for window#$w"
+                )
+                val result =
+                  hm(crdt).runHandleM(
+                    HandleState(
                       m,
-                      s.copy(queuedHandleM = None),
+                      stream,
+                      procId,
+                      s__.copy(queuedHandleM =
+                        s__.queuedHandleM.updatedWith(procId)(_ => None)
+                      ),
                       context
                     )
-                  processResult(result)
+                  )
+                s__ = resultToState(procId)(result)
+          }
+          s__
         case UpdateIdSet(f) =>
-          runActor_(s.copy(actorIdSet = f(s.actorIdSet)))(handle)
+          s.copy(actorIdSet = f(s.actorIdSet))
         case UpdateRef(f) =>
-          runActor_(s.copy(actorRefs = f(s.actorRefs)))(handle)
-        case Process(m, stream) =>
-          context.log.debug(s"Actor ${s.actorId} gets a new message: $m")
+          s.copy(actorRefs = f(s.actorRefs))
+        case Process((targetId, m), stream)
+            if s.delegatedIds.contains(targetId) =>
+          context.log.debug(s"Actor ${targetId} gets a new message: $m")
           // If there are awaits, postpone message handling
-          s.queuedHandleM match
-            case Some(w, m_, hm) =>
+          val handle = s.delegated(targetId)
+          s.queuedHandleM.get(targetId) match
+            case Some(w, m_, stream_, hm) =>
               context.log.debug(
-                s"Actor ${s.actorId} is waiting. New message will be queued up."
+                s"Actor ${targetId} is waiting. New message will be queued up."
               )
               val s_ = s.copy(queuedHandleM =
-                Some(
-                  w,
-                  m_,
-                  x => hm(x) >> HandleM.prepareHandleNewMsg(m)(stream) >> handle
+                s.queuedHandleM.updated(
+                  targetId,
+                  (
+                    w,
+                    m_,
+                    stream_,
+                    x =>
+                      hm(x) >> HandleM.prepareHandleNewMsg(targetId)(m)(
+                        stream
+                      ) >> handle
+                  )
                 )
               )
-              runActor_(s_)(handle)
+              s_
             case None =>
-              val result = (HandleM.prepareHandleNewMsg(m)(stream) >> handle)
-                .runHandleM(m, s, context)
-              processResult(result)
+              val result =
+                (HandleM.prepareHandleNewMsg(targetId)(m)(stream) >> handle)
+                  .runHandleM(HandleState(m, stream, targetId, s, context))
+              resultToState(targetId)(result)
+        case Process(_, _) => s

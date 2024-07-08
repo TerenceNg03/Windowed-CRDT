@@ -6,12 +6,12 @@ import scala.math.Numeric.Implicits.infixNumericOps
 import scala.math.Ordering.Implicits.infixOrderingOps
 
 case class GCounter[A, C](
-    val procID: C,
+    val procId: C,
     val incM: Map[C, A]
 ):
   def increase(x: A)(using a: Numeric[A]): GCounter[A, C] =
     assert(x >= summon[Numeric[A]].zero)
-    GCounter(procID, incM.updated(procID, incM(procID) + x))
+    GCounter(procId, incM.updated(procId, incM(procId) + x))
 
   def value(using a: Numeric[A]): A =
     val zero = summon[Numeric[A]].zero
@@ -19,9 +19,9 @@ case class GCounter[A, C](
     incM.values.fold(zero)(plus)
 
 object GCounter:
-  def newGCounter[A: Numeric, C](x: A)(procID: C): GCounter[A, C] =
+  def newGCounter[A: Numeric, C](x: A)(procId: C): GCounter[A, C] =
     assert(x >= summon[Numeric[A]].zero)
-    GCounter(procID, Map((procID -> x)))
+    GCounter(procId, Map((procId -> x)))
 
 given [A: Numeric, C]: CRDT[GCounter[A, C]] with
   extension (x: GCounter[A, C])
@@ -33,4 +33,4 @@ given [A: Numeric, C]: CRDT[GCounter[A, C]] with
           (k, (x.incM.getOrElse(k, zero) max y.incM.getOrElse(k, zero)))
         )
       )
-      GCounter(x.procID, inc_)
+      GCounter(x.procId, inc_)

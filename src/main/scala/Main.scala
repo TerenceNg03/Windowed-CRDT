@@ -37,7 +37,7 @@ val handle2: HandleM[GSet[Int], Int, Unit] =
 @main def hello(): Unit =
   // Here our message is an Int, but the system need to receive an (Int, Int) so
   // that it knows to whom this message should be sent.
-  val system = ActorSystem(
+  val _ = ActorSystem(
     ActorMain.init[GSet[Int], Int](Set.empty)(
       List(handle1 -> Stream(1, 3, 5), handle2 -> Stream(2, 4, 6))
     ),

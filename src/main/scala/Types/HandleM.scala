@@ -1,30 +1,31 @@
 package Types
 
-import Instances.Wcrdt
-import Instances.WindowID
+import Instances.ProcId
+import Instances.WindowId
 import Types.Internal.*
 import cats.*
 import cats.syntax.all.*
-import org.apache.pekko.actor.typed.Behavior
 import org.apache.pekko.actor.typed.scaladsl.ActorContext
 
 sealed trait HandleResult[A, M, C]
-case class ModifyBehavior[A, M, C](b: Behavior[MsgT[A, M]])
-    extends HandleResult[A, M, C]
 case class Continue[A, M, C](state: HandleState[A, M], v: C)
     extends HandleResult[A, M, C]
 case class AwaitWindow[A, M, C](
     w: Int,
     msg: M,
+    stream: Stream[M],
     state: HandleState[A, M],
     next: A => HandleM[A, M, C]
 ) extends HandleResult[A, M, C]
 
-private type HandleState[A, M] = (
-    M,
-    ActorState[A, M],
-    ActorContext[MsgT[A, M]]
+private[Types] case class HandleState[A, M](
+    val msg: M,
+    val stream: Stream[M],
+    val procId: ProcId,
+    val state: ActorState[A, M],
+    val ctx: ActorContext[MsgT[A, M]]
 )
+
 class HandleM[A, M, C] private[Types] (
     val runHandleM: HandleState[A, M] => HandleResult[A, M, C]
 )
@@ -53,9 +54,8 @@ given [A, M, C]: Monad[[C] =>> HandleM[A, M, C]] with
     HandleM(state =>
       fa.runHandleM(state) match
         case Continue(state_, v) => f(v).runHandleM(state_)
-        case ModifyBehavior(b)   => ModifyBehavior(b)
-        case AwaitWindow(w, msg, state_, next) =>
-          AwaitWindow(w, msg, state_, x => next(x) >>= f)
+        case AwaitWindow(w, msg, stream, state_, next) =>
+          AwaitWindow(w, msg, stream, state_, x => next(x) >>= f)
     )
 
   // Tail call recursive not possible
@@ -86,7 +86,7 @@ object HandleM:
     */
   def liftContextIO[A, M]
       : (ActorContext[MsgT[A, M]] => Unit) => HandleM[A, M, Unit] =
-    f => HandleM(s => Continue(s, f(s._3)))
+    f => HandleM(s => Continue(s, f(s.ctx)))
 
   /** Get current message
     *
@@ -105,7 +105,12 @@ object HandleM:
   def modifyCRDT[A, M]: (A => A) => HandleM[A, M, Unit] =
     f =>
       HandleM(s =>
-        Continue(s.copy(_2 = s._2.copy(wcrdt = s._2.wcrdt.update(f))), ())
+        Continue(
+          s.copy(state =
+            s.state.copy(sharedWcrdt = s.state.sharedWcrdt.update(s.procId)(f))
+          ),
+          ()
+        )
       )
 
   /** Go to next window
@@ -115,17 +120,21 @@ object HandleM:
     * @return
     */
   def nextWindow[A: CRDT, M]: HandleM[A, M, Unit] =
-    HandleM(s =>
+    HandleM(hs =>
       // Broadcast update
-      val (msg, state, ctx) = s
-      val wcrdt = state.wcrdt.nextWindow(state.currentStream)
-      state.actorRefs.foreach((id, ref) =>
-        if id != state.actorId then ref ! Merge(wcrdt)
+      val HandleState(msg, stream, procId, state, ctx) = hs
+      val sharedWcrdt =
+        state.sharedWcrdt.nextWindow(procId)(stream)
+      state.actorRefs.foreach((_, ref) =>
+        if !ref.equals(ctx.self) then
+          ref ! Merge(state.delegatedIds, sharedWcrdt)
       )
-      s._3.log
-        .debug(s"Actor ${s._2.actorId} completed window#${s._2.wcrdt.window.v}")
+      ctx.log
+        .debug(
+          s"Actor ${procId} completed window#${state.sharedWcrdt.windows.v(procId)}"
+        )
       Continue(
-        s.copy(_2 = s._2.copy(wcrdt = wcrdt)),
+        hs.copy(state = state.copy(sharedWcrdt = sharedWcrdt)),
         ()
       )
     )
@@ -134,8 +143,8 @@ object HandleM:
     *
     * @return
     */
-  def currentWindow[A, M]: HandleM[A, M, WindowID] =
-    HandleM(s => Continue(s, s._2.wcrdt.window.v))
+  def currentWindow[A, M]: HandleM[A, M, WindowId] =
+    HandleM(s => Continue(s, s.state.sharedWcrdt.windows.v(s.procId)))
 
   /** Lift an IO operation into current context.
     *
@@ -157,27 +166,27 @@ object HandleM:
     */
   def await[A, M]: Int => HandleM[A, M, A] =
     w =>
-      HandleM(s =>
-        val (msg, state, ctx) = s
-        if state.wcrdt.window.v <= w then
+      HandleM { case s @ HandleState(msg, stream, procId, state, ctx) =>
+        if state.sharedWcrdt.windows.v(procId) <= w then
           ctx.log.error(
-            s"[Deadlock detected] Actor ${state.actorId} " +
+            s"[Deadlock detected] Actor ${procId} " +
               s"is waiting for window $w while itself is " +
-              s"currently at window ${state.wcrdt.window}"
+              s"currently at window ${state.sharedWcrdt.windows.v(procId)}"
           )
-        state.wcrdt.query(w)(state.actorIdSet) match
+        state.sharedWcrdt.query(w)(state.actorIdSet) match
           case Some(v) => Continue(s, v)
           case None =>
             ctx.log.debug(
-              s"Actor ${s._2.actorId} stopped, waiting for window#$w"
+              s"Actor ${procId} stopped, waiting for window#$w"
             )
             AwaitWindow(
               w,
               msg,
+              stream,
               s,
               x => summon[Monad[[C] =>> HandleM[A, M, C]]].point(x)
             )
-      )
+      }
 
   /** Update state when a new message arrives
     *
@@ -187,20 +196,30 @@ object HandleM:
     * @return
     */
   private[Types] def prepareHandleNewMsg[A, M]
-      : M => Stream[M] => HandleM[A, M, Unit] =
-    msg =>
-      stream =>
-        HandleM((_, state, ctx) =>
-          stream.take(1).toList match
-            case x :: _ =>
-              ctx.log.debug(
-                s"Actor ${state.actorId} queued a new message to mailbox: $x"
-              )
-              state.actorRefs(state.actorId) ! Process(x, stream.tail)
-              Continue((msg, state.copy(currentStream = stream.tail), ctx), ())
-            case _ =>
-              ctx.log.debug(
-                s"Actor ${state.actorId} has no more messages in the stream."
-              )
-              Continue((msg, state, ctx), ())
-        )
+      : ProcId => M => Stream[M] => HandleM[A, M, Unit] =
+    procId =>
+      msg =>
+        stream =>
+          HandleM { case HandleState(_, _, _, state, ctx) =>
+            stream.take(1).toList match
+              case x :: _ =>
+                ctx.log.debug(
+                  s"Actor ${procId} queued a new message to mailbox: $x"
+                )
+                ctx.self ! Process((procId, x), stream.tail)
+                Continue(
+                  HandleState(
+                    msg,
+                    stream,
+                    procId,
+                    state,
+                    ctx
+                  ),
+                  ()
+                )
+              case _ =>
+                ctx.log.debug(
+                  s"Actor ${procId} has no more messages in the stream."
+                )
+                Continue(HandleState(msg, stream, procId, state, ctx), ())
+          }

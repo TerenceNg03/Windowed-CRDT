@@ -37,8 +37,8 @@ class GCounterSpec extends AnyFlatSpec with should.Matchers:
     var gc1 = GCounter.newGCounter(10)(1)
     gc1 = gc1.increase(5)
     assert(gc1.value == 15): Unit
-    var gc2 = GCounter.newGCounter(9)(2)
+    val gc2 = GCounter.newGCounter(9)(2)
     assert((gc1 \/ gc2).value == 15 + 9): Unit
-    var gc3 = gc1 \/ gc2
+    val gc3 = gc1 \/ gc2
     gc1 = gc1.increase(3)
     assert((gc3 \/ gc1).value == 15 + 9 + 3)

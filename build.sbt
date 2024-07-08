@@ -8,7 +8,7 @@ lazy val root = project
     version := "0.1.0-SNAPSHOT",
 
     scalaVersion := scala3Version,
-    scalacOptions += "-Wunused:imports",
+    scalacOptions += "-Wunused:all",
     scalacOptions += "-Wnonunit-statement",
 
     libraryDependencies += "org.scalameta" %% "munit" % "1.0.0" % Test,
