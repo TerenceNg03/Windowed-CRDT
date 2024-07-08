@@ -8,6 +8,12 @@ import org.apache.pekko.actor.typed.ActorSystem
 
 import java.util.concurrent.atomic.AtomicBoolean
 
+/** Make sure we only trigger error one time.
+  * 
+  * Mutable internal state inside HandleM is generally NOT
+  * compatible with failure recovery system. This example is
+  * for demostration purpose.
+  */ 
 val flag = new AtomicBoolean(true)
 
 /** Use a grow-only set to construct a windowed CRDT. Here the message is simple

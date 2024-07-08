@@ -26,6 +26,13 @@ private[Types] case class HandleState[A, M](
     val ctx: ActorContext[MsgT[A, M]]
 )
 
+/**
+  * Handle Monad, represent computations within an actor.
+  * 
+  * Mutable internal state is generally NOT compatiable with failure recovery system.
+  * A combination of GMap and LastWriteWin could be used instead. 
+  *
+  */
 class HandleM[A, M, C] private[Types] (
     val runHandleM: HandleState[A, M] => HandleResult[A, M, C]
 )
