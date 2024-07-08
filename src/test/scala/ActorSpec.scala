@@ -8,10 +8,10 @@ import org.apache.pekko.actor.typed.ActorSystem
 import org.scalatest.*
 
 import java.util.concurrent.Semaphore
+import java.util.concurrent.atomic.AtomicBoolean
 
 import flatspec.*
 import matchers.*
-import java.util.concurrent.atomic.AtomicBoolean
 
 class MVar[A](
     var v: Option[A],

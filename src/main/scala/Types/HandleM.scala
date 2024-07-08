@@ -126,7 +126,7 @@ object HandleM:
       val sharedWcrdt =
         state.sharedWcrdt.nextWindow(procId)(stream)
       state.actorRefs.foreach((_, ref) =>
-          ref ! Merge(state.delegatedIds, sharedWcrdt)
+        ref ! Merge(state.delegatedIds, sharedWcrdt)
       )
       ctx.log
         .debug(
@@ -187,17 +187,18 @@ object HandleM:
             )
       }
 
-  /**
-    * Throw an exception and crash the actor.
+  /** Throw an exception and crash the actor.
     *
     * @return
     */
-  def error[A, M]: String => HandleM[A, M, Unit] = 
-    s => HandleM{
-      case HandleState(msg, stream, procId, state, ctx) => 
-        ctx.log.error(s"Actor $procId crashed actor group ${state.delegatedIds}: $s")
+  def error[A, M]: String => HandleM[A, M, Unit] =
+    s =>
+      HandleM { case HandleState(msg, stream, procId, state, ctx) =>
+        ctx.log.error(
+          s"Actor $procId crashed actor group ${state.delegatedIds}: $s"
+        )
         throw new RuntimeException(s)
-    }
+      }
 
   /** Update state when a new message arrives
     *
