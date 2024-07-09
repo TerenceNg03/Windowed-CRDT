@@ -29,7 +29,7 @@ private[Types] case class HandleState[A, M](
 /** Handle Monad, represent computations within an actor.
   *
   * Mutable internal state is generally NOT compatiable with failure recovery
-  * system. Use a LocalWin and getLocalState instead.
+  * system. Use a LastWriteWin to warp the state and getLocalState instead.
   */
 class HandleM[A, M, C] private[Types] (
     private[Types] val runHandleM: HandleState[A, M] => HandleResult[A, M, C]
