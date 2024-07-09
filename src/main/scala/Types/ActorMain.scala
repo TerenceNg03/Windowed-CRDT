@@ -17,12 +17,12 @@ case class ActorFailure[T](ref: ActorRef[T], id: ProcId) extends Command
   */
 object ActorMain:
   def init[A, M](using x: CRDT[A])(initCRDT: A)(
-      handles: List[(HandleM[A, M, Unit], Stream[M])]
+      handles: List[(HandleM[A, M, Unit], LazyList[M])]
   ): Behavior[Command] =
     Behaviors.setup[Command]: context =>
       val len = handles.length
       val handleRefs = handles
-        .zip(Stream.from(1))
+        .zip(LazyList.from(1))
         .map { case ((handle, stream), id) =>
           val child = context.spawn[MsgT[A, M]](
             Actor.runActor(initCRDT),
@@ -59,7 +59,7 @@ object ActorMain:
   def run[A, M](delegating: Map[ProcId, List[ProcId]])(
       handleRefs: Map[
         Int,
-        (HandleM[A, M, Unit], Stream[M], ActorRef[MsgT[A, M]])
+        (HandleM[A, M, Unit], LazyList[M], ActorRef[MsgT[A, M]])
       ]
   ): Behavior[Command] =
     Behaviors

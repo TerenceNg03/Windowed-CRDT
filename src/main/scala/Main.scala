@@ -9,11 +9,10 @@ import org.apache.pekko.actor.typed.ActorSystem
 import java.util.concurrent.atomic.AtomicBoolean
 
 /** Make sure we only trigger error one time.
-  * 
-  * Mutable internal state inside HandleM is generally NOT
-  * compatible with failure recovery system. This example is
-  * for demostration purpose.
-  */ 
+  *
+  * Mutable internal state inside HandleM is generally NOT compatible with
+  * failure recovery system. This example is for demostration purpose.
+  */
 val flag = new AtomicBoolean(true)
 
 /** Use a grow-only set to construct a windowed CRDT. Here the message is simple
@@ -52,7 +51,7 @@ val handle2: HandleM[GSet[Int], Int, Unit] =
   // that it knows to whom this message should be sent.
   val _ = ActorSystem(
     ActorMain.init[GSet[Int], Int](Set.empty)(
-      List(handle1 -> Stream(1, 3, 5), handle2 -> Stream(2, 4, 6))
+      List(handle1 -> LazyList(1, 3, 5), handle2 -> LazyList(2, 4, 6))
     ),
     "TestSystem"
   )

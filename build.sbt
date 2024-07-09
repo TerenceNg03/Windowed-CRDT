@@ -10,6 +10,8 @@ lazy val root = project
     scalaVersion := scala3Version,
     scalacOptions += "-Wunused:all",
     scalacOptions += "-Wnonunit-statement",
+    scalacOptions += "-deprecation",
+    scalacOptions += "-Werror",
 
     libraryDependencies += "org.scalameta" %% "munit" % "1.0.0" % Test,
     libraryDependencies += "org.apache.pekko" %% "pekko-actor-typed" % pekkoVersion,

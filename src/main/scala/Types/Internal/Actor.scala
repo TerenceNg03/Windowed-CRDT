@@ -12,13 +12,13 @@ import org.apache.pekko.actor.typed.scaladsl.ActorContext
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
 
 case class ActorState[A, M](
-    val sharedWcrdt: SharedWcrdt[A, Stream[M]],
+    val sharedWcrdt: SharedWcrdt[A, LazyList[M]],
     val actorIdSet: Set[ProcId],
     val actorRefs: Map[ProcId, ActorRef[MsgT[A, M]]],
     // Awaits: #Window, Message waiting, Monad Operation to be continued, Following Messages
     val queuedHandleM: Map[
       ProcId,
-      (Int, M, Stream[M], A => HandleM[A, M, Unit])
+      (Int, M, LazyList[M], A => HandleM[A, M, Unit])
     ],
     val delegated: Map[ProcId, HandleM[A, M, Unit]]
 ):
@@ -27,7 +27,7 @@ case class ActorState[A, M](
 object ActorState:
   def newActorState[A, M](initCRDT: A) =
     ActorState(
-      SharedWcrdt.newSharedWcrdt[A, Stream[M]](initCRDT),
+      SharedWcrdt.newSharedWcrdt[A, LazyList[M]](initCRDT),
       Set.empty,
       Map.empty,
       Map.empty,
@@ -76,13 +76,13 @@ object Actor:
   ): (ActorContext[MsgT[A, M]], MsgT[A, M]) => ActorState[A, M] =
     (context, msg) =>
       msg match
-        case Deleagte(procId, defaultStream, handle) =>
+        case Deleagte(procId, defaultLazyList, handle) =>
           val (w, wcrdt) = s.sharedWcrdt.delegate(procId)(s.actorIdSet)
           context.log.debug(
             s"Actor group ${s.delegatedIds} will delegate Actor $procId, window reset to#$w"
           )
-          val stream: Stream[M] =
-            if w == 0 then defaultStream
+          val stream: LazyList[M] =
+            if w == 0 then defaultLazyList
             else wcrdt.globalProgress(w - 1)._2(procId).v._2
 
           stream.take(1).toList match
@@ -107,14 +107,8 @@ object Actor:
             else s.sharedWcrdt
           val s_ = s.copy(sharedWcrdt = sharedWcrdt)
           context.log.debug(
-            s"Actor group ${s.delegatedIds} (finished#${s.sharedWcrdt.windows.v
-                .mapValues(_ - 1)
-                .toMap
-                .toSet})" +
-              s" is merging from Actor group ${fromIds} (finished#${v.windows.v
-                  .mapValues(_ - 1)
-                  .toMap
-                  .toSet})"
+            s"Actor group ${s.delegatedIds} (finished#${s.sharedWcrdt.windows.v.view.mapValues(_ - 1).toMap.toSet})" +
+              s" is merging from Actor group ${fromIds} (finished#${v.windows.v.view.mapValues(_ - 1).toMap.toSet})"
           )
           // Check if we had the window value if there is an await
           // Resume execution if we had

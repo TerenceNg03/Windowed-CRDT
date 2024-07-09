@@ -65,7 +65,8 @@ case class SharedWcrdt[A, R](
       .getOrElse(this)
 
   def query(w: Int)(procList: IterableOnce[ProcId]): Option[A] =
-    val ok = procList map (proc => (w, proc)) forall (x => finished contains x)
+    val ok =
+      procList.iterator.map(proc => (w, proc)) forall (x => finished contains x)
     if ok then Some(globalProgress(w)._1) else None
 
   def update(procId: ProcId)(f: A => A) = this.copy(innerCRDT =

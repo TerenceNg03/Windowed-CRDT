@@ -7,34 +7,32 @@ import cats.*
 import cats.syntax.all.*
 import org.apache.pekko.actor.typed.scaladsl.ActorContext
 
-sealed trait HandleResult[A, M, C]
-case class Continue[A, M, C](state: HandleState[A, M], v: C)
+private[Types] sealed trait HandleResult[A, M, C]
+private[Types] case class Continue[A, M, C](state: HandleState[A, M], v: C)
     extends HandleResult[A, M, C]
-case class AwaitWindow[A, M, C](
+private[Types] case class AwaitWindow[A, M, C](
     w: Int,
     msg: M,
-    stream: Stream[M],
+    stream: LazyList[M],
     state: HandleState[A, M],
     next: A => HandleM[A, M, C]
 ) extends HandleResult[A, M, C]
 
 private[Types] case class HandleState[A, M](
     val msg: M,
-    val stream: Stream[M],
+    val stream: LazyList[M],
     val procId: ProcId,
     val state: ActorState[A, M],
     val ctx: ActorContext[MsgT[A, M]]
 )
 
-/**
-  * Handle Monad, represent computations within an actor.
-  * 
-  * Mutable internal state is generally NOT compatiable with failure recovery system.
-  * A combination of GMap and LastWriteWin could be used instead. 
+/** Handle Monad, represent computations within an actor.
   *
+  * Mutable internal state is generally NOT compatiable with failure recovery
+  * system. Use a LocalWin and getLocalState instead.
   */
 class HandleM[A, M, C] private[Types] (
-    val runHandleM: HandleState[A, M] => HandleResult[A, M, C]
+    private[Types] val runHandleM: HandleState[A, M] => HandleResult[A, M, C]
 )
 
 given [A, M, C]: Functor[[C] =>> HandleM[A, M, C]] with
@@ -119,6 +117,15 @@ object HandleM:
           ()
         )
       )
+
+  /** Return local modification of the CRDT.
+    *
+    * This call is not blocking.
+    *
+    * @return
+    */
+  def getLocalState[A, M]: HandleM[A, M, A] =
+    HandleM(s => Continue(s, s.state.sharedWcrdt.innerCRDT.v(s.procId)))
 
   /** Go to next window
     *
@@ -209,13 +216,13 @@ object HandleM:
 
   /** Update state when a new message arrives
     *
-    *   - Update Stream in ActorState
+    *   - Update LazyList in ActorState
     *   - Send a message to itself of the next msg in the stream
     *
     * @return
     */
   private[Types] def prepareHandleNewMsg[A, M]
-      : ProcId => M => Stream[M] => HandleM[A, M, Unit] =
+      : ProcId => M => LazyList[M] => HandleM[A, M, Unit] =
     procId =>
       msg =>
         stream =>

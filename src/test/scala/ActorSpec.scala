@@ -68,7 +68,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
 
     val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int](Set.empty)(
-        List(handle1 -> Stream(1, 3, 5), handle2 -> Stream(2, 4, 6))
+        List(handle1 -> LazyList(1, 3, 5), handle2 -> LazyList(2, 4, 6))
       ),
       "TestSystem"
     )
@@ -103,7 +103,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
 
     val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int](Set.empty)(
-        List(handle1 -> Stream(6, 10, 20), handle2 -> Stream(1, 4))
+        List(handle1 -> LazyList(6, 10, 20), handle2 -> LazyList(1, 4))
       ),
       "TestSystem"
     )
@@ -141,7 +141,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
 
     val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int](Set.empty)(
-        List(handle1 -> Stream(1, 10, 15, 20), handle2 -> Stream(4, 6))
+        List(handle1 -> LazyList(1, 10, 15, 20), handle2 -> LazyList(4, 6))
       ),
       "TestSystem"
     )
@@ -180,7 +180,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
 
     val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int](Set.empty)(
-        List(handle1 -> Stream(1, 3, 5), handle2 -> Stream(2, 4, 6))
+        List(handle1 -> LazyList(1, 3, 5), handle2 -> LazyList(2, 4, 6))
       ),
       "TestSystem"
     )
