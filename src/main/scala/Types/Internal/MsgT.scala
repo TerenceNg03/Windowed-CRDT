@@ -12,7 +12,7 @@ case class UpdateIdSet[A, M](f: Set[Int] => Set[Int]) extends MsgT[A, M]
 case class UpdateRef[A, M](
     f: Map[ProcId, ActorRef[MsgT[A, M]]] => Map[ProcId, ActorRef[MsgT[A, M]]]
 ) extends MsgT[A, M]
-case class Deleagte[A, M](
+case class Delegate[A, M](
     procIds: ProcId,
     defaultLazyList: LazyList[M],
     handle: HandleM[A, M, Unit]

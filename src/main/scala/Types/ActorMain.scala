@@ -43,12 +43,12 @@ object ActorMain:
       // Bootstrap first message (if available)
       handleRefs
         .foreach { case (procId, (handle, stream, ref)) =>
-          ref ! Deleagte(procId, stream, handle)
+          ref ! Delegate(procId, stream, handle)
         }
 
       Behaviors
         .supervise(
-          run(
+          run(initCRDT)(
             Range(1, handles.length + 1)
               .map(x => (x, List(x)))
               .toMap
@@ -56,7 +56,9 @@ object ActorMain:
         )
         .onFailure(SupervisorStrategy.stop)
 
-  def run[A, M](delegating: Map[ProcId, List[ProcId]])(
+  def run[A, M](using
+      x: CRDT[A]
+  )(initCRDT: A)(delegating: Map[ProcId, List[ProcId]])(
       handleRefs: Map[
         Int,
         (HandleM[A, M, Unit], LazyList[M], ActorRef[MsgT[A, M]])
@@ -69,19 +71,20 @@ object ActorMain:
             ctx.log.error(s"Actor $id is down!")
             val toRecover = delegating(id)
             val takeOver = delegating
+              .filter((id_, _) => id_ != id)
+              .minByOption((_, l) => l.length)
               .map(x => x._1)
-              .filter(_ != id)
-              .headOption
-              .getOrElse(
+              .getOrElse {
+                println(delegating)
                 throw new RuntimeException(
                   "All actor failed, unable to recover."
                 )
-              )
+              }
             toRecover.foreach(procId =>
               val (handle, stream, ref) = handleRefs(procId)
-              handleRefs(takeOver)._3 ! Deleagte(procId, stream, handle)
+              handleRefs(takeOver)._3 ! Delegate(procId, stream, handle)
             )
-            run(
+            run(initCRDT)(
               delegating
                 .updatedWith(id)(_ => None)
                 .updated(takeOver, delegating(takeOver) ++ toRecover)

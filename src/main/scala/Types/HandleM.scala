@@ -82,6 +82,13 @@ object HandleM:
   def point[A, M, C]: C => HandleM[A, M, C] =
     x => summon[Monad[[C] =>> HandleM[A, M, C]]].point(x)
 
+  /** Get current procId, some CRDT require it to update
+    *
+    * @return
+    */
+  def getProcId[A, M]: HandleM[A, M, ProcId] =
+    HandleM(s => Continue(s, s.procId))
+
   /** Handle with context
     *
     * Note that there is no getContext beacuse context may change while
@@ -144,7 +151,7 @@ object HandleM:
       )
       ctx.log
         .debug(
-          s"Actor ${procId} completed window#${state.sharedWcrdt.windows.v(procId)}"
+          s"Replica ${procId} completed window#${state.sharedWcrdt.windows.v(procId)}"
         )
       Continue(
         hs.copy(state = state.copy(sharedWcrdt = sharedWcrdt)),
@@ -182,15 +189,16 @@ object HandleM:
       HandleM { case s @ HandleState(msg, stream, procId, state, ctx) =>
         if state.sharedWcrdt.windows.v(procId) <= w then
           ctx.log.error(
-            s"[Deadlock detected] Actor ${procId} " +
+            s"[Deadlock detected] Replica ${procId} " +
               s"is waiting for window $w while itself is " +
               s"currently at window ${state.sharedWcrdt.windows.v(procId)}"
           )
+          throw new RuntimeException("Deadlock")
         state.sharedWcrdt.query(w)(state.actorIdSet) match
           case Some(v) => Continue(s, v)
           case None =>
             ctx.log.debug(
-              s"Actor ${procId} stopped, waiting for window#$w"
+              s"Replica ${procId} stopped, waiting for window#$w"
             )
             AwaitWindow(
               w,

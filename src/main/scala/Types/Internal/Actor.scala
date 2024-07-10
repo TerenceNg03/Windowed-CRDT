@@ -76,10 +76,10 @@ object Actor:
   ): (ActorContext[MsgT[A, M]], MsgT[A, M]) => ActorState[A, M] =
     (context, msg) =>
       msg match
-        case Deleagte(procId, defaultLazyList, handle) =>
+        case Delegate(procId, defaultLazyList, handle) =>
           val (w, wcrdt) = s.sharedWcrdt.delegate(procId)(s.actorIdSet)
           context.log.debug(
-            s"Actor group ${s.delegatedIds} will delegate Actor $procId, window reset to#$w"
+            s"Node ${s.delegatedIds} will delegate Actor $procId, window reset to#$w"
           )
           val stream: LazyList[M] =
             if w == 0 then defaultLazyList
@@ -88,12 +88,12 @@ object Actor:
           stream.take(1).toList match
             case x :: _ =>
               context.log.debug(
-                s"Actor $procId sends initial message after delegation: $x"
+                s"Replica $procId sends initial message after delegation: $x"
               )
               context.self ! Process((procId, x), stream.tail)
             case _ =>
               context.log.debug(
-                s"Actor $procId is delegated but stream has finished"
+                s"Replica $procId is delegated but stream has finished"
               )
 
           s.copy(
@@ -107,7 +107,7 @@ object Actor:
             else s.sharedWcrdt
           val s_ = s.copy(sharedWcrdt = sharedWcrdt)
           context.log.debug(
-            s"Actor group ${s.delegatedIds} (finished#${s.sharedWcrdt.windows.v.view.mapValues(_ - 1).toMap.toSet})" +
+            s"Node ${s.delegatedIds} (finished#${s.sharedWcrdt.windows.v.view.mapValues(_ - 1).toMap.toSet})" +
               s" is merging from Actor group ${fromIds} (finished#${v.windows.v.view.mapValues(_ - 1).toMap.toSet})"
           )
           // Check if we had the window value if there is an await
@@ -117,11 +117,11 @@ object Actor:
             s__.sharedWcrdt.query(w)(s__.actorIdSet) match
               case None =>
                 context.log.debug(
-                  s"Actor ${procId} is still waiting for window#$w"
+                  s"Replica ${procId} is still waiting for window#$w"
                 )
               case Some(crdt) =>
                 context.log.debug(
-                  s"Actor ${procId} is continuing, previously waiting for window#$w"
+                  s"Replica ${procId} is continuing, previously waiting for window#$w"
                 )
                 val result =
                   hm(crdt).runHandleM(
@@ -144,13 +144,13 @@ object Actor:
           s.copy(actorRefs = f(s.actorRefs))
         case Process((targetId, m), stream)
             if s.delegatedIds.contains(targetId) =>
-          context.log.debug(s"Actor ${targetId} gets a new message: $m")
+          context.log.debug(s"Replica ${targetId} gets a new message: $m")
           // If there are awaits, postpone message handling
           val handle = s.delegated(targetId)
           s.queuedHandleM.get(targetId) match
             case Some(w, m_, stream_, hm) =>
               context.log.debug(
-                s"Actor ${targetId} is waiting. New message will be queued up."
+                s"Replica ${targetId} is waiting. New message will be queued up."
               )
               val s_ = s.copy(queuedHandleM =
                 s.queuedHandleM.updated(
