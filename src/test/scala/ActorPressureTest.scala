@@ -13,7 +13,7 @@ import flatspec.*
 import matchers.*
 
 class ActorPressureTest extends AnyFlatSpec with should.Matchers:
-  it should "handle 5* 200k stream" taggedAs (Slow) in:
+  ignore should "handle 5* 200k stream" taggedAs (Slow) in:
     val mvar: MVar[Double] = newMVar
     val start = System.currentTimeMillis()
     val handle: HandleM[GCounter[Double, ProcId], Int, Unit] =

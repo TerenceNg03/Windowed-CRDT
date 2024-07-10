@@ -18,7 +18,6 @@ import Types.CRDT
 type ProcId = Int
 type WindowId = Int
 case class SharedWcrdt[A, R](
-    val initCRDT: LocalWin[A],
     val innerCRDT: LocalWin[Map[ProcId, A]],
     val finished: GSet[(WindowId, ProcId)],
     val globalProgress: GMap[WindowId, (A, GMap[ProcId, LastWriteWin[R]])],
@@ -26,19 +25,18 @@ case class SharedWcrdt[A, R](
 ):
   def delegate(procId: ProcId)(
       procList: IterableOnce[ProcId]
-  ): (WindowId, SharedWcrdt[A, R]) =
-    val (w, crdt) = latestWindow(procList)
+  )(remoteWindow: WindowId)(remoteCRDT: A): (WindowId, SharedWcrdt[A, R]) =
+    val (w, crdt) = latestWindow(procList).getOrElse(remoteWindow, remoteCRDT)
     w -> this.copy(
       innerCRDT = LocalWin(innerCRDT.v.updated(procId, crdt)),
       windows = LocalWin(windows.v.updated(procId, w))
     )
 
-  def latestWindow(procList: IterableOnce[ProcId]): (WindowId, A) =
+  def latestWindow(procList: IterableOnce[ProcId]): Option[(WindowId, A)] =
     Range(0, windows.v.values.maxOption.getOrElse(0)).reverse
       .map(x => query(x)(procList).map(y => (x + 1, y)))
       .flatten
       .headOption
-      .getOrElse(0 -> initCRDT.v)
 
   def nextWindow[B](
       procId: ProcId
@@ -76,9 +74,8 @@ case class SharedWcrdt[A, R](
   )
 
 object SharedWcrdt:
-  def newSharedWcrdt[A, R](initCRDT: A): SharedWcrdt[A, R] =
+  def newSharedWcrdt[A, R]: SharedWcrdt[A, R] =
     SharedWcrdt(
-      initCRDT = LocalWin(initCRDT),
       innerCRDT = LocalWin(Map.empty),
       finished = Set.empty,
       globalProgress = Map.empty,
@@ -88,7 +85,6 @@ given [A: CRDT, R]: CRDT[SharedWcrdt[A, R]] with
   extension (x: SharedWcrdt[A, R])
     def \/(y: SharedWcrdt[A, R]): SharedWcrdt[A, R] =
       SharedWcrdt(
-        initCRDT = x.initCRDT \/ y.initCRDT,
         innerCRDT = x.innerCRDT \/ y.innerCRDT,
         globalProgress = x.globalProgress \/ y.globalProgress,
         finished = x.finished \/ y.finished,

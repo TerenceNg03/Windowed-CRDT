@@ -146,7 +146,7 @@ object HandleM:
       val HandleState(msg, stream, procId, state, ctx) = hs
       val sharedWcrdt =
         state.sharedWcrdt.nextWindow(procId)(stream)
-      state.actorRefs.foreach((_, ref) =>
+      state.actorRefs.foreach(ref =>
         ref ! Merge(state.delegatedIds, sharedWcrdt)
       )
       ctx.log

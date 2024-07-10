@@ -14,7 +14,7 @@ import org.apache.pekko.actor.typed.scaladsl.Behaviors
 case class ActorState[A, M](
     val sharedWcrdt: SharedWcrdt[A, LazyList[M]],
     val actorIdSet: Set[ProcId],
-    val actorRefs: Map[ProcId, ActorRef[MsgT[A, M]]],
+    val actorRefs: Set[ActorRef[MsgT[A, M]]],
     // Awaits: #Window, Message waiting, Monad Operation to be continued, Following Messages
     val queuedHandleM: Map[
       ProcId,
@@ -25,11 +25,11 @@ case class ActorState[A, M](
   def delegatedIds: Set[ProcId] = delegated.keySet
 
 object ActorState:
-  def newActorState[A, M](initCRDT: A) =
+  def newActorState[A, M] =
     ActorState(
-      SharedWcrdt.newSharedWcrdt[A, LazyList[M]](initCRDT),
+      SharedWcrdt.newSharedWcrdt[A, LazyList[M]],
       Set.empty,
-      Map.empty,
+      Set.empty,
       Map.empty,
       Map.empty
     )
@@ -48,8 +48,8 @@ object Actor:
     */
   def runActor[A, M](using
       x: CRDT[A]
-  )(initCRDT: A): Behavior[MsgT[A, M]] =
-    processMsg(ActorState.newActorState(initCRDT))
+  ): Behavior[MsgT[A, M]] =
+    processMsg(ActorState.newActorState)
 
   def processMsg[A, M](using
       x: CRDT[A]
@@ -76,13 +76,32 @@ object Actor:
   ): (ActorContext[MsgT[A, M]], MsgT[A, M]) => ActorState[A, M] =
     (context, msg) =>
       msg match
-        case Delegate(procId, defaultLazyList, handle) =>
-          val (w, wcrdt) = s.sharedWcrdt.delegate(procId)(s.actorIdSet)
+        case transferReplica(initCRDT, procs, ref) =>
+          procs
+            .filter(x => s.delegated.keySet.contains(x._1))
+            .foreach { case (procId, (handle, stream)) =>
+              val latestWindow = s.sharedWcrdt
+                .latestWindow(s.actorIdSet)
+                .map((w, a) =>
+                  (w, s.sharedWcrdt.globalProgress(w)._2(procId).v._2, a)
+                )
+                .getOrElse((0, stream, initCRDT))
+              ref ! Delegate(procId, latestWindow, handle)
+            }
+          s.copy(delegated = s.delegated.removedAll(procs.keySet))
+        case Delegate(
+              procId,
+              (remoteWindow, remoteStream, remoteCRDT),
+              handle
+            ) =>
+          val (w, wcrdt) = s.sharedWcrdt.delegate(procId)(s.actorIdSet)(
+            remoteWindow
+          )(remoteCRDT)
           context.log.debug(
             s"Node ${s.delegatedIds} will delegate Actor $procId, window reset to#$w"
           )
           val stream: LazyList[M] =
-            if w == 0 then defaultLazyList
+            if remoteWindow >= w then remoteStream
             else wcrdt.globalProgress(w - 1)._2(procId).v._2
 
           stream.take(1).toList match

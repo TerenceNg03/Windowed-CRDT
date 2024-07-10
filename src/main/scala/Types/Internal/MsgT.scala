@@ -10,10 +10,15 @@ case class Merge[A, M](ids: Set[ProcId], v: SharedWcrdt[A, LazyList[M]])
 case class Process[A, M](m: (ProcId, M), stream: LazyList[M]) extends MsgT[A, M]
 case class UpdateIdSet[A, M](f: Set[Int] => Set[Int]) extends MsgT[A, M]
 case class UpdateRef[A, M](
-    f: Map[ProcId, ActorRef[MsgT[A, M]]] => Map[ProcId, ActorRef[MsgT[A, M]]]
+    f: Set[ActorRef[MsgT[A, M]]] => Set[ActorRef[MsgT[A, M]]]
 ) extends MsgT[A, M]
 case class Delegate[A, M](
-    procIds: ProcId,
-    defaultLazyList: LazyList[M],
+    procId: ProcId,
+    knownRestartPoint: (WindowId, LazyList[M], A),
     handle: HandleM[A, M, Unit]
+) extends MsgT[A, M]
+case class transferReplica[A, M](
+    initCRDT: A,
+    procs: Map[ProcId, (HandleM[A, M, Unit], LazyList[M])],
+    targetRef: ActorRef[MsgT[A, M]]
 ) extends MsgT[A, M]

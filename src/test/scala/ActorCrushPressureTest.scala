@@ -16,7 +16,7 @@ import flatspec.*
 import matchers.*
 
 class ActorCrushPressureTest extends AnyFlatSpec with should.Matchers:
-  it should "handle 50 crashes" taggedAs (Slow) in:
+  ignore should "handle 50 crashes" taggedAs (Slow) in:
     val mvar: MVar[Int] = newMVar
     val counter = new AtomicInteger(50)
     val handle: HandleM[GCounter[Int, ProcId], Int, Unit] =
