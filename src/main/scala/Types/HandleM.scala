@@ -147,7 +147,7 @@ object HandleM:
       val sharedWcrdt =
         state.sharedWcrdt.nextWindow(procId)(stream)
       state.actorRefs.foreach(ref =>
-        ref ! Merge(state.delegatedIds, sharedWcrdt)
+        ref ! Merge(state.nodeId, state.delegatedIds, sharedWcrdt)
       )
       ctx.log
         .debug(

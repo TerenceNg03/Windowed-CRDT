@@ -5,20 +5,12 @@ import Types.HandleM.*
 import Types.given
 import cats.syntax.all.*
 import org.apache.pekko.actor.typed.ActorSystem
-
-import java.util.concurrent.atomic.AtomicBoolean
-
-/** Make sure we only trigger error one time.
-  *
-  * Mutable internal state inside HandleM is generally NOT compatible with
-  * failure recovery system. This example is for demostration purpose.
-  */
-val flag = new AtomicBoolean(true)
+import scala.util.Random
 
 /** Use a grow-only set to construct a windowed CRDT. Here the message is simple
   * an integer that will be added to the set.
   */
-val handle1: HandleM[GSet[Int], Int, Unit] =
+val handleMain: HandleM[GSet[Int], Int, Unit] =
   for {
     msg <- getMsg
     _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
@@ -34,15 +26,13 @@ val handle1: HandleM[GSet[Int], Int, Unit] =
       else point(())
   } yield ()
 
-val handle2: HandleM[GSet[Int], Int, Unit] =
+val handleRandomFail: HandleM[GSet[Int], Int, Unit] =
   for {
     msg <- getMsg
     _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+    _ <- nextWindow[GSet[Int], Int]
     _ <-
-      if flag.getAndSet(false) then error("test crash")
-      else point(())
-    _ <-
-      if msg >= 6 then nextWindow[GSet[Int], Int]
+      if Random.nextDouble() > 0.75 then error("trigger crash")
       else point(())
   } yield ()
 
@@ -51,7 +41,11 @@ val handle2: HandleM[GSet[Int], Int, Unit] =
   // that it knows to whom this message should be sent.
   val _ = ActorSystem(
     ActorMain.init[GSet[Int], Int](Set.empty)(
-      List(handle1 -> LazyList(1, 3, 5), handle2 -> LazyList(2, 4, 6))
-    ),
+      List(
+        handleMain -> LazyList(1, 3, 5),
+        handleRandomFail -> LazyList(2, 4, 6),
+        handleRandomFail -> LazyList(10, 20, 30)
+      )
+    )(3),
     "TestSystem"
   )

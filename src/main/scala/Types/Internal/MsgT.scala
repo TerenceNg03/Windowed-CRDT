@@ -5,12 +5,12 @@ import Types.HandleM
 import org.apache.pekko.actor.typed.ActorRef
 
 sealed trait MsgT[A, M]
-case class Merge[A, M](ids: Set[ProcId], v: SharedWcrdt[A, LazyList[M]])
+case class Merge[A, M](nodeId: ProcId, ids: Set[ProcId], v: SharedWcrdt[A, LazyList[M]])
     extends MsgT[A, M]
 case class Process[A, M](m: (ProcId, M), stream: LazyList[M]) extends MsgT[A, M]
-case class UpdateIdSet[A, M](f: Set[Int] => Set[Int]) extends MsgT[A, M]
-case class UpdateRef[A, M](
-    f: Set[ActorRef[MsgT[A, M]]] => Set[ActorRef[MsgT[A, M]]]
+case class SetIdSet[A, M](s: Set[Int]) extends MsgT[A, M]
+case class SetRefs[A, M](
+    s: Set[ActorRef[MsgT[A, M]]], shouldSendMerge: Option[ActorRef[MsgT[A, M]]]
 ) extends MsgT[A, M]
 case class Delegate[A, M](
     procId: ProcId,

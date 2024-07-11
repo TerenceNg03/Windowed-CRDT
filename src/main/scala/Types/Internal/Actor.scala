@@ -20,18 +20,20 @@ case class ActorState[A, M](
       ProcId,
       (Int, M, LazyList[M], A => HandleM[A, M, Unit])
     ],
-    val delegated: Map[ProcId, HandleM[A, M, Unit]]
+    val delegated: Map[ProcId, HandleM[A, M, Unit]],
+    val nodeId: ProcId
 ):
   def delegatedIds: Set[ProcId] = delegated.keySet
 
 object ActorState:
-  def newActorState[A, M] =
+  def newActorState[A, M](nodeId: ProcId) =
     ActorState(
       SharedWcrdt.newSharedWcrdt[A, LazyList[M]],
       Set.empty,
       Set.empty,
       Map.empty,
-      Map.empty
+      Map.empty,
+      nodeId
     )
 
 /** Windowed CRDT Actor Transformer
@@ -48,8 +50,8 @@ object Actor:
     */
   def runActor[A, M](using
       x: CRDT[A]
-  ): Behavior[MsgT[A, M]] =
-    processMsg(ActorState.newActorState)
+  )(nodeId: ProcId): Behavior[MsgT[A, M]] =
+    processMsg(ActorState.newActorState(nodeId))
 
   def processMsg[A, M](using
       x: CRDT[A]
@@ -98,7 +100,7 @@ object Actor:
             remoteWindow
           )(remoteCRDT)
           context.log.debug(
-            s"Node ${s.delegatedIds} will delegate Actor $procId, window reset to#$w"
+            s"Node ${s.nodeId} (replicas: ${s.delegatedIds.toList}) will delegate Actor $procId, window reset to#$w"
           )
           val stream: LazyList[M] =
             if remoteWindow >= w then remoteStream
@@ -120,14 +122,14 @@ object Actor:
             delegated = s.delegated.updated(procId, handle)
           )
 
-        case Merge(fromIds, v) =>
+        case Merge(fromNodeId, fromIds, v) =>
           val sharedWcrdt =
             if fromIds != s.delegatedIds then s.sharedWcrdt \/ v
             else s.sharedWcrdt
           val s_ = s.copy(sharedWcrdt = sharedWcrdt)
           context.log.debug(
-            s"Node ${s.delegatedIds} (finished#${s.sharedWcrdt.windows.v.view.mapValues(_ - 1).toMap.toSet})" +
-              s" is merging from Actor group ${fromIds} (finished#${v.windows.v.view.mapValues(_ - 1).toMap.toSet})"
+            s"Node ${s.nodeId} (replicas: ${s.delegatedIds.toList}) (finished#${s.sharedWcrdt.windows.v.view.mapValues(_ - 1).toMap.toSet})" +
+              s" is merging from Node ${fromNodeId} (replicas: ${fromIds.toList}) (finished#${v.windows.v.view.mapValues(_ - 1).toMap.toSet})"
           )
           // Check if we had the window value if there is an await
           // Resume execution if we had
@@ -157,10 +159,13 @@ object Actor:
                 s__ = resultToState(procId)(result)
           }
           s__
-        case UpdateIdSet(f) =>
-          s.copy(actorIdSet = f(s.actorIdSet))
-        case UpdateRef(f) =>
-          s.copy(actorRefs = f(s.actorRefs))
+        case SetIdSet(set) =>
+          s.copy(actorIdSet = set)
+        case SetRefs(refs, ref) =>
+          ref match
+            case Some(ref) => ref ! Merge(s.nodeId, s.delegatedIds, s.sharedWcrdt)
+            case None => ()
+          s.copy(actorRefs = refs)
         case Process((targetId, m), stream)
             if s.delegatedIds.contains(targetId) =>
           context.log.debug(s"Replica ${targetId} gets a new message: $m")

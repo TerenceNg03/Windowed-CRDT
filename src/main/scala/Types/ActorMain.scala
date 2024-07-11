@@ -18,7 +18,8 @@ private case class MainState[A, M](
     val initial: Map[
       ProcId,
       (HandleM[A, M, Unit], LazyList[M])
-    ]
+    ],
+    val maxReplicaPerNode: Int
 )
 
 /** Main Actor
@@ -29,7 +30,8 @@ private case class MainState[A, M](
 object ActorMain:
   def init[A, M](using x: CRDT[A])(initCRDT: A)(
       handles: List[(HandleM[A, M, Unit], LazyList[M])]
-  ): Behavior[Command] =
+  )(maxReplicaPerNode:Int = 2): Behavior[Command] =
+    assert(maxReplicaPerNode >= 1, "Node must can use at least 1 replicate.")
     Behaviors.setup[Command]: context =>
       val len = handles.length
       val initial = LazyList.from(1).zip(handles).toMap
@@ -38,7 +40,7 @@ object ActorMain:
         .zip(LazyList.from(1))
         .map { case ((handle, stream), id) =>
           val child = context.spawn[MsgT[A, M]](
-            Actor.runActor,
+            Actor.runActor(id),
             id.toString()
           )
           context.watchWith(child, ActorFailure(id))
@@ -50,14 +52,14 @@ object ActorMain:
       delegateMap.values.flatten
         .map(x => x._1)
         .foreach(ref =>
-          ref ! UpdateIdSet(_ => idSet)
-          ref ! UpdateRef(_ => delegateMap.values.flatten.map(x => x._1).toSet)
+          ref ! SetIdSet(idSet)
+          ref ! SetRefs(delegateMap.values.flatten.map(x => x._1).toSet, None)
         )
       // Assign replicas
       delegateMap.values.flatten
         .map(x => x._1)
         .zip(handles)
-        .zipWithIndex
+        .zip(LazyList.from(1))
         .foreach { case ((ref, (handle, stream)), procId) =>
           ref ! Delegate(procId, (0, stream, initCRDT), handle)
         }
@@ -68,7 +70,8 @@ object ActorMain:
             MainState(
               initCRDT,
               delegateMap,
-              initial
+              initial,
+              maxReplicaPerNode
             )
           )
         )
@@ -83,20 +86,25 @@ object ActorMain:
     val newM = ms.delegateMap
       .map((x, y) => y.map(z => (x, z._1, z._2)))
       .flatten
-      .filter((_, _, l) => l.length >= 3)
+      .filter((_, _, l) => l.length >= ms.maxReplicaPerNode)
       .headOption
       .map((fromId, ref, l) =>
         val toTransfer = l.take(l.length / 2)
-        val targetId = ms.delegateMap.keySet.max
+        println(ms.delegateMap)
+        val targetId = ms.delegateMap.keySet.max + 1
+        ctx.log.info(s"New node created: $targetId")
         val targetRef =
-          ctx.spawn[MsgT[A, M]](Actor.runActor, targetId.toString())
+          ctx.spawn[MsgT[A, M]](Actor.runActor(targetId), targetId.toString())
         ctx.watchWith(targetRef, ActorFailure(targetId))
-        
-        // TODO: Notify all node to update reference list
-        // TODO: Notify all node to merge into new child
-        ???
 
-        // TODO: log load balance
+        // Notify all node to update reference list
+        val refs =
+          ms.delegateMap.values.flatten.map(x => x._1).toSet + targetRef
+        targetRef ! SetIdSet(ms.initial.keySet)
+        refs.foreach(_ ! SetRefs(refs, Some(targetRef)))
+
+        ctx.log
+          .debug(s"Transfering replica $toTransfer from node $fromId to node $targetId")
         val transfers =
           toTransfer.map(procId => (procId, ms.initial(procId))).toMap
         ref ! transferReplica[A, M](ms.initCRDT, transfers, targetRef)
@@ -143,7 +151,7 @@ object ActorMain:
 
                 ms.copy(delegateMap =
                   ms.delegateMap
-                    .updatedWith(id)(_ => None)
+                    .updated(id, None)
                     .updated(
                       takeOverId,
                       Some(
