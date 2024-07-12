@@ -8,17 +8,24 @@ import cats.syntax.all.*
 import org.apache.pekko.actor.typed.ActorSystem
 import org.scalatest.*
 import org.scalatest.tagobjects.Slow
-
-import java.util.concurrent.atomic.AtomicInteger
 import scala.util.Random
-
 import flatspec.*
 import matchers.*
+import com.typesafe.config.ConfigFactory
+import java.util.concurrent.atomic.AtomicInteger
 
+val conf = ConfigFactory.parseString("""
+  pekko {
+    log-dead-letters = 0
+    log-dead-letters-during-shutdown = off
+  }
+""")
+
+val nMsg = 2000
 class ActorCrushPressureTest extends AnyFlatSpec with should.Matchers:
-  ignore should "handle 50 crashes" taggedAs (Slow) in:
+  it should "handle crashes" taggedAs (Slow) in:
     val mvar: MVar[Int] = newMVar
-    val counter = new AtomicInteger(50)
+    val errorCount : AtomicInteger = new AtomicInteger(0)
     val handle: HandleM[GCounter[Int, ProcId], Int, Unit] =
       for {
         msg <- getMsg
@@ -27,36 +34,36 @@ class ActorCrushPressureTest extends AnyFlatSpec with should.Matchers:
           gs.increase(procId)(msg)
         )
         _ <-
-          if msg % 50 == 0 && Random.nextDouble() > 0.7 then
-            for {
-              flag <- liftIO(counter.getAndDecrement())
-              _ <-
-                if flag >= 0 then error("TestCrash")
-                else point(())
+          if msg % 40 == 0 && Random.nextDouble() > 0.8 then 
+            for{
+              _ <- liftIO(errorCount.incrementAndGet())
+              _ <- error("TestCrash")
             } yield ()
           else point(())
         _ <-
-          if msg % 200 == 0 then
+          if msg % 20 == 0 then
             for {
               _ <- nextWindow[GCounter[Int, ProcId], Int]
-              v <- await[GCounter[Int, ProcId], Int](msg / 200)
+              v <- await[GCounter[Int, ProcId], Int](msg / 20)
               _ <-
-                if msg == 1000 && procId == 1 then
+                if msg == nMsg && procId == 1 then
                   liftIO[GCounter[Int, ProcId], Int, Unit]((mvar.put(v.value)))
                 else point(())
             } yield ()
           else point(())
       } yield ()
 
-    val stream = LazyList.range(0, 1001)
+    val stream = LazyList.range(0, nMsg + 1)
 
     val _ = ActorSystem(
       ActorMain.init[GCounter[Int, ProcId], Int](
         GCounter.newGCounter[Int, ProcId]
       )(
-        List.fill(100)(handle -> stream)
+        List.fill(10)(handle -> stream)
       ),
-      "TestSystem"
+      "TestSystem",
+      conf
     )
 
-    assert(mvar.get() == 100 * Range(0, 1001).sum())
+    val _ = assert(mvar.get() == 10 * Range(0, nMsg + 1).sum())
+    println(s"\nTotal Error encounted: ${errorCount.get()}\n")

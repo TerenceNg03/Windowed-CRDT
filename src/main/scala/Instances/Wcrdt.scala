@@ -17,76 +17,77 @@ import Types.CRDT
 
 type ProcId = Int
 type WindowId = Int
-case class SharedWcrdt[A, R](
-    val innerCRDT: LocalWin[Map[ProcId, A]],
-    val finished: GSet[(WindowId, ProcId)],
+case class Wcrdt[A, R](
+    val innerCRDT: LocalWin[A],
+    val finished: GMap[ProcId, MaxNum[WindowId]],
     val globalProgress: GMap[WindowId, (A, GMap[ProcId, LastWriteWin[R]])],
-    val windows: LocalWin[Map[ProcId, WindowId]]
+    val window: LocalWin[WindowId]
 ):
-  def delegate(procId: ProcId)(
-      procList: IterableOnce[ProcId]
-  )(remoteWindow: WindowId)(remoteCRDT: A): (WindowId, SharedWcrdt[A, R]) =
-    val (w, crdt) = latestWindow(procList).getOrElse(remoteWindow, remoteCRDT)
+  def exec(procId: ProcId)(
+      procList: Set[ProcId]
+  )(remoteWindow: WindowId)(remoteCRDT: A): (WindowId, Wcrdt[A, R]) =
+    val (w, crdt) = latestWindow(procList)
+    .flatMap((w, crdt) => 
+      if remoteWindow > w then 
+        None
+      else
+        Some((w, crdt))
+    ).getOrElse(remoteWindow, remoteCRDT)
     w -> this.copy(
-      innerCRDT = LocalWin(innerCRDT.v.updated(procId, crdt)),
-      windows = LocalWin(windows.v.updated(procId, w))
+      innerCRDT = LocalWin(crdt),
+      window = LocalWin(w)
     )
 
-  def latestWindow(procList: IterableOnce[ProcId]): Option[(WindowId, A)] =
-    Range(0, windows.v.values.maxOption.getOrElse(0)).reverse
-      .map(x => query(x)(procList).map(y => (x + 1, y)))
-      .flatten
-      .headOption
+  def latestWindow(procList: Set[ProcId]): Option[(WindowId, A)] =
+    val w = procList.map(x => finished.get(x).map(x => x.v).getOrElse(-1)).min
+    if w >=0 then
+      Some(w -> globalProgress(w)._1)
+    else
+      None
 
   def nextWindow[B](
       procId: ProcId
-  )(nextMsgRef: R)(using x: CRDT[A]): SharedWcrdt[A, R] =
-    windows.v
-      .get(procId)
-      .map(window =>
-        val updatedProgress = globalProgress get (window) match
-          case Some(a) =>
-            a \/ (innerCRDT.v(procId), Map(
-              procId -> LastWriteWin.newLWW(nextMsgRef)
-            ))
-          case None =>
-            (
-              innerCRDT.v(procId),
-              Map(procId -> LastWriteWin.newLWW(nextMsgRef))
-            )
-        this.copy(
-          finished = finished + (window -> procId),
-          globalProgress = globalProgress updated (window, updatedProgress),
-          windows = LocalWin(windows.v.updatedWith(procId)(w => w.map(_ + 1)))
+  )(nextMsgRef: R)(using x: CRDT[A]): Wcrdt[A, R] =
+    val updatedProgress = globalProgress get (window.v) match
+      case Some(a) =>
+        a \/ (innerCRDT.v, Map(
+          procId -> LastWriteWin.newLWW(nextMsgRef)
+        ))
+      case None =>
+        (
+          innerCRDT.v,
+          Map(procId -> LastWriteWin.newLWW(nextMsgRef))
         )
-      )
-      .getOrElse(this)
-
-  def query(w: Int)(procList: IterableOnce[ProcId]): Option[A] =
-    val ok =
-      procList.iterator.map(proc => (w, proc)) forall (x => finished contains x)
-    if ok then Some(globalProgress(w)._1) else None
-
-  def update(procId: ProcId)(f: A => A) = this.copy(innerCRDT =
-    LocalWin(
-      innerCRDT.v.updatedWith(procId)((v: Option[A]) => v.map(x => f(x)))
+    this.copy(
+      finished = finished.updated(procId, MaxNum(window.v)),
+      globalProgress = globalProgress updated (window.v, updatedProgress),
+      window = LocalWin(window.v + 1)
     )
-  )
 
-object SharedWcrdt:
-  def newSharedWcrdt[A, R]: SharedWcrdt[A, R] =
-    SharedWcrdt(
-      innerCRDT = LocalWin(Map.empty),
-      finished = Set.empty,
+  def query(w: Int)(procList: Set[ProcId]): Option[A] =
+    assert(w >= 0)
+    val wMax = procList.map(x => finished.get(x).map(x => x.v).getOrElse(-1)).min
+    if w <= wMax then
+      Some(globalProgress(w)._1)
+    else
+      None
+
+  def update(f: A => A) = this.copy(innerCRDT = LocalWin(f(innerCRDT.v)))
+
+object Wcrdt:
+  def newWcrdt[A, R](initCRDT: A): Wcrdt[A, R] =
+    Wcrdt(
+      innerCRDT = LocalWin(initCRDT),
+      finished = Map.empty,
       globalProgress = Map.empty,
-      windows = LocalWin(Map.empty)
+      window = LocalWin(0)
     )
-given [A: CRDT, R]: CRDT[SharedWcrdt[A, R]] with
-  extension (x: SharedWcrdt[A, R])
-    def \/(y: SharedWcrdt[A, R]): SharedWcrdt[A, R] =
-      SharedWcrdt(
+given [A: CRDT, R]: CRDT[Wcrdt[A, R]] with
+  extension (x: Wcrdt[A, R])
+    def \/(y: Wcrdt[A, R]): Wcrdt[A, R] =
+      Wcrdt(
         innerCRDT = x.innerCRDT \/ y.innerCRDT,
         globalProgress = x.globalProgress \/ y.globalProgress,
         finished = x.finished \/ y.finished,
-        windows = x.windows \/ y.windows
+        window = x.window \/ y.window
       )

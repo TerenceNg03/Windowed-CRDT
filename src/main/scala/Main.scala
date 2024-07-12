@@ -6,6 +6,7 @@ import Types.given
 import cats.syntax.all.*
 import org.apache.pekko.actor.typed.ActorSystem
 import scala.util.Random
+import com.typesafe.config.ConfigFactory
 
 /** Use a grow-only set to construct a windowed CRDT. Here the message is simple
   * an integer that will be added to the set.
@@ -14,11 +15,11 @@ val handleMain: HandleM[GSet[Int], Int, Unit] =
   for {
     msg <- getMsg
     _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+    _ <- nextWindow[GSet[Int], Int]
     _ <-
       if msg >= 5 then
         for
-          _ <- nextWindow[GSet[Int], Int]
-          v <- await[GSet[Int], Int](0)
+          v <- await[GSet[Int], Int](2)
           _ <- liftContextIO[GSet[Int], Int](ctx =>
             ctx.log.info(s"Process finished! Window 0's value: $v")
           )
@@ -30,13 +31,20 @@ val handleRandomFail: HandleM[GSet[Int], Int, Unit] =
   for {
     msg <- getMsg
     _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
-    _ <- nextWindow[GSet[Int], Int]
     _ <-
-      if Random.nextDouble() > 0.75 then error("trigger crash")
+      if Random.nextDouble() > 0.6 then error("trigger crash")
       else point(())
+    _ <- nextWindow[GSet[Int], Int]
   } yield ()
 
 @main def hello(): Unit =
+
+  val conf = ConfigFactory.parseString("""
+    pekko {
+      log-dead-letters = 0
+      log-dead-letters-during-shutdown = off
+    }
+  """)
   // Here our message is an Int, but the system need to receive an (Int, Int) so
   // that it knows to whom this message should be sent.
   val _ = ActorSystem(
@@ -46,6 +54,7 @@ val handleRandomFail: HandleM[GSet[Int], Int, Unit] =
         handleRandomFail -> LazyList(2, 4, 6),
         handleRandomFail -> LazyList(10, 20, 30)
       )
-    )(3),
-    "TestSystem"
+    ),
+    "TestSystem",
+    conf
   )

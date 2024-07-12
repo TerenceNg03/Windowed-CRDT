@@ -13,8 +13,10 @@ import flatspec.*
 import matchers.*
 
 class ActorPressureTest extends AnyFlatSpec with should.Matchers:
-  ignore should "handle 5* 200k stream" taggedAs (Slow) in:
+  it should "handle 5* 2million stream" taggedAs (Slow) in:
     val mvar: MVar[Double] = newMVar
+    val nMsg = 2_000_000
+    val nWin = 5
     val start = System.currentTimeMillis()
     val handle: HandleM[GCounter[Double, ProcId], Int, Unit] =
       for {
@@ -24,12 +26,12 @@ class ActorPressureTest extends AnyFlatSpec with should.Matchers:
           gs.increase(procId)(msg)
         )
         _ <-
-          if msg % 20_000 == 0 then
+          if msg % (nMsg / nWin) == 0 then
             for {
               _ <- nextWindow[GCounter[Double, ProcId], Int]
-              v <- await[GCounter[Double, ProcId], Int](msg / 20_000)
+              v <- await[GCounter[Double, ProcId], Int](msg / (nMsg / nWin))
               _ <-
-                if msg == 200_000 && procId == 1 then
+                if msg == nMsg && procId == 1 then
                   liftIO[GCounter[Double, ProcId], Int, Unit] {
                     mvar.put(v.value)
                   }
@@ -39,8 +41,8 @@ class ActorPressureTest extends AnyFlatSpec with should.Matchers:
                         (endTime - start).doubleValue() / 1000,
                         time.Seconds
                       )
-                      val avg = 200_000 / ((endTime - start) / 1000)
-                      ctx.log.info(
+                      val avg = nMsg * 5/ ((endTime - start) / 1000)
+                      ctx.log.warn(
                         s"\n\t\tTotal time: ${t.prettyString}" +
                           s"\n\t\tMessage per second: $avg"
                       )
@@ -50,7 +52,7 @@ class ActorPressureTest extends AnyFlatSpec with should.Matchers:
           else point(())
       } yield ()
 
-    val stream = LazyList.range(0, 200_001)
+    val stream = LazyList.range(0, nMsg + 1)
 
     val _ = ActorSystem(
       ActorMain.init[GCounter[Double, ProcId], Int](
@@ -61,4 +63,4 @@ class ActorPressureTest extends AnyFlatSpec with should.Matchers:
       "TestSystem"
     )
 
-    assert(mvar.get() == 5 * Range(0, 200_001).map(x => x.doubleValue()).sum())
+    assert(mvar.get() == 5 * Range(0, nMsg + 1).map(x => x.doubleValue()).sum())

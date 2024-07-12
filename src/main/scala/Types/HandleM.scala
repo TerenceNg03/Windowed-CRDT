@@ -21,7 +21,6 @@ private[Types] case class AwaitWindow[A, M, C](
 private[Types] case class HandleState[A, M](
     val msg: M,
     val stream: LazyList[M],
-    val procId: ProcId,
     val state: ActorState[A, M],
     val ctx: ActorContext[MsgT[A, M]]
 )
@@ -87,7 +86,7 @@ object HandleM:
     * @return
     */
   def getProcId[A, M]: HandleM[A, M, ProcId] =
-    HandleM(s => Continue(s, s.procId))
+    HandleM(s => Continue(s, s.state.procId))
 
   /** Handle with context
     *
@@ -118,9 +117,7 @@ object HandleM:
     f =>
       HandleM(s =>
         Continue(
-          s.copy(state =
-            s.state.copy(sharedWcrdt = s.state.sharedWcrdt.update(s.procId)(f))
-          ),
+          s.copy(state = s.state.copy(wcrdt = s.state.wcrdt.update(f))),
           ()
         )
       )
@@ -132,7 +129,7 @@ object HandleM:
     * @return
     */
   def getLocalState[A, M]: HandleM[A, M, A] =
-    HandleM(s => Continue(s, s.state.sharedWcrdt.innerCRDT.v(s.procId)))
+    HandleM(s => Continue(s, s.state.wcrdt.innerCRDT.v))
 
   /** Go to next window
     *
@@ -143,18 +140,18 @@ object HandleM:
   def nextWindow[A: CRDT, M]: HandleM[A, M, Unit] =
     HandleM(hs =>
       // Broadcast update
-      val HandleState(msg, stream, procId, state, ctx) = hs
-      val sharedWcrdt =
-        state.sharedWcrdt.nextWindow(procId)(stream)
+      val HandleState(msg, stream, state, ctx) = hs
+      val wcrdt =
+        state.wcrdt.nextWindow(state.procId)(stream)
       state.actorRefs.foreach(ref =>
-        ref ! Merge(state.nodeId, state.delegatedIds, sharedWcrdt)
+        ref ! Merge(state.nodeId, state.procId, wcrdt)
       )
       ctx.log
-        .debug(
-          s"Replica ${procId} completed window#${state.sharedWcrdt.windows.v(procId)}"
+        .info(
+          s"Replica ${state.procId} completed window#${state.wcrdt.window.v}"
         )
       Continue(
-        hs.copy(state = state.copy(sharedWcrdt = sharedWcrdt)),
+        hs.copy(state = state.copy(wcrdt = wcrdt)),
         ()
       )
     )
@@ -164,7 +161,7 @@ object HandleM:
     * @return
     */
   def currentWindow[A, M]: HandleM[A, M, WindowId] =
-    HandleM(s => Continue(s, s.state.sharedWcrdt.windows.v(s.procId)))
+    HandleM(s => Continue(s, s.state.wcrdt.window.v))
 
   /** Lift an IO operation into current context.
     *
@@ -186,19 +183,22 @@ object HandleM:
     */
   def await[A, M]: Int => HandleM[A, M, A] =
     w =>
-      HandleM { case s @ HandleState(msg, stream, procId, state, ctx) =>
-        if state.sharedWcrdt.windows.v(procId) <= w then
+      HandleM { case s @ HandleState(msg, stream, state, ctx) =>
+        if state.wcrdt.window.v <= w then
           ctx.log.error(
-            s"[Deadlock detected] Replica ${procId} " +
+            s"[Deadlock detected] Replica ${state.procId} " +
               s"is waiting for window $w while itself is " +
-              s"currently at window ${state.sharedWcrdt.windows.v(procId)}"
+              s"currently at window ${state.wcrdt.window.v}"
           )
           throw new RuntimeException("Deadlock")
-        state.sharedWcrdt.query(w)(state.actorIdSet) match
+        state.wcrdt.query(w)(state.actorIdSet) match
           case Some(v) => Continue(s, v)
           case None =>
-            ctx.log.debug(
-              s"Replica ${procId} stopped, waiting for window#$w"
+            ctx.log.info(
+              s"Replica ${state.procId} stopped, waiting for window#$w"
+            )
+            state.actorRefs.foreach(ref =>
+              ref ! RequestMerge(state.nodeId, state.procId, ctx.self)
             )
             AwaitWindow(
               w,
@@ -215,9 +215,9 @@ object HandleM:
     */
   def error[A, M]: String => HandleM[A, M, Unit] =
     s =>
-      HandleM { case HandleState(msg, stream, procId, state, ctx) =>
+      HandleM { case HandleState(msg, stream, state, ctx) =>
         ctx.log.error(
-          s"Actor $procId crashed actor group ${state.delegatedIds}: $s"
+          s"Replica ${state.procId} crashed node ${state.nodeId}: $s"
         )
         throw new RuntimeException(s)
       }
@@ -230,30 +230,28 @@ object HandleM:
     * @return
     */
   private[Types] def prepareHandleNewMsg[A, M]
-      : ProcId => M => LazyList[M] => HandleM[A, M, Unit] =
-    procId =>
-      msg =>
-        stream =>
-          HandleM { case HandleState(_, _, _, state, ctx) =>
-            stream.take(1).toList match
-              case x :: _ =>
-                ctx.log.debug(
-                  s"Actor ${procId} queued a new message to mailbox: $x"
-                )
-                ctx.self ! Process((procId, x), stream.tail)
-                Continue(
-                  HandleState(
-                    msg,
-                    stream,
-                    procId,
-                    state,
-                    ctx
-                  ),
-                  ()
-                )
-              case _ =>
-                ctx.log.debug(
-                  s"Actor ${procId} has no more messages in the stream."
-                )
-                Continue(HandleState(msg, stream, procId, state, ctx), ())
-          }
+      : M => LazyList[M] => HandleM[A, M, Unit] =
+    msg =>
+      stream =>
+        HandleM { case HandleState(_, _, state, ctx) =>
+          stream.take(1).toList match
+            case x :: _ =>
+              ctx.log.debug(
+                s"Replica ${state.actorRefs} queued a new message to mailbox: $x"
+              )
+              ctx.self ! Process(x, stream.tail)
+              Continue(
+                HandleState(
+                  msg,
+                  stream,
+                  state,
+                  ctx
+                ),
+                ()
+              )
+            case _ =>
+              ctx.log.debug(
+                s"Actor ${state.procId} has no more messages in the stream."
+              )
+              Continue(HandleState(msg, stream, state, ctx), ())
+        }
