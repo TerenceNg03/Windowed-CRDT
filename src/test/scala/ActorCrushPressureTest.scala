@@ -26,11 +26,11 @@ class ActorCrushPressureTest extends AnyFlatSpec with should.Matchers:
   it should "handle crashes" taggedAs (Slow) in:
     val mvar: MVar[Int] = newMVar
     val errorCount : AtomicInteger = new AtomicInteger(0)
-    val handle: HandleM[GCounter[Int, ProcId], Int, Unit] =
+    val handle: HandleM[GCounter[Int, ProcId], Int, IntRange, Unit] =
       for {
         msg <- getMsg
         procId <- getProcId
-        _ <- modifyCRDT[GCounter[Int, ProcId], Int](gs =>
+        _ <- modifyCRDT[GCounter[Int, ProcId], Int, IntRange](gs =>
           gs.increase(procId)(msg)
         )
         _ <-
@@ -43,20 +43,20 @@ class ActorCrushPressureTest extends AnyFlatSpec with should.Matchers:
         _ <-
           if msg % 20 == 0 then
             for {
-              _ <- nextWindow[GCounter[Int, ProcId], Int]
-              v <- await[GCounter[Int, ProcId], Int](msg / 20)
+              _ <- nextWindow[GCounter[Int, ProcId], Int, IntRange]
+              v <- await[GCounter[Int, ProcId], Int, IntRange](msg / 20)
               _ <-
                 if msg == nMsg && procId == 1 then
-                  liftIO[GCounter[Int, ProcId], Int, Unit]((mvar.put(v.value)))
+                  liftIO[GCounter[Int, ProcId], Int, IntRange, Unit]((mvar.put(v.value)))
                 else point(())
             } yield ()
           else point(())
       } yield ()
 
-    val stream = LazyList.range(0, nMsg + 1)
+    val stream = IntRange(0, nMsg + 1)
 
     val _ = ActorSystem(
-      ActorMain.init[GCounter[Int, ProcId], Int](
+      ActorMain.init[GCounter[Int, ProcId], Int, IntRange](
         GCounter.newGCounter[Int, ProcId]
       )(
         List.fill(10)(handle -> stream)

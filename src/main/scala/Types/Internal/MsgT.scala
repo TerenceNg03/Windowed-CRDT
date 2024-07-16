@@ -4,22 +4,22 @@ import Instances.*
 import Types.HandleM
 import org.apache.pekko.actor.typed.ActorRef
 
-sealed trait MsgT[A, M]
-case class RequestMerge[A, M](nodeId: ProcId, procId: ProcId, ref: ActorRef[MsgT[A, M]]) extends MsgT[A, M]
-case class Merge[A, M](nodeId: ProcId, procId: ProcId, v: Wcrdt[A, LazyList[M]])
-    extends MsgT[A, M]
-case class Process[A, M](m: M, stream: LazyList[M]) extends MsgT[A, M]
-case class SetIdSet[A, M](s: Set[Int]) extends MsgT[A, M]
-case class SetRefs[A, M](
-    s: Set[ActorRef[MsgT[A, M]]]
-) extends MsgT[A, M]
-case class Exec[A, M](
+sealed trait MsgT[A, M, S]
+case class RequestMerge[A, M, S](nodeId: ProcId, procId: ProcId, ref: ActorRef[MsgT[A, M, S]]) extends MsgT[A, M, S]
+case class Merge[A, M, S](nodeId: ProcId, procId: ProcId, v: Wcrdt[A, S])
+    extends MsgT[A, M, S]
+case class Process[A, M, S](m: M, stream: S) extends MsgT[A, M, S]
+case class SetIdSet[A, M, S](s: Set[Int]) extends MsgT[A, M, S]
+case class SetRefs[A, M, S](
+    s: Set[ActorRef[MsgT[A, M, S]]]
+) extends MsgT[A, M, S]
+case class Exec[A, M, S](
     procId: ProcId,
-    knownRestartPoint: (WindowId, LazyList[M], Wcrdt[A, LazyList[M]]),
-    handle: HandleM[A, M, Unit]
-) extends MsgT[A, M]
-case class transferReplica[A, M](
+    knownRestartPoint: (WindowId, S, Wcrdt[A, S]),
+    handle: HandleM[A, M, S, Unit]
+) extends MsgT[A, M, S]
+case class transferReplica[A, M, S](
     initCRDT: A,
-    proc: (ProcId, HandleM[A, M, Unit], LazyList[M]),
-    targetRef: ActorRef[MsgT[A, M]]
-) extends MsgT[A, M]
+    proc: (ProcId, HandleM[A, M, S, Unit], S),
+    targetRef: ActorRef[MsgT[A, M, S]]
+) extends MsgT[A, M, S]

@@ -15,32 +15,32 @@ import matchers.*
 class ActorSpec extends AnyFlatSpec with should.Matchers:
   it should "wait for windows" in:
     val result: MVar[Set[Int]] = MVar.newMVar
-    val handle1: HandleM[GSet[Int], Int, Unit] =
+    val handle1: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+        _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
         _ <-
           if msg >= 5 then
             for {
-              _ <- nextWindow[GSet[Int], Int]
-              v <- await[GSet[Int], Int](0)
-              _ <- liftIO[GSet[Int], Int, Unit](result.put(v))
+              _ <- nextWindow[GSet[Int], Int, ListStream[Int]]
+              v <- await[GSet[Int], Int, ListStream[Int]](0)
+              _ <- liftIO[GSet[Int], Int, ListStream[Int], Unit](result.put(v))
             } yield ()
           else point(())
       } yield ()
 
-    val handle2: HandleM[GSet[Int], Int, Unit] =
+    val handle2: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+        _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
         _ <-
-          if msg >= 6 then nextWindow[GSet[Int], Int]
+          if msg >= 6 then nextWindow[GSet[Int], Int, ListStream[Int]]
           else point(())
       } yield ()
 
     val _ = ActorSystem(
-      ActorMain.init[GSet[Int], Int](Set.empty)(
-        List(handle1 -> LazyList(1, 3, 5), handle2 -> LazyList(2, 4, 6))
+      ActorMain.init[GSet[Int], Int, ListStream[Int]](Set.empty)(
+        List(handle1 -> ListStream(List(1, 3, 5)), handle2 -> ListStream(List(2, 4, 6)))
       ),
       "TestSystem"
     )
@@ -49,33 +49,33 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
 
   it should "not wait if already has the value" in:
     val result: MVar[Set[Int]] = MVar.newMVar
-    val handle1: HandleM[GSet[Int], Int, Unit] =
+    val handle1: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+        _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
         _ <-
-          if msg == 10 || msg == 20 then nextWindow[GSet[Int], Int]
+          if msg == 10 || msg == 20 then nextWindow[GSet[Int], Int, ListStream[Int]]
           else point(())
         _ <-
           if msg == 20 then
             for {
-              _ <- await[GSet[Int], Int](1)
-              v <- await[GSet[Int], Int](0)
-              _ <- liftIO[GSet[Int], Int, Unit](result.put(v))
+              _ <- await[GSet[Int], Int, ListStream[Int]](1)
+              v <- await[GSet[Int], Int, ListStream[Int]](0)
+              _ <- liftIO[GSet[Int], Int, ListStream[Int], Unit](result.put(v))
             } yield ()
           else point(())
       } yield ()
 
-    val handle2: HandleM[GSet[Int], Int, Unit] =
+    val handle2: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
-        _ <- nextWindow[GSet[Int], Int]
+        _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
+        _ <- nextWindow[GSet[Int], Int, ListStream[Int]]
       } yield ()
 
     val _ = ActorSystem(
-      ActorMain.init[GSet[Int], Int](Set.empty)(
-        List(handle1 -> LazyList(6, 10, 20), handle2 -> LazyList(1, 4))
+      ActorMain.init[GSet[Int], Int, ListStream[Int]](Set.empty)(
+        List(handle1 -> ListStream(List(6, 10, 20)), handle2 -> ListStream(List(1, 4)))
       ),
       "TestSystem"
     )
@@ -84,36 +84,36 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
 
   it should "clear queue after continuing" in:
     val result: MVar[Set[Int]] = MVar.newMVar
-    val handle1: HandleM[GSet[Int], Int, Unit] =
+    val handle1: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+        _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
         _ <-
           if msg % 10 == 0 then
             for {
-              _ <- nextWindow[GSet[Int], Int]
-              _ <- await[GSet[Int], Int](0)
+              _ <- nextWindow[GSet[Int], Int, ListStream[Int]]
+              _ <- await[GSet[Int], Int, ListStream[Int]](0)
             } yield ()
           else point(())
         _ <-
           if msg == 20 then
             for {
-              v <- await[GSet[Int], Int](1)
-              _ <- liftIO[GSet[Int], Int, Unit](result.put(v))
+              v <- await[GSet[Int], Int, ListStream[Int]](1)
+              _ <- liftIO[GSet[Int], Int, ListStream[Int], Unit](result.put(v))
             } yield ()
           else point(())
       } yield ()
 
-    val handle2: HandleM[GSet[Int], Int, Unit] =
+    val handle2: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
-        _ <- nextWindow[GSet[Int], Int]
+        _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
+        _ <- nextWindow[GSet[Int], Int, ListStream[Int]]
       } yield ()
 
     val _ = ActorSystem(
-      ActorMain.init[GSet[Int], Int](Set.empty)(
-        List(handle1 -> LazyList(1, 10, 15, 20), handle2 -> LazyList(4, 6))
+      ActorMain.init[GSet[Int], Int, ListStream[Int]](Set.empty)(
+        List(handle1 -> ListStream(List(1, 10, 15, 20)), handle2 -> ListStream(List(4, 6)))
       ),
       "TestSystem"
     )
@@ -124,35 +124,35 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
     val flag = new AtomicBoolean(true)
     val result = MVar.newMVar[Set[Int]]
 
-    val handle1: HandleM[GSet[Int], Int, Unit] =
+    val handle1: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+        _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
         _ <-
           if msg >= 5 then
             for
-              _ <- nextWindow[GSet[Int], Int]
-              v <- await[GSet[Int], Int](0)
+              _ <- nextWindow[GSet[Int], Int, ListStream[Int]]
+              v <- await[GSet[Int], Int, ListStream[Int]](0)
               _ <- liftIO(result.put(v))
             yield ()
           else point(())
       } yield ()
 
-    val handle2: HandleM[GSet[Int], Int, Unit] =
+    val handle2: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
       for {
         msg <- getMsg
-        _ <- modifyCRDT[GSet[Int], Int](gs => gs + msg)
+        _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
         _ <-
           if flag.getAndSet(false) then error("test crash")
           else point(())
         _ <-
-          if msg >= 6 then nextWindow[GSet[Int], Int]
+          if msg >= 6 then nextWindow[GSet[Int], Int, ListStream[Int]]
           else point(())
       } yield ()
 
     val _ = ActorSystem(
-      ActorMain.init[GSet[Int], Int](Set.empty)(
-        List(handle1 -> LazyList(1, 3, 5), handle2 -> LazyList(2, 4, 6))
+      ActorMain.init[GSet[Int], Int, ListStream[Int]](Set.empty)(
+        List(handle1 -> ListStream(List(1, 3, 5)), handle2 -> ListStream(List(2, 4, 6)))
       ),
       "TestSystem"
     )

@@ -12,28 +12,28 @@ import org.apache.pekko.actor.typed.scaladsl.Behaviors
 import org.apache.pekko.actor.typed.scaladsl.TimerScheduler
 import Types.HandleM.point
 
-case class ActorState[A, M](
-    val wcrdt: Wcrdt[A, LazyList[M]],
+case class ActorState[A, M, S](
+    val wcrdt: Wcrdt[A, S],
     val actorIdSet: Set[ProcId],
-    val actorRefs: Set[ActorRef[MsgT[A, M]]],
+    val actorRefs: Set[ActorRef[MsgT[A, M, S]]],
     // Awaits: #Window, Message waiting, Monad Operation to be continued, Following Messages
     val queuedHandleM: Option[
-      (WindowId, M, LazyList[M], A => HandleM[A, M, Unit])
+      (WindowId, M, S, A => HandleM[A, M, S, Unit])
     ],
-    val handle: HandleM[A, M, Unit],
+    val handle: HandleM[A, M, S, Unit],
     val nodeId: ProcId,
     val procId: ProcId,
-    val timers: TimerScheduler[MsgT[A, M]]
+    val timers: TimerScheduler[MsgT[A, M, S]]
 )
 
 object ActorState:
-  def newActorState[A, M](
+  def newActorState[A, M, S](
       initCRDT: A,
       nodeId: ProcId,
-      timers: TimerScheduler[MsgT[A, M]]
+      timers: TimerScheduler[MsgT[A, M, S]]
   ) =
     ActorState(
-      Wcrdt.newWcrdt[A, LazyList[M]](initCRDT),
+      Wcrdt.newWcrdt[A, S](initCRDT),
       Set.empty,
       Set.empty,
       None,
@@ -55,12 +55,12 @@ object Actor:
     * @param handle
     * @return
     */
-  def runActor[A, M](using
-      x: CRDT[A]
+  def runActor[A, M, S](using
+      x: CRDT[A], y: PersistStream[S, M]
   )(
       initCRDT: A,
       nodeId: ProcId
-  ): Behavior[MsgT[A, M]] =
+  ): Behavior[MsgT[A, M, S]] =
     Behaviors.withTimers(timers =>
       processMsgInit(
         ActorState.newActorState(
@@ -71,21 +71,21 @@ object Actor:
       )
     )
 
-  def processMsgInit[A, M](using
-      x: CRDT[A]
-  )(s: ActorState[A, M]): Behavior[MsgT[A, M]] =
-    Behaviors.receive[MsgT[A, M]]: (ctx, msg) =>
+  def processMsgInit[A, M, S](using
+      x: CRDT[A], y: PersistStream[S, M]
+  )(s: ActorState[A, M, S]): Behavior[MsgT[A, M, S]] =
+    Behaviors.receive[MsgT[A, M, S]]: (ctx, msg) =>
       val s_ = execMsg(s)(ctx, msg)
       processMsg(s_)
 
-  def processMsg[A, M](using
-      x: CRDT[A]
-  )(s: ActorState[A, M]): Behavior[MsgT[A, M]] =
-    Behaviors.receive[MsgT[A, M]]: (ctx, msg) =>
+  def processMsg[A, M, S](using
+      x: CRDT[A], y: PersistStream[S, M]
+  )(s: ActorState[A, M, S]): Behavior[MsgT[A, M, S]] =
+    Behaviors.receive[MsgT[A, M, S]]: (ctx, msg) =>
       val s_ = execMsg(s)(ctx, msg)
       processMsg(s_)
 
-  def resultToState[A, M]: HandleResult[A, M, Unit] => ActorState[A, M] =
+  def resultToState[A, M, S]: HandleResult[A, M, S, Unit] => ActorState[A, M, S] =
     // Continue handle next message
     case Continue(s, _) => s.state
     // Waiting for a window, later operation queued
@@ -93,11 +93,11 @@ object Actor:
       val s_ = s.state.copy(queuedHandleM = Some(w, msg, stream, next))
       s_
 
-  def execMsg[A, M](using
-      x: CRDT[A]
+  def execMsg[A, M, S](using
+      x: CRDT[A], y: PersistStream[S, M]
   )(
-      s: ActorState[A, M]
-  ): (ActorContext[MsgT[A, M]], MsgT[A, M]) => ActorState[A, M] =
+      s: ActorState[A, M, S]
+  ): (ActorContext[MsgT[A, M, S]], MsgT[A, M, S]) => ActorState[A, M, S] =
     (ctx, msg) =>
       msg match
         case RequestMerge(nodeId, procId, ref) =>
@@ -143,16 +143,16 @@ object Actor:
           ctx.log.info(
             s"Node ${s.nodeId} (Replica ${s.procId}) will execute Replica $procId, window reset to#$w"
           )
-          val stream: LazyList[M] =
+          val stream: S =
             if remoteWindow >= w then remoteStream
             else wcrdt.globalProgress(w - 1)._2(procId).v._2
 
-          stream.take(1).toList match
-            case x :: _ =>
+          stream.next match
+            case (Some(x), ns) =>
               ctx.log.debug(
                 s"Replica $procId sends initial message after delegation: $x"
               )
-              ctx.self ! Process(x, stream.tail)
+              ctx.self ! Process(x, ns)
             case _ =>
               ctx.log.debug(
                 s"Replica $procId is delegated but stream has finished"

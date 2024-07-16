@@ -12,12 +12,12 @@ import Types.HandleM.point
 sealed trait Command
 case class ActorFailure[T](id: ProcId) extends Command
 
-private case class MainState[A, M](
+private case class MainState[A, M, S](
     val initCRDT: A,
-    val procMap: Map[ProcId, Option[(ActorRef[MsgT[A, M]], ProcId)]],
+    val procMap: Map[ProcId, Option[(ActorRef[MsgT[A, M, S]], ProcId)]],
     val initial: Map[
       ProcId,
-      (HandleM[A, M, Unit], LazyList[M])
+      (HandleM[A, M, S, Unit], S)
     ]
 )
 
@@ -27,16 +27,16 @@ private case class MainState[A, M](
   * Actor i.
   */
 object ActorMain:
-  def init[A, M](using x: CRDT[A])(initCRDT: A)(
-      handles: List[(HandleM[A, M, Unit], LazyList[M])]
+  def init[A, M, S](using x: CRDT[A], y: PersistStream[S, M])(initCRDT: A)(
+      handles: List[(HandleM[A, M, S, Unit], S)]
   ): Behavior[Command] =
     Behaviors.setup[Command]: context =>
       val len = handles.length
       val initial = LazyList.from(1).zip(handles).toMap
-      val procMap: Map[ProcId, Option[(ActorRef[MsgT[A, M]], ProcId)]] =
+      val procMap: Map[ProcId, Option[(ActorRef[MsgT[A, M, S]], ProcId)]] =
         initial
           .map { case (id, (handle, stream)) =>
-            val child = context.spawn[MsgT[A, M]](
+            val child = context.spawn[MsgT[A, M, S]](
               Actor.runActor(initCRDT, id),
               id.toString()
             )
@@ -46,7 +46,7 @@ object ActorMain:
           .toMap
           .updated(
             0, {
-              val child = context.spawn[MsgT[A, M]](
+              val child = context.spawn[MsgT[A, M, S]](
                 Actor.runActor(initCRDT, 0),
                 0.toString()
               )
@@ -76,7 +76,7 @@ object ActorMain:
         }
 
       // Guardian node #0 only receive merges
-      procMap(0).get._1 ! Exec(0, (0, LazyList.empty, newWcrdt(initCRDT)), point(()))
+      procMap(0).get._1 ! Exec(0, (0, summon[PersistStream[S, M]].empty, newWcrdt(initCRDT)), point(()))
 
       Behaviors
         .supervise(
@@ -90,9 +90,9 @@ object ActorMain:
         )
         .onFailure(SupervisorStrategy.stop)
 
-  def run[A, M](using
-      x: CRDT[A]
-  )(ms: MainState[A, M]): Behavior[Command] =
+  def run[A, M, S](using
+      x: CRDT[A], y: PersistStream[S, M]
+  )(ms: MainState[A, M, S]): Behavior[Command] =
     Behaviors
       .supervise[Command](Behaviors.receive: (ctx, msg) =>
         msg match
@@ -104,7 +104,7 @@ object ActorMain:
             val childId = ms.procMap.keySet.max + 1
             ctx.log.info(s"New node created: $childId for Replica $procId")
             val childRef =
-              ctx.spawn[MsgT[A, M]](
+              ctx.spawn[MsgT[A, M, S]](
                 Actor.runActor(ms.initCRDT, childId),
                 childId.toString()
               )

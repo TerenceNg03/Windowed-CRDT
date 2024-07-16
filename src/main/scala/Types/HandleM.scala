@@ -7,22 +7,22 @@ import cats.*
 import cats.syntax.all.*
 import org.apache.pekko.actor.typed.scaladsl.ActorContext
 
-private[Types] sealed trait HandleResult[A, M, C]
-private[Types] case class Continue[A, M, C](state: HandleState[A, M], v: C)
-    extends HandleResult[A, M, C]
-private[Types] case class AwaitWindow[A, M, C](
+private[Types] sealed trait HandleResult[A, M, S, C]
+private[Types] case class Continue[A, M, S, C](state: HandleState[A, M, S], v: C)
+    extends HandleResult[A, M, S, C]
+private[Types] case class AwaitWindow[A, M, S, C](
     w: Int,
     msg: M,
-    stream: LazyList[M],
-    state: HandleState[A, M],
-    next: A => HandleM[A, M, C]
-) extends HandleResult[A, M, C]
+    stream: S,
+    state: HandleState[A, M, S],
+    next: A => HandleM[A, M, S, C]
+) extends HandleResult[A, M, S, C]
 
-private[Types] case class HandleState[A, M](
+private[Types] case class HandleState[A, M, S](
     val msg: M,
-    val stream: LazyList[M],
-    val state: ActorState[A, M],
-    val ctx: ActorContext[MsgT[A, M]]
+    val stream: S,
+    val state: ActorState[A, M, S],
+    val ctx: ActorContext[MsgT[A, M, S]]
 )
 
 /** Handle Monad, represent computations within an actor.
@@ -30,31 +30,31 @@ private[Types] case class HandleState[A, M](
   * Mutable internal state is generally NOT compatiable with failure recovery
   * system. Use a LastWriteWin to warp the state and getLocalState instead.
   */
-class HandleM[A, M, C] private[Types] (
-    private[Types] val runHandleM: HandleState[A, M] => HandleResult[A, M, C]
+class HandleM[A, M, S, C] private[Types] (
+    private[Types] val runHandleM: HandleState[A, M, S] => HandleResult[A, M, S, C]
 )
 
-given [A, M, C]: Functor[[C] =>> HandleM[A, M, C]] with
-  def map[C, B](fa: HandleM[A, M, C])(f: C => B): HandleM[A, M, B] =
+given [A, M, S, C]: Functor[[C] =>> HandleM[A, M, S, C]] with
+  def map[C, B](fa: HandleM[A, M, S, C])(f: C => B): HandleM[A, M, S, B] =
     for {
       x <- fa
     } yield f(x)
 
-given [A, M, C]: Applicative[[C] =>> HandleM[A, M, C]] with
-  def pure[C](a: C): HandleM[A, M, C] = HandleM(s => Continue(s, a))
+given [A, M, S, C]: Applicative[[C] =>> HandleM[A, M, S, C]] with
+  def pure[C](a: C): HandleM[A, M, S, C] = HandleM(s => Continue(s, a))
   def ap[C, B](
-      ff: HandleM[A, M, C => B]
-  )(fa: HandleM[A, M, C]): HandleM[A, M, B] =
+      ff: HandleM[A, M, S, C => B]
+  )(fa: HandleM[A, M, S, C]): HandleM[A, M, S, B] =
     for
       f_ <- ff
       v <- fa
     yield f_(v)
 
-given [A, M, C]: Monad[[C] =>> HandleM[A, M, C]] with
-  def pure[C](a: C): HandleM[A, M, C] = HandleM(s => Continue(s, a))
+given [A, M, S, C]: Monad[[C] =>> HandleM[A, M, S, C]] with
+  def pure[C](a: C): HandleM[A, M, S, C] = HandleM(s => Continue(s, a))
   def flatMap[C, B](
-      fa: HandleM[A, M, C]
-  )(f: C => HandleM[A, M, B]): HandleM[A, M, B] =
+      fa: HandleM[A, M, S, C]
+  )(f: C => HandleM[A, M, S, B]): HandleM[A, M, S, B] =
     HandleM(state =>
       fa.runHandleM(state) match
         case Continue(state_, v) => f(v).runHandleM(state_)
@@ -65,7 +65,7 @@ given [A, M, C]: Monad[[C] =>> HandleM[A, M, C]] with
   // Tail call recursive not possible
   def tailRecM[C, B](
       a: C
-  )(f: C => HandleM[A, M, Either[C, B]]): HandleM[A, M, B] =
+  )(f: C => HandleM[A, M, S, Either[C, B]]): HandleM[A, M, S, B] =
     for
       x <- f(a)
       b <- x match
@@ -78,14 +78,14 @@ object HandleM:
     *
     * @return
     */
-  def point[A, M, C]: C => HandleM[A, M, C] =
-    x => summon[Monad[[C] =>> HandleM[A, M, C]]].point(x)
+  def point[A, M, S, C]: C => HandleM[A, M, S, C] =
+    x => summon[Monad[[C] =>> HandleM[A, M, S, C]]].point(x)
 
   /** Get current procId, some CRDT require it to update
     *
     * @return
     */
-  def getProcId[A, M]: HandleM[A, M, ProcId] =
+  def getProcId[A, M, S]: HandleM[A, M, S, ProcId] =
     HandleM(s => Continue(s, s.state.procId))
 
   /** Handle with context
@@ -95,15 +95,15 @@ object HandleM:
     *
     * @return
     */
-  def liftContextIO[A, M]
-      : (ActorContext[MsgT[A, M]] => Unit) => HandleM[A, M, Unit] =
+  def liftContextIO[A, M, S]
+      : (ActorContext[MsgT[A, M, S]] => Unit) => HandleM[A, M, S, Unit] =
     f => HandleM(s => Continue(s, f(s.ctx)))
 
   /** Get current message
     *
     * @return
     */
-  def getMsg[A, M]: HandleM[A, M, M] =
+  def getMsg[A, M, S]: HandleM[A, M, S, M] =
     HandleM(s => Continue(s, s._1))
 
   /** Modify current windowed CRDT.
@@ -113,7 +113,7 @@ object HandleM:
     *
     * @return
     */
-  def modifyCRDT[A, M]: (A => A) => HandleM[A, M, Unit] =
+  def modifyCRDT[A, M, S]: (A => A) => HandleM[A, M, S, Unit] =
     f =>
       HandleM(s =>
         Continue(
@@ -128,7 +128,7 @@ object HandleM:
     *
     * @return
     */
-  def getLocalState[A, M]: HandleM[A, M, A] =
+  def getLocalState[A, M, S]: HandleM[A, M, S, A] =
     HandleM(s => Continue(s, s.state.wcrdt.innerCRDT.v))
 
   /** Go to next window
@@ -137,7 +137,7 @@ object HandleM:
     *
     * @return
     */
-  def nextWindow[A: CRDT, M]: HandleM[A, M, Unit] =
+  def nextWindow[A: CRDT, M, S]: HandleM[A, M, S, Unit] =
     HandleM(hs =>
       // Broadcast update
       val HandleState(msg, stream, state, ctx) = hs
@@ -160,7 +160,7 @@ object HandleM:
     *
     * @return
     */
-  def currentWindow[A, M]: HandleM[A, M, WindowId] =
+  def currentWindow[A, M, S]: HandleM[A, M, S,WindowId] =
     HandleM(s => Continue(s, s.state.wcrdt.window.v))
 
   /** Lift an IO operation into current context.
@@ -170,7 +170,7 @@ object HandleM:
     *
     * @return
     */
-  def liftIO[A, M, B]: (=> B) => HandleM[A, M, B] =
+  def liftIO[A, M, S, B]: (=> B) => HandleM[A, M, S, B] =
     f => HandleM(s => Continue(s, f))
 
   /** Await for a window's value.
@@ -181,7 +181,7 @@ object HandleM:
     *
     * @return
     */
-  def await[A, M]: Int => HandleM[A, M, A] =
+  def await[A, M, S]: Int => HandleM[A, M, S, A] =
     w =>
       HandleM { case s @ HandleState(msg, stream, state, ctx) =>
         if state.wcrdt.window.v <= w then
@@ -205,7 +205,7 @@ object HandleM:
               msg,
               stream,
               s,
-              x => summon[Monad[[C] =>> HandleM[A, M, C]]].point(x)
+              x => summon[Monad[[C] =>> HandleM[A, M, S, C]]].point(x)
             )
       }
 
@@ -213,7 +213,7 @@ object HandleM:
     *
     * @return
     */
-  def error[A, M]: String => HandleM[A, M, Unit] =
+  def error[A, M, S]: String => HandleM[A, M, S, Unit] =
     s =>
       HandleM { case HandleState(msg, stream, state, ctx) =>
         ctx.log.error(
@@ -224,22 +224,22 @@ object HandleM:
 
   /** Update state when a new message arrives
     *
-    *   - Update LazyList in ActorState
+    *   - Update stream in ActorState
     *   - Send a message to itself of the next msg in the stream
     *
     * @return
     */
-  private[Types] def prepareHandleNewMsg[A, M]
-      : M => LazyList[M] => HandleM[A, M, Unit] =
+  private[Types] def prepareHandleNewMsg[A, M, S](using x:PersistStream[S, M])
+      : M => S => HandleM[A, M, S, Unit] =
     msg =>
       stream =>
         HandleM { case HandleState(_, _, state, ctx) =>
-          stream.take(1).toList match
-            case x :: _ =>
+          stream.next match
+            case (Some(x), ns) =>
               ctx.log.debug(
                 s"Replica ${state.actorRefs} queued a new message to mailbox: $x"
               )
-              ctx.self ! Process(x, stream.tail)
+              ctx.self ! Process(x, ns)
               Continue(
                 HandleState(
                   msg,
