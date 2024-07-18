@@ -15,6 +15,7 @@ import Types.HandleM.point
 case class ActorState[A, M, S](
     val wcrdt: Wcrdt[A, S],
     val actorIdSet: Set[ProcId],
+    val mainRef: ActorRef[Command],
     val actorRefs: Set[ActorRef[MsgT[A, M, S]]],
     // Awaits: #Window, Message waiting, Monad Operation to be continued, Following Messages
     val queuedHandleM: Option[
@@ -30,11 +31,13 @@ object ActorState:
   def newActorState[A, M, S](
       initCRDT: A,
       nodeId: ProcId,
+      mainRef: ActorRef[Command],
       timers: TimerScheduler[MsgT[A, M, S]]
   ) =
     ActorState(
       Wcrdt.newWcrdt[A, S](initCRDT),
       Set.empty,
+      mainRef,
       Set.empty,
       None,
       handle = point(()),
@@ -59,13 +62,15 @@ object Actor:
       x: CRDT[A], y: PersistStream[S, M]
   )(
       initCRDT: A,
-      nodeId: ProcId
+      nodeId: ProcId,
+      mainRef: ActorRef[Command],
   ): Behavior[MsgT[A, M, S]] =
     Behaviors.withTimers(timers =>
       processMsgInit(
         ActorState.newActorState(
           initCRDT = initCRDT,
           nodeId = nodeId,
+          mainRef = mainRef,
           timers = timers
         )
       )

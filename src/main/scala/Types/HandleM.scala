@@ -190,6 +190,7 @@ object HandleM:
               s"is waiting for window $w while itself is " +
               s"currently at window ${state.wcrdt.window.v}"
           )
+          state.mainRef ! FatalFailure(state.nodeId, "Dead lock encountered!")
           throw new RuntimeException("Deadlock")
         state.wcrdt.query(w)(state.actorIdSet) match
           case Some(v) => Continue(s, v)
@@ -217,8 +218,22 @@ object HandleM:
     s =>
       HandleM { case HandleState(msg, stream, state, ctx) =>
         ctx.log.error(
-          s"Replica ${state.procId} crashed node ${state.nodeId}: $s"
+          s"Node ${state.nodeId} (Replica ${state.procId}) encountered an error: $s"
         )
+        throw new RuntimeException(s)
+      }
+
+  /** Like error, but will cause main to terminate the system
+    *
+    * @return
+    */
+  def fatal[A, M, S]: String => HandleM[A, M, S, Unit] =
+    s =>
+      HandleM { case HandleState(msg, stream, state, ctx) =>
+        ctx.log.error(
+          s"Node ${state.nodeId} (Replica ${state.procId}) encountered an FATAL error: $s"
+        )
+        state.mainRef ! FatalFailure(state.nodeId, s)
         throw new RuntimeException(s)
       }
 

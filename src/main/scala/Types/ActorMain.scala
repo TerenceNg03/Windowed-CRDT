@@ -11,6 +11,7 @@ import Types.HandleM.point
 
 sealed trait Command
 case class ActorFailure[T](id: ProcId) extends Command
+case class FatalFailure(id: ProcId, msg: String) extends Command
 
 private case class MainState[A, M, S](
     val initCRDT: A,
@@ -30,27 +31,27 @@ object ActorMain:
   def init[A, M, S](using x: CRDT[A], y: PersistStream[S, M])(initCRDT: A)(
       handles: List[(HandleM[A, M, S, Unit], S)]
   ): Behavior[Command] =
-    Behaviors.setup[Command]: context =>
+    Behaviors.setup[Command]: ctx =>
       val len = handles.length
       val initial = LazyList.from(1).zip(handles).toMap
       val procMap: Map[ProcId, Option[(ActorRef[MsgT[A, M, S]], ProcId)]] =
         initial
           .map { case (id, (handle, stream)) =>
-            val child = context.spawn[MsgT[A, M, S]](
-              Actor.runActor(initCRDT, id),
+            val child = ctx.spawn[MsgT[A, M, S]](
+              Actor.runActor(initCRDT, id, ctx.self),
               id.toString()
             )
-            context.watchWith(child, ActorFailure(id))
+            ctx.watchWith(child, ActorFailure(id))
             (id, Some((child, id)))
           }
           .toMap
           .updated(
             0, {
-              val child = context.spawn[MsgT[A, M, S]](
-                Actor.runActor(initCRDT, 0),
+              val child = ctx.spawn[MsgT[A, M, S]](
+                Actor.runActor(initCRDT, 0, ctx.self),
                 0.toString()
               )
-              context.watchWith(child, ActorFailure(0))
+              ctx.watchWith(child, ActorFailure(0))
               Some(child, 0)
             }
           )
@@ -96,6 +97,9 @@ object ActorMain:
     Behaviors
       .supervise[Command](Behaviors.receive: (ctx, msg) =>
         msg match
+          case FatalFailure(id, msg) => 
+            ctx.log.error(s"Fatal failure: Node $id (Replica ${ms.procMap.get(id)}) --\n\t$msg")
+            throw new RuntimeException("Fatal failure!")
           case ActorFailure(id) if ms.procMap.get(id).isDefined =>
             if id == 0 then
               throw new RuntimeException("Guardian node 0 failed!")
@@ -105,7 +109,7 @@ object ActorMain:
             ctx.log.info(s"New node created: $childId for Replica $procId")
             val childRef =
               ctx.spawn[MsgT[A, M, S]](
-                Actor.runActor(ms.initCRDT, childId),
+                Actor.runActor(ms.initCRDT, childId, ctx.self),
                 childId.toString()
               )
             ctx.watchWith(childRef, ActorFailure(childId))
