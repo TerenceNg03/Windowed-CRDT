@@ -1,0 +1,26 @@
+output: ./target/result.json
+cases:
+  - nMsg : 3_000_000
+    nWin : 0
+    nActor : 1
+  - nMsg : 3_000_000
+    nWin : 0
+    nActor : 2
+  - nMsg : 3_000_000
+    nWin : 0
+    nActor : 3
+  - nMsg : 3_000_000
+    nWin : 0
+    nActor : 4
+  - nMsg : 3_000_000
+    nWin : 5
+    nActor : 1
+  - nMsg : 3_000_000
+    nWin : 5
+    nActor : 2
+  - nMsg : 3_000_000
+    nWin : 5
+    nActor : 3
+  - nMsg : 3_000_000
+    nWin : 5
+    nActor : 4

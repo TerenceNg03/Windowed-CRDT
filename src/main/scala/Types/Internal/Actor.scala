@@ -3,6 +3,7 @@ package Types.Internal
 import Instances.*
 import Instances.given
 import Types.*
+import Types.HandleM.pure
 import Types.given
 import cats.syntax.all.*
 import org.apache.pekko.actor.typed.ActorRef
@@ -10,7 +11,6 @@ import org.apache.pekko.actor.typed.Behavior
 import org.apache.pekko.actor.typed.scaladsl.ActorContext
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
 import org.apache.pekko.actor.typed.scaladsl.TimerScheduler
-import Types.HandleM.point
 
 case class ActorState[A, M, S](
     val wcrdt: Wcrdt[A, S],
@@ -40,7 +40,7 @@ object ActorState:
       mainRef,
       Set.empty,
       None,
-      handle = point(()),
+      handle = pure(()),
       nodeId = nodeId,
       procId = -1,
       timers
@@ -59,11 +59,12 @@ object Actor:
     * @return
     */
   def runActor[A, M, S](using
-      x: CRDT[A], y: PersistStream[S, M]
+      x: CRDT[A],
+      y: PersistStream[S, M]
   )(
       initCRDT: A,
       nodeId: ProcId,
-      mainRef: ActorRef[Command],
+      mainRef: ActorRef[Command]
   ): Behavior[MsgT[A, M, S]] =
     Behaviors.withTimers(timers =>
       processMsgInit(
@@ -77,20 +78,23 @@ object Actor:
     )
 
   def processMsgInit[A, M, S](using
-      x: CRDT[A], y: PersistStream[S, M]
+      x: CRDT[A],
+      y: PersistStream[S, M]
   )(s: ActorState[A, M, S]): Behavior[MsgT[A, M, S]] =
     Behaviors.receive[MsgT[A, M, S]]: (ctx, msg) =>
       val s_ = execMsg(s)(ctx, msg)
       processMsg(s_)
 
   def processMsg[A, M, S](using
-      x: CRDT[A], y: PersistStream[S, M]
+      x: CRDT[A],
+      y: PersistStream[S, M]
   )(s: ActorState[A, M, S]): Behavior[MsgT[A, M, S]] =
     Behaviors.receive[MsgT[A, M, S]]: (ctx, msg) =>
       val s_ = execMsg(s)(ctx, msg)
       processMsg(s_)
 
-  def resultToState[A, M, S]: HandleResult[A, M, S, Unit] => ActorState[A, M, S] =
+  def resultToState[A, M, S]
+      : HandleResult[A, M, S, Unit] => ActorState[A, M, S] =
     // Continue handle next message
     case Continue(s, _) => s.state
     // Waiting for a window, later operation queued
@@ -99,7 +103,8 @@ object Actor:
       s_
 
   def execMsg[A, M, S](using
-      x: CRDT[A], y: PersistStream[S, M]
+      x: CRDT[A],
+      y: PersistStream[S, M]
   )(
       s: ActorState[A, M, S]
   ): (ActorContext[MsgT[A, M, S]], MsgT[A, M, S]) => ActorState[A, M, S] =

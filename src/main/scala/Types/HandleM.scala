@@ -8,8 +8,10 @@ import cats.syntax.all.*
 import org.apache.pekko.actor.typed.scaladsl.ActorContext
 
 private[Types] sealed trait HandleResult[A, M, S, C]
-private[Types] case class Continue[A, M, S, C](state: HandleState[A, M, S], v: C)
-    extends HandleResult[A, M, S, C]
+private[Types] case class Continue[A, M, S, C](
+    state: HandleState[A, M, S],
+    v: C
+) extends HandleResult[A, M, S, C]
 private[Types] case class AwaitWindow[A, M, S, C](
     w: Int,
     msg: M,
@@ -31,7 +33,12 @@ private[Types] case class HandleState[A, M, S](
   * system. Use a LastWriteWin to warp the state and getLocalState instead.
   */
 class HandleM[A, M, S, C] private[Types] (
-    private[Types] val runHandleM: HandleState[A, M, S] => HandleResult[A, M, S, C]
+    private[Types] val runHandleM: HandleState[A, M, S] => HandleResult[
+      A,
+      M,
+      S,
+      C
+    ]
 )
 
 given [A, M, S, C]: Functor[[C] =>> HandleM[A, M, S, C]] with
@@ -78,7 +85,7 @@ object HandleM:
     *
     * @return
     */
-  def point[A, M, S, C]: C => HandleM[A, M, S, C] =
+  def pure[A, M, S, C]: C => HandleM[A, M, S, C] =
     x => summon[Monad[[C] =>> HandleM[A, M, S, C]]].point(x)
 
   /** Get current procId, some CRDT require it to update
@@ -160,7 +167,7 @@ object HandleM:
     *
     * @return
     */
-  def currentWindow[A, M, S]: HandleM[A, M, S,WindowId] =
+  def currentWindow[A, M, S]: HandleM[A, M, S, WindowId] =
     HandleM(s => Continue(s, s.state.wcrdt.window.v))
 
   /** Lift an IO operation into current context.
@@ -244,8 +251,9 @@ object HandleM:
     *
     * @return
     */
-  private[Types] def prepareHandleNewMsg[A, M, S](using x:PersistStream[S, M])
-      : M => S => HandleM[A, M, S, Unit] =
+  private[Types] def prepareHandleNewMsg[A, M, S](using
+      x: PersistStream[S, M]
+  ): M => S => HandleM[A, M, S, Unit] =
     msg =>
       stream =>
         HandleM { case HandleState(_, _, state, ctx) =>

@@ -1,13 +1,14 @@
 package Types
 
 import Instances.ProcId
+import Instances.Wcrdt.newWcrdt
+import Types.HandleM.pure
 import Types.Internal.*
 import org.apache.pekko.actor.typed.ActorRef
 import org.apache.pekko.actor.typed.Behavior
+import org.apache.pekko.actor.typed.DispatcherSelector
 import org.apache.pekko.actor.typed.SupervisorStrategy
 import org.apache.pekko.actor.typed.scaladsl.Behaviors
-import Instances.Wcrdt.newWcrdt
-import Types.HandleM.point
 
 sealed trait Command
 case class ActorFailure[T](id: ProcId) extends Command
@@ -30,7 +31,12 @@ private case class MainState[A, M, S](
 object ActorMain:
   def init[A, M, S](using x: CRDT[A], y: PersistStream[S, M])(initCRDT: A)(
       handles: List[(HandleM[A, M, S, Unit], S)]
-  ): Behavior[Command] =
+  ): Behavior[Command] = ???
+  def withDispatcher[A, M, S](using x: CRDT[A], y: PersistStream[S, M])(
+      initCRDT: A
+  )(
+      handles: List[(HandleM[A, M, S, Unit], S)]
+  )(dispatcher: DispatcherSelector): Behavior[Command] =
     Behaviors.setup[Command]: ctx =>
       val len = handles.length
       val initial = LazyList.from(1).zip(handles).toMap
@@ -39,7 +45,8 @@ object ActorMain:
           .map { case (id, (handle, stream)) =>
             val child = ctx.spawn[MsgT[A, M, S]](
               Actor.runActor(initCRDT, id, ctx.self),
-              id.toString()
+              id.toString(),
+              dispatcher
             )
             ctx.watchWith(child, ActorFailure(id))
             (id, Some((child, id)))
@@ -49,7 +56,8 @@ object ActorMain:
             0, {
               val child = ctx.spawn[MsgT[A, M, S]](
                 Actor.runActor(initCRDT, 0, ctx.self),
-                0.toString()
+                0.toString(),
+                dispatcher
               )
               ctx.watchWith(child, ActorFailure(0))
               Some(child, 0)
@@ -77,7 +85,11 @@ object ActorMain:
         }
 
       // Guardian node #0 only receive merges
-      procMap(0).get._1 ! Exec(0, (0, summon[PersistStream[S, M]].empty, newWcrdt(initCRDT)), point(()))
+      procMap(0).get._1 ! Exec(
+        0,
+        (0, summon[PersistStream[S, M]].empty, newWcrdt(initCRDT)),
+        pure(())
+      )
 
       Behaviors
         .supervise(
@@ -87,18 +99,21 @@ object ActorMain:
               procMap,
               initial
             )
-          )
+          )(dispatcher)
         )
         .onFailure(SupervisorStrategy.stop)
 
   def run[A, M, S](using
-      x: CRDT[A], y: PersistStream[S, M]
-  )(ms: MainState[A, M, S]): Behavior[Command] =
+      x: CRDT[A],
+      y: PersistStream[S, M]
+  )(ms: MainState[A, M, S])(dispatcher: DispatcherSelector): Behavior[Command] =
     Behaviors
       .supervise[Command](Behaviors.receive: (ctx, msg) =>
         msg match
-          case FatalFailure(id, msg) => 
-            ctx.log.error(s"Fatal failure: Node $id (Replica ${ms.procMap.get(id)}) --\n\t$msg")
+          case FatalFailure(id, msg) =>
+            ctx.log.error(
+              s"Fatal failure: Node $id (Replica ${ms.procMap.get(id)}) --\n\t$msg"
+            )
             throw new RuntimeException("Fatal failure!")
           case ActorFailure(id) if ms.procMap.get(id).isDefined =>
             if id == 0 then
@@ -110,7 +125,8 @@ object ActorMain:
             val childRef =
               ctx.spawn[MsgT[A, M, S]](
                 Actor.runActor(ms.initCRDT, childId, ctx.self),
-                childId.toString()
+                childId.toString(),
+                dispatcher
               )
             ctx.watchWith(childRef, ActorFailure(childId))
 
@@ -131,7 +147,7 @@ object ActorMain:
               (procId, handle, stream),
               childRef
             )
-            run(ms = ms_)
-          case _ => run(ms)
+            run(ms = ms_)(dispatcher)
+          case _ => run(ms)(dispatcher)
       )
       .onFailure(SupervisorStrategy.stop)

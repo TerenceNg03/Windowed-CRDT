@@ -4,57 +4,103 @@ import Types.HandleM
 import Types.HandleM.*
 import Types.given
 import cats.syntax.all.*
+import io.circe.*
+import io.circe.generic.auto.*
+import io.circe.syntax._
+import io.circe.yaml
 import org.apache.pekko.actor.typed.ActorSystem
-import scala.util.Random
-import com.typesafe.config.ConfigFactory
+import org.apache.pekko.actor.typed.DispatcherSelector
 
-/** Use a grow-only set to construct a windowed CRDT. Here the message is simple
-  * an integer that will be added to the set.
-  */
-val handleMain: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
-  for {
-    msg <- getMsg
-    _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
-    _ <- nextWindow[GSet[Int], Int, ListStream[Int]]
-    _ <-
-      if msg >= 5 then
-        for
-          v <- await[GSet[Int], Int, ListStream[Int]](2)
-          _ <- liftContextIO[GSet[Int], Int, ListStream[Int]](ctx =>
-            ctx.log.info(s"Process finished! Window 0's value: $v")
-          )
-        yield ()
-      else point(())
-  } yield ()
+import java.util.concurrent.Semaphore
 
-val handleRandomFail: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
-  for {
-    msg <- getMsg
-    _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
-    _ <-
-      if Random.nextDouble() > 0.6 then error("trigger crash")
-      else point(())
-    _ <- nextWindow[GSet[Int], Int, ListStream[Int]]
-  } yield ()
+case class Case(
+    val nMsg: Int,
+    val nWin: Int,
+    val nActor: Int
+)
 
-@main def hello(): Unit =
+case class Config(
+    val cases: List[Case],
+    val output: String
+)
 
-  val conf = ConfigFactory.parseString("""
-    pekko {
-      log-dead-letters = 0
-      log-dead-letters-during-shutdown = off
-    }
-  """)
-  // Here our message is an Int, but the system need to receive an (Int, Int) so
-  // that it knows to whom this message should be sent.
-  val _ = ActorSystem(
-    ActorMain.init[GSet[Int], Int, ListStream[Int]](Set.empty)(
-      List(
-        handleMain -> ListStream(List(1, 3, 5)),
-        handleRandomFail -> ListStream(List(2, 4, 6)),
-        handleRandomFail -> ListStream(List(10, 20, 30))
+case class CaseResult(
+    val nMsg: Int,
+    val nWin: Int,
+    val nActor: Int,
+    val msgPerSec: Double,
+    val time: Double
+)
+
+val runCase: Case => CaseResult = cfg =>
+  val nMsg = cfg.nMsg
+  val nWin = cfg.nWin
+  val nActor = cfg.nActor
+
+  val semaphore: Semaphore = new Semaphore(-nActor + 1)
+
+  val handle: HandleM[GCounter[Double, ProcId], Int, IntRange, Unit] =
+    for {
+      msg <- getMsg
+      procId <- getProcId
+      _ <- modifyCRDT[GCounter[Double, ProcId], Int, IntRange](gs =>
+        gs.increase(procId)(msg)
       )
-    ),
-    "TestSystem",
-    conf
+      _ <-
+        if nWin != 0 && msg % (nMsg / nWin) == 0 && msg != 0 then
+          for {
+            _ <- nextWindow[GCounter[Double, ProcId], Int, IntRange]
+            _ <- await[GCounter[Double, ProcId], Int, IntRange](
+              msg / (nMsg / nWin) - 1
+            )
+          } yield ()
+        else pure(())
+      _ <-
+        if msg == nMsg then
+          liftIO[GCounter[Double, ProcId], Int, IntRange, Unit] {
+            semaphore.release()
+          }
+        else pure(())
+    } yield ()
+
+  val stream = IntRange(0, nMsg + 1)
+
+  val start = System.currentTimeMillis()
+
+  val _ = ActorSystem(
+    ActorMain.withDispatcher[GCounter[Double, ProcId], Int, IntRange](
+      GCounter.newGCounter[Double, ProcId]
+    )(
+      List.fill(nActor)(handle -> stream)
+    )(DispatcherSelector.fromConfig("benchmark-dispatcher")),
+    "TestSystem"
   )
+
+  semaphore.acquire()
+
+  val end = System.currentTimeMillis()
+
+  val t = (end * 1.0 - start * 1.0) / 1000
+  val avg = nMsg * nActor / t
+
+  CaseResult(
+    nMsg = nMsg,
+    nWin = nWin,
+    nActor = nActor,
+    time = t,
+    msgPerSec = avg
+  )
+
+@main def main =
+  val cfg: Config = yaml.parser
+  .parse(scala.io.Source.fromResource("cfg.yaml").mkString)
+  .leftMap(err => err: Error)
+  .flatMap(_.as[Config])
+  .valueOr(throw _)
+
+  val results = Json fromValues cfg.cases.map(x => runCase(x).asJson)
+
+  val fw = java.io.FileWriter(cfg.output, false)
+  fw.write(results.toString)
+  fw.flush()
+  fw.close()

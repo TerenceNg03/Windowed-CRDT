@@ -26,7 +26,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
               v <- await[GSet[Int], Int, ListStream[Int]](0)
               _ <- liftIO[GSet[Int], Int, ListStream[Int], Unit](result.put(v))
             } yield ()
-          else point(())
+          else pure(())
       } yield ()
 
     val handle2: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
@@ -35,12 +35,15 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
         _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
         _ <-
           if msg >= 6 then nextWindow[GSet[Int], Int, ListStream[Int]]
-          else point(())
+          else pure(())
       } yield ()
 
     val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int, ListStream[Int]](Set.empty)(
-        List(handle1 -> ListStream(List(1, 3, 5)), handle2 -> ListStream(List(2, 4, 6)))
+        List(
+          handle1 -> ListStream(List(1, 3, 5)),
+          handle2 -> ListStream(List(2, 4, 6))
+        )
       ),
       "TestSystem"
     )
@@ -54,8 +57,9 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
         msg <- getMsg
         _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
         _ <-
-          if msg == 10 || msg == 20 then nextWindow[GSet[Int], Int, ListStream[Int]]
-          else point(())
+          if msg == 10 || msg == 20 then
+            nextWindow[GSet[Int], Int, ListStream[Int]]
+          else pure(())
         _ <-
           if msg == 20 then
             for {
@@ -63,7 +67,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
               v <- await[GSet[Int], Int, ListStream[Int]](0)
               _ <- liftIO[GSet[Int], Int, ListStream[Int], Unit](result.put(v))
             } yield ()
-          else point(())
+          else pure(())
       } yield ()
 
     val handle2: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
@@ -75,7 +79,10 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
 
     val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int, ListStream[Int]](Set.empty)(
-        List(handle1 -> ListStream(List(6, 10, 20)), handle2 -> ListStream(List(1, 4)))
+        List(
+          handle1 -> ListStream(List(6, 10, 20)),
+          handle2 -> ListStream(List(1, 4))
+        )
       ),
       "TestSystem"
     )
@@ -94,14 +101,14 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
               _ <- nextWindow[GSet[Int], Int, ListStream[Int]]
               _ <- await[GSet[Int], Int, ListStream[Int]](0)
             } yield ()
-          else point(())
+          else pure(())
         _ <-
           if msg == 20 then
             for {
               v <- await[GSet[Int], Int, ListStream[Int]](1)
               _ <- liftIO[GSet[Int], Int, ListStream[Int], Unit](result.put(v))
             } yield ()
-          else point(())
+          else pure(())
       } yield ()
 
     val handle2: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
@@ -113,7 +120,10 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
 
     val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int, ListStream[Int]](Set.empty)(
-        List(handle1 -> ListStream(List(1, 10, 15, 20)), handle2 -> ListStream(List(4, 6)))
+        List(
+          handle1 -> ListStream(List(1, 10, 15, 20)),
+          handle2 -> ListStream(List(4, 6))
+        )
       ),
       "TestSystem"
     )
@@ -135,7 +145,7 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
               v <- await[GSet[Int], Int, ListStream[Int]](0)
               _ <- liftIO(result.put(v))
             yield ()
-          else point(())
+          else pure(())
       } yield ()
 
     val handle2: HandleM[GSet[Int], Int, ListStream[Int], Unit] =
@@ -144,15 +154,18 @@ class ActorSpec extends AnyFlatSpec with should.Matchers:
         _ <- modifyCRDT[GSet[Int], Int, ListStream[Int]](gs => gs + msg)
         _ <-
           if flag.getAndSet(false) then error("test crash")
-          else point(())
+          else pure(())
         _ <-
           if msg >= 6 then nextWindow[GSet[Int], Int, ListStream[Int]]
-          else point(())
+          else pure(())
       } yield ()
 
     val _ = ActorSystem(
       ActorMain.init[GSet[Int], Int, ListStream[Int]](Set.empty)(
-        List(handle1 -> ListStream(List(1, 3, 5)), handle2 -> ListStream(List(2, 4, 6)))
+        List(
+          handle1 -> ListStream(List(1, 3, 5)),
+          handle2 -> ListStream(List(2, 4, 6))
+        )
       ),
       "TestSystem"
     )

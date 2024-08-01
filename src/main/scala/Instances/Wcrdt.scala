@@ -27,12 +27,11 @@ case class Wcrdt[A, R](
       procList: Set[ProcId]
   )(remoteWindow: WindowId)(remoteCRDT: A): (WindowId, Wcrdt[A, R]) =
     val (w, crdt) = latestWindow(procList)
-    .flatMap((w, crdt) => 
-      if remoteWindow > w then 
-        None
-      else
-        Some((w, crdt))
-    ).getOrElse(remoteWindow, remoteCRDT)
+      .flatMap((w, crdt) =>
+        if remoteWindow > w then None
+        else Some((w, crdt))
+      )
+      .getOrElse(remoteWindow, remoteCRDT)
     w -> this.copy(
       innerCRDT = LocalWin(crdt),
       window = LocalWin(w)
@@ -40,10 +39,8 @@ case class Wcrdt[A, R](
 
   def latestWindow(procList: Set[ProcId]): Option[(WindowId, A)] =
     val w = procList.map(x => finished.get(x).map(x => x.v).getOrElse(-1)).min
-    if w >=0 then
-      Some(w -> globalProgress(w)._1)
-    else
-      None
+    if w >= 0 then Some(w -> globalProgress(w)._1)
+    else None
 
   def nextWindow[B](
       procId: ProcId
@@ -66,11 +63,10 @@ case class Wcrdt[A, R](
 
   def query(w: Int)(procList: Set[ProcId]): Option[A] =
     assert(w >= 0)
-    val wMax = procList.map(x => finished.get(x).map(x => x.v).getOrElse(-1)).min
-    if w <= wMax then
-      Some(globalProgress(w)._1)
-    else
-      None
+    val wMax =
+      procList.map(x => finished.get(x).map(x => x.v).getOrElse(-1)).min
+    if w <= wMax then Some(globalProgress(w)._1)
+    else None
 
   def update(f: A => A) = this.copy(innerCRDT = LocalWin(f(innerCRDT.v)))
 

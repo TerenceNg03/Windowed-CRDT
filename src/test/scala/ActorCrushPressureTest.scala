@@ -5,14 +5,16 @@ import Types.HandleM
 import Types.HandleM.*
 import Types.given
 import cats.syntax.all.*
+import com.typesafe.config.ConfigFactory
 import org.apache.pekko.actor.typed.ActorSystem
 import org.scalatest.*
 import org.scalatest.tagobjects.Slow
+
+import java.util.concurrent.atomic.AtomicInteger
 import scala.util.Random
+
 import flatspec.*
 import matchers.*
-import com.typesafe.config.ConfigFactory
-import java.util.concurrent.atomic.AtomicInteger
 
 val conf = ConfigFactory.parseString("""
   pekko {
@@ -25,7 +27,7 @@ val nMsg = 2000
 class ActorCrushPressureTest extends AnyFlatSpec with should.Matchers:
   it should "handle crashes" taggedAs (Slow) in:
     val mvar: MVar[Int] = newMVar
-    val errorCount : AtomicInteger = new AtomicInteger(0)
+    val errorCount: AtomicInteger = new AtomicInteger(0)
     val handle: HandleM[GCounter[Int, ProcId], Int, IntRange, Unit] =
       for {
         msg <- getMsg
@@ -34,12 +36,12 @@ class ActorCrushPressureTest extends AnyFlatSpec with should.Matchers:
           gs.increase(procId)(msg)
         )
         _ <-
-          if msg % 40 == 0 && Random.nextDouble() > 0.8 then 
-            for{
+          if msg % 40 == 0 && Random.nextDouble() > 0.8 then
+            for {
               _ <- liftIO(errorCount.incrementAndGet())
               _ <- error("TestCrash")
             } yield ()
-          else point(())
+          else pure(())
         _ <-
           if msg % 20 == 0 then
             for {
@@ -47,10 +49,12 @@ class ActorCrushPressureTest extends AnyFlatSpec with should.Matchers:
               v <- await[GCounter[Int, ProcId], Int, IntRange](msg / 20)
               _ <-
                 if msg == nMsg && procId == 1 then
-                  liftIO[GCounter[Int, ProcId], Int, IntRange, Unit]((mvar.put(v.value)))
-                else point(())
+                  liftIO[GCounter[Int, ProcId], Int, IntRange, Unit](
+                    (mvar.put(v.value))
+                  )
+                else pure(())
             } yield ()
-          else point(())
+          else pure(())
       } yield ()
 
     val stream = IntRange(0, nMsg + 1)

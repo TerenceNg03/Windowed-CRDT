@@ -20,6 +20,8 @@ lazy val root = project
     libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.18.0" % Test,
     libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3" % Runtime,
     libraryDependencies += "org.typelevel" %% "cats-core" % "2.9.0",
+    libraryDependencies += "io.circe" %% "circe-yaml" % "0.14.2",
+    libraryDependencies += "io.circe" %% "circe-generic" % "0.14.2"
   )
 
 inThisBuild(
