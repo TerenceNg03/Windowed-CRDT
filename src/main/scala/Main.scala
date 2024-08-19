@@ -16,7 +16,8 @@ import java.util.concurrent.Semaphore
 case class Case(
     val nMsg: Int,
     val nWin: Int,
-    val nActor: Int
+    val nActor: Int,
+    val nWinPerAwait: Int
 )
 
 case class Config(
@@ -28,6 +29,7 @@ case class CaseResult(
     val nMsg: Int,
     val nWin: Int,
     val nActor: Int,
+    val nWinPerAwait: Int,
     val msgPerSec: Double,
     val time: Double
 )
@@ -36,6 +38,7 @@ val runCase: Case => CaseResult = cfg =>
   val nMsg = cfg.nMsg
   val nWin = cfg.nWin
   val nActor = cfg.nActor
+  val nWinPerAwait = cfg.nWinPerAwait
 
   val semaphore: Semaphore = new Semaphore(-nActor + 1)
 
@@ -49,10 +52,14 @@ val runCase: Case => CaseResult = cfg =>
       _ <-
         if nWin != 0 && msg % (nMsg / nWin) == 0 && msg != 0 then
           for {
+            win <- pure(nMsg / nWin)
             _ <- nextWindow[GCounter[Double, ProcId], Int, IntRange]
-            _ <- await[GCounter[Double, ProcId], Int, IntRange](
-              msg / (nMsg / nWin) - 1
-            )
+            _ <-
+              if win % nWinPerAwait == 0 then
+                await[GCounter[Double, ProcId], Int, IntRange](
+                  msg / (nMsg / nWin) - 1
+                ) >> pure(())
+              else pure(())
           } yield ()
         else pure(())
       _ <-
@@ -87,18 +94,21 @@ val runCase: Case => CaseResult = cfg =>
     nMsg = nMsg,
     nWin = nWin,
     nActor = nActor,
+    nWinPerAwait = nWinPerAwait,
     time = t,
     msgPerSec = avg
   )
 
 @main def main =
   val cfg: Config = yaml.parser
-  .parse(scala.io.Source.fromResource("cfg.yaml").mkString)
-  .leftMap(err => err: Error)
-  .flatMap(_.as[Config])
-  .valueOr(throw _)
+    .parse(scala.io.Source.fromResource("cfg.yaml").mkString)
+    .leftMap(err => err: Error)
+    .flatMap(_.as[Config])
+    .valueOr(throw _)
 
-  val results = Json fromValues cfg.cases.map(x => runCase(x).asJson)
+  val cases = List.fill(5)(cfg.cases).flatten
+
+  val results = Json fromValues cases.map(x => runCase(x).asJson)
 
   val fw = java.io.FileWriter(cfg.output, false)
   fw.write(results.toString)
