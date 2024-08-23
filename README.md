@@ -1,5 +1,6 @@
 ## Windowed CRDT
 
-Library of windowed CRDT with [Pekko](https://pekko.apache.org) (TODO: Paper link inserted here), failure transparent.
+Library for windowed CRDT made with [Pekko](https://pekko.apache.org), with failure transparent recovery.
+Draft paper: [Windowed-CRDT(Draft).pdf](Windowed_CRDT(Draft).pdf)
 
-Example: See [main.scala](src/main/scala/Main.scala)
+Example: See [Example.scala](src/main/scala/Example.scala)
