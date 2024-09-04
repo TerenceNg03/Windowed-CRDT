@@ -1,160 +1,25 @@
-output: ./target/result.json
-cases:
+output: result.json
+grids:
   # Warm Up
-  - nMsg : 3_000_000
-    nWin : 0
-    nActor : 3
-    nWinPerAwait: 3
-  # Baseline Cases
-  - nMsg : 1_000_000
-    nWin : 0
-    nActor : 1
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 0
-    nActor : 2
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 0
-    nActor : 3
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 0
-    nActor : 4
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 0
-    nActor : 5
-    nWinPerAwait: 1
+  - nTotalMsg : [10_000_000]
+    nWin : [0]
+    nActor : [3]
+    nWinPerAwait: [3]
 
-  # 1 WPA, 20 Windows
-  - nMsg : 1_000_000
-    nWin : 20
-    nActor : 1
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 20
-    nActor : 2
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 20
-    nActor : 3
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 20
-    nActor : 4
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 20
-    nActor : 5
-    nWinPerAwait: 1
+  # Baseline
+  - nTotalMsg : [5_000_000]
+    nWin : [0, 20, 40]
+    nActor : [1,2,4,8,16]
+    nWinPerAwait: [1]
 
-  # 1 WPA, 40 Windows
-  - nMsg : 1_000_000
-    nWin : 40
-    nActor : 1
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 40
-    nActor : 2
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 40
-    nActor : 3
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 40
-    nActor : 4
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 40
-    nActor : 5
-    nWinPerAwait: 1
+  # Windows
+  - nTotalMsg : [5_000_000]
+    nWin : [200, 400]
+    nActor : [1,2,4,8,16]
+    nWinPerAwait: [1]
 
-# 1 WPA, 200 Windows
-  - nMsg : 1_000_000
-    nWin : 200
-    nActor : 1
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 200
-    nActor : 2
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 200
-    nActor : 3
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 200
-    nActor : 4
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 200
-    nActor : 5
-    nWinPerAwait: 1
-
-  # 1 WPA, 400 Windows
-  - nMsg : 1_000_000
-    nWin : 400
-    nActor : 1
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 400
-    nActor : 2
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 400
-    nActor : 3
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 400
-    nActor : 4
-    nWinPerAwait: 1
-  - nMsg : 1_000_000
-    nWin : 400
-    nActor : 5
-    nWinPerAwait: 1
-
-  # 10 WPA, 200 Windows
-  - nMsg : 1_000_000
-    nWin : 200
-    nActor : 1
-    nWinPerAwait: 10
-  - nMsg : 1_000_000
-    nWin : 200
-    nActor : 2
-    nWinPerAwait: 10
-  - nMsg : 1_000_000
-    nWin : 200
-    nActor : 3
-    nWinPerAwait: 10
-  - nMsg : 1_000_000
-    nWin : 200
-    nActor : 4
-    nWinPerAwait: 10
-  - nMsg : 1_000_000
-    nWin : 200
-    nActor : 5
-    nWinPerAwait: 10
-
-  # 10 WPA, 400 Windows
-  - nMsg : 1_000_000
-    nWin : 400
-    nActor : 1
-    nWinPerAwait: 10
-  - nMsg : 1_000_000
-    nWin : 400
-    nActor : 2
-    nWinPerAwait: 10
-  - nMsg : 1_000_000
-    nWin : 400
-    nActor : 3
-    nWinPerAwait: 10
-  - nMsg : 1_000_000
-    nWin : 400
-    nActor : 4
-    nWinPerAwait: 10
-  - nMsg : 1_000_000
-    nWin : 400
-    nActor : 5
-    nWinPerAwait: 10
+  # Awaits
+  - nTotalMsg : [5_000_000]
+    nWin : [200, 400]
+    nActor : [1,2,4,8,16]
+    nWinPerAwait: [10]

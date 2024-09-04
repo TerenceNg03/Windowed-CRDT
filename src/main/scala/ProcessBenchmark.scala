@@ -1,3 +1,5 @@
+package wcrdt
+
 import Instances.{*, given}
 import Types.ActorMain
 import Types.HandleM
@@ -6,7 +8,7 @@ import Types.given
 import cats.syntax.all.*
 import io.circe.*
 import io.circe.generic.auto.*
-import io.circe.syntax._
+import io.circe.syntax.*
 import io.circe.yaml
 import org.apache.pekko.actor.typed.ActorSystem
 import org.apache.pekko.actor.typed.DispatcherSelector
@@ -14,19 +16,25 @@ import org.apache.pekko.actor.typed.DispatcherSelector
 import java.util.concurrent.Semaphore
 
 case class Case(
-    val nMsg: Int,
+    val nTotalMsg: Int,
     val nWin: Int,
     val nActor: Int,
     val nWinPerAwait: Int
 )
 
+case class Grid(
+    val nTotalMsg: List[Int],
+    val nWin: List[Int],
+    val nActor: List[Int],
+    val nWinPerAwait: List[Int]
+)
 case class Config(
-    val cases: List[Case],
+    val grids: List[Grid],
     val output: String
 )
 
 case class CaseResult(
-    val nMsg: Int,
+    val nTotalMsg: Int,
     val nWin: Int,
     val nActor: Int,
     val nWinPerAwait: Int,
@@ -35,7 +43,7 @@ case class CaseResult(
 )
 
 val runCase: Case => CaseResult = cfg =>
-  val nMsg = cfg.nMsg
+  val nMsg = cfg.nTotalMsg / cfg.nActor
   val nWin = cfg.nWin
   val nActor = cfg.nActor
   val nWinPerAwait = cfg.nWinPerAwait
@@ -91,7 +99,7 @@ val runCase: Case => CaseResult = cfg =>
   val avg = nMsg * nActor / t
 
   CaseResult(
-    nMsg = nMsg,
+    nTotalMsg = nMsg * nActor,
     nWin = nWin,
     nActor = nActor,
     nWinPerAwait = nWinPerAwait,
@@ -99,18 +107,36 @@ val runCase: Case => CaseResult = cfg =>
     msgPerSec = avg
   )
 
-@main def main =
+def main(args: String*) =
+  val cfgStr =
+    if args.length >= 1 then scala.io.Source.fromFile(args.head).mkString
+    else scala.io.Source.fromResource("cfg.yaml").mkString
   val cfg: Config = yaml.parser
-    .parse(scala.io.Source.fromResource("cfg.yaml").mkString)
+    .parse(cfgStr)
     .leftMap(err => err: Error)
     .flatMap(_.as[Config])
     .valueOr(throw _)
 
-  val cases = List.fill(5)(cfg.cases).flatten
+  val girdToCases = (grid: Grid) =>
+    for {
+      nTotalMsg <- grid.nTotalMsg
+      nActor <- grid.nActor
+      nWin <- grid.nWin
+      nWinPerAwait <- grid.nWinPerAwait
+    } yield Case(
+      nTotalMsg = nTotalMsg,
+      nActor = nActor,
+      nWin = nWin,
+      nWinPerAwait = nWinPerAwait
+    )
 
-  val results = Json fromValues cases.map(x => runCase(x).asJson)
+  val cases = List.fill(5)((cfg.grids map girdToCases).flatten).flatten
 
   val fw = java.io.FileWriter(cfg.output, false)
-  fw.write(results.toString)
-  fw.flush()
+  cases.foreach(x => {
+    val result = runCase(x).asJson
+    fw.write(result.toString.replaceAll("\\s+", "").appended('\n'))
+    fw.flush()
+  })
+
   fw.close()
