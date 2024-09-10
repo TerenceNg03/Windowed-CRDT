@@ -1,0 +1,8702 @@
+[
+  {
+    "time" : 29932,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 29932,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 29932,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 29932,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 19
+  },
+  {
+    "time" : 29932,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 19
+  },
+  {
+    "time" : 29828,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 29828,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 29828,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 29828,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 29828,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 29725,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 29725,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 29725,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 29725,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 29725,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 29622,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 29622,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 29622,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 29622,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 29622,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 29518,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 29518,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 29518,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 29518,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 29518,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 29415,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 29415,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 29415,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 29415,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 29415,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 29310,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 29310,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 29310,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 29310,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 29310,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 29208,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 29208,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 29208,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 29208,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 29208,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 29105,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 29105,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 29105,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 29105,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 29105,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 29001,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 29001,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 29001,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 29001,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 29001,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 28898,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 28898,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 28898,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 28898,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 28898,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 28793,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 28793,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 28793,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 19
+  },
+  {
+    "time" : 28793,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 28793,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 28689,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 28689,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 28689,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 28689,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 28689,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 28585,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 28585,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 28585,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 28585,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 28585,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 28481,
+    "duration" : 106,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 28481,
+    "duration" : 106,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 28481,
+    "duration" : 106,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 28481,
+    "duration" : 106,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 28481,
+    "duration" : 106,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 28375,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 28375,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 28375,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 19
+  },
+  {
+    "time" : 28375,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 28375,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 28272,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 28272,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 28272,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 28272,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 28272,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 28171,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 28171,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 28171,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 28171,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 28171,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 28068,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 28068,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 28068,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 28068,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 28068,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 27965,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 27965,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 27965,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 27965,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 27965,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 27860,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 27860,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 27860,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 27860,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 27860,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 27756,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 27756,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 27756,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 27756,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 27756,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 27651,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 27651,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 27651,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 27651,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 27651,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 27547,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 27547,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 27547,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 27547,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 27547,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 27444,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 27444,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 27444,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 27444,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 27444,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 27341,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 27341,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 27341,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 27341,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 27341,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 27239,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 27239,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 27239,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 27239,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 27239,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 27137,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 27137,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 27137,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 27137,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 27137,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 27032,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 27032,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 27032,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 27032,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 27032,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 26927,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 26927,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 26927,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 26927,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 26927,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 26823,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 26823,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 26823,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 26823,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 26823,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 26718,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 26718,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 26718,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 26718,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 26718,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 26613,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 26613,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 26613,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 26613,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 26613,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 26509,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 26509,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 26509,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 26509,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 26509,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 26405,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 26405,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 26405,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 26405,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 26405,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 26304,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 26304,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 26304,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 26304,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 26304,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 26202,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 26202,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 7
+  },
+  {
+    "time" : 26202,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 26202,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 8
+  },
+  {
+    "time" : 26202,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 26098,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 26098,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 26098,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 26098,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 26098,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 25994,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 25994,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 25994,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 25994,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 25994,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 25891,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 25891,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 25891,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 25891,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 25891,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 25789,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 25789,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 25789,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 25789,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 25789,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 25684,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 25684,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 25684,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 25684,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 25684,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 25583,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 25583,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 25583,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 25583,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 25583,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 25478,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 25478,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 25478,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 25478,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 25478,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 25375,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 1
+  },
+  {
+    "time" : 25375,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 25375,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 25375,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 25375,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 25270,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 25270,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 25270,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 25270,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 25270,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 25168,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 25168,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 25168,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 25168,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 25168,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 25068,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 25068,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 13
+  },
+  {
+    "time" : 25068,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 25068,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 13
+  },
+  {
+    "time" : 25068,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 24965,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 24965,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 24965,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 24965,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 24965,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 24860,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 24860,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 24860,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 24860,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 24860,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 24758,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 24758,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 24758,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 24758,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 24758,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 24655,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 24655,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 24655,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 24655,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 24655,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 24554,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 24554,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 24554,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 24554,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 24554,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 24451,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 24451,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 24451,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 24451,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 24451,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 24347,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 24347,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 24347,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 24347,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 24347,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 24243,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 24243,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 24243,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 24243,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 24243,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 24142,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 24142,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 24142,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 24142,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 24142,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 24040,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 24040,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 24040,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 24040,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 24040,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 23939,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 23939,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 23939,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 23939,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 23939,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 23834,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 23834,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 23834,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 23834,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 23834,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 23734,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 23734,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 23734,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 23734,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 23734,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 23629,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 23629,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 23629,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 23629,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 23629,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 23524,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 23524,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 23524,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 23524,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 23524,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 23422,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 23422,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 19
+  },
+  {
+    "time" : 23422,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 23422,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 23422,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 23320,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 23320,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 23320,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 23320,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 23320,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 23215,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 23215,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 23215,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 23215,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 23215,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 23110,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 23110,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 23110,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 23110,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 23110,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 23006,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 23006,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 19
+  },
+  {
+    "time" : 23006,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 23006,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 18
+  },
+  {
+    "time" : 23006,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 19
+  },
+  {
+    "time" : 22905,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 22905,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 22905,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 22905,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 22905,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 22801,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 22801,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 22801,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 22801,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 22801,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 22696,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 22696,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 22696,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 22696,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 22696,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 22593,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 22593,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 22593,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 22593,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 22593,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 22489,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 22489,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 22489,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 22489,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 22489,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 22385,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 22385,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 22385,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 22385,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 22385,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 22282,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 22282,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 22282,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 22282,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 22282,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 22178,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 22178,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 22178,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 22178,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 22178,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 22074,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 22074,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 22074,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 22074,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 22074,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 21972,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 21972,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 21972,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 21972,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 21972,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 21871,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 21871,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 21871,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 19
+  },
+  {
+    "time" : 21871,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 21871,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 21768,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 21768,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 21768,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 21768,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 21768,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 21664,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 21664,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 21664,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 21664,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 21664,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 21560,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 21560,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 21560,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 21560,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 21560,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 21457,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 21457,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 12
+  },
+  {
+    "time" : 21457,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 12
+  },
+  {
+    "time" : 21457,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 12
+  },
+  {
+    "time" : 21457,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 12
+  },
+  {
+    "time" : 21354,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 21354,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 21354,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 21354,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 21354,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 21254,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 21254,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 21254,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 21254,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 21254,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 21153,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 5
+  },
+  {
+    "time" : 21153,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 21153,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 21153,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 21153,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 21052,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 21052,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 21052,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 21052,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 21052,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 20952,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 20952,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 20952,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 20952,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 20952,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 20848,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 20848,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 20848,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 20848,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 20848,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 20744,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 20744,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 20744,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 20744,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 20744,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 20640,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 20640,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 20640,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 20640,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 20640,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 20539,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 20539,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 20539,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 20539,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 20539,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 20438,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 20438,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 20438,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 20438,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 20438,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 20334,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 20334,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 13
+  },
+  {
+    "time" : 20334,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 12
+  },
+  {
+    "time" : 20334,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 11
+  },
+  {
+    "time" : 20334,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 13
+  },
+  {
+    "time" : 20234,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 20234,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 20234,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 20234,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 20234,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 20131,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 20131,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 20131,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 20131,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 20131,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 20028,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 20028,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 20028,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 20028,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 20028,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 19926,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 19926,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 19926,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 18
+  },
+  {
+    "time" : 19926,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 19926,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 19
+  },
+  {
+    "time" : 19822,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 19822,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 19822,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 19822,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 19822,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 19718,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 19718,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 19718,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 19718,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 19718,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 19615,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 19615,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 19615,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 19615,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 19615,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 19510,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 19510,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 19510,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 19510,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 19510,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 19407,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 19407,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 19407,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 19407,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 19407,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 19303,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 19303,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 19303,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 19303,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 19303,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 19202,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 19202,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 19202,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 19202,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 19
+  },
+  {
+    "time" : 19202,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 19097,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 19097,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 19097,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 19097,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 19097,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 18993,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 18993,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 18993,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 18993,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 18993,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 18891,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 18891,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 18891,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 18891,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 18891,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 18789,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 18789,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 18789,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 18789,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 18789,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 18684,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 18684,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 18684,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 18684,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 18684,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 18579,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 18579,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 18579,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 18579,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 18579,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 18474,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 18474,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 18474,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 18474,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 18474,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 18373,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 18373,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 18373,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 18373,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 18373,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 18269,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 18269,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 18269,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 18269,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 18269,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 18165,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 18165,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 18165,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 18165,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 18165,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 18062,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 18062,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 18062,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 19
+  },
+  {
+    "time" : 18062,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 17
+  },
+  {
+    "time" : 18062,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 18
+  },
+  {
+    "time" : 17957,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 17957,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 17957,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 17957,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 17957,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 17853,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 17853,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 17853,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 17853,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 17853,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 17748,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 17748,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 17748,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 17748,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 17748,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 17647,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 17647,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 17647,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 17647,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 17647,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 17542,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 17542,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 17542,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 17542,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 17542,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 17441,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 17441,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 17441,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 17441,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 17441,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 17339,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 17339,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 17339,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 17339,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 17339,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 17238,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 16
+  },
+  {
+    "time" : 17238,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 12
+  },
+  {
+    "time" : 17238,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 14
+  },
+  {
+    "time" : 17238,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 13
+  },
+  {
+    "time" : 17238,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 14
+  },
+  {
+    "time" : 17134,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 17134,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 17134,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 17134,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 17134,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 17031,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 17031,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 17031,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 17031,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 17031,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 16928,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 16928,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 16928,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 16928,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 16928,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 16823,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 16823,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 16823,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 16823,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 16823,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 16721,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 16721,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 16721,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 16721,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 16721,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 16618,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 16618,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 16618,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 16618,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 16618,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 16514,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 16514,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 16514,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 16514,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 16514,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 16410,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 16410,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 3
+  },
+  {
+    "time" : 16410,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 3
+  },
+  {
+    "time" : 16410,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 16410,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 16306,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 16306,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 16306,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 16306,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 16306,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 16202,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 9
+  },
+  {
+    "time" : 16202,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 16202,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 16202,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 8
+  },
+  {
+    "time" : 16202,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 9
+  },
+  {
+    "time" : 16102,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 16102,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 16102,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 16102,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 16102,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 16000,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 16000,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 16000,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 16000,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 16000,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 15898,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 15898,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 15898,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 15898,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 15898,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 15797,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 15797,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 15797,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 15797,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 15797,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 15697,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 15697,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 15697,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 15697,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 15697,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 15593,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 15593,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 15593,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 15593,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 15593,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 15493,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 15493,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 15493,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 15493,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 15493,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 15389,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 15389,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 15389,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 15389,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 15389,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 15284,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 15284,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 13
+  },
+  {
+    "time" : 15284,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 16
+  },
+  {
+    "time" : 15284,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 15284,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 15181,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 15181,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 15181,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 15181,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 15181,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 15077,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 9
+  },
+  {
+    "time" : 15077,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 15077,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 15077,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 9
+  },
+  {
+    "time" : 15077,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 9
+  },
+  {
+    "time" : 14976,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 14976,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 14976,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 14976,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 14976,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 14873,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 14873,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 19
+  },
+  {
+    "time" : 14873,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 19
+  },
+  {
+    "time" : 14873,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 14873,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 14772,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 14772,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 14772,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 14772,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 14772,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 14667,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 14667,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 14667,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 14667,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 14667,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 14567,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 14567,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 14567,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 14567,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 14567,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 14465,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 14465,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 14465,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 14465,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 14465,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 14360,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 14360,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 14360,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 14360,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 14360,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 14255,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 14255,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 14255,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 14255,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 14255,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 14154,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 14154,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 14154,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 19
+  },
+  {
+    "time" : 14154,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 19
+  },
+  {
+    "time" : 14154,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 14051,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 14051,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 14051,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 14051,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 14051,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 13949,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 13949,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 13949,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 13949,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 13949,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 13844,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 13844,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 13844,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 13844,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 13844,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 13741,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 13741,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 13741,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 19
+  },
+  {
+    "time" : 13741,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 19
+  },
+  {
+    "time" : 13741,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 19
+  },
+  {
+    "time" : 13638,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 13638,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 13638,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 13638,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 13638,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 13533,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 13533,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 13533,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 13533,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 13533,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 13428,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 13428,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 13428,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 13428,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 13428,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 13327,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 13327,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 13327,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 13327,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 13327,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 13222,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 13222,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 13222,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 13222,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 13222,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 13118,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 13118,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 13118,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 13118,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 13118,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 13014,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 13014,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 13014,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 13014,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 13014,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 12909,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 12909,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 12909,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 12909,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 12909,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 12805,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 12805,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 12805,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 12805,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 12805,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 12701,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 12701,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 12701,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 12701,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 12701,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 12597,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 12597,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 12597,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 12597,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 12597,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 12493,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 12493,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 12493,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 12493,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 12493,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 12388,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 12388,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 12388,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 12388,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 12388,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 12285,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 12285,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 12285,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 12285,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 12285,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 12181,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 12181,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 18
+  },
+  {
+    "time" : 12181,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 18
+  },
+  {
+    "time" : 12181,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 17
+  },
+  {
+    "time" : 12181,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 12080,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 12080,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 12080,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 12080,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 12080,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 11978,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 11978,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 11978,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 11978,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 11978,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 11876,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 11876,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 11876,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 11876,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 24
+  },
+  {
+    "time" : 11876,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 11772,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 11772,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 11772,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 11772,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 11772,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 11669,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 11669,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 11669,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 11669,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 11669,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 11564,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 11564,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 11564,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 11564,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 11564,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 11460,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 15
+  },
+  {
+    "time" : 11460,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 11460,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 11460,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 15
+  },
+  {
+    "time" : 11460,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 15
+  },
+  {
+    "time" : 11355,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 11355,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 11355,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 11355,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 11355,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 11251,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 11251,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 17
+  },
+  {
+    "time" : 11251,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 17
+  },
+  {
+    "time" : 11251,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 11251,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 11151,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 11151,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 11151,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 11151,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 11151,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 11049,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 11049,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 11049,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 11049,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 11049,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 10949,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 10949,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 10949,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 10949,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 10949,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 10849,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 10849,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 10849,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 10849,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 10849,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 10749,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 10749,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 10749,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 10749,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 10749,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 10647,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 10647,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 10647,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 10647,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 10647,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 10547,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 10547,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 10547,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 10547,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 10547,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 10443,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 10443,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 10443,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 10443,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 10443,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 10343,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 10343,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 10343,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 10343,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 10343,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 10241,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 10241,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 10241,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 10241,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 10241,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 10138,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 10138,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 10138,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 10138,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 10138,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 10038,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 10038,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 17
+  },
+  {
+    "time" : 10038,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 17
+  },
+  {
+    "time" : 10038,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 10038,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 9934,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 9934,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 9934,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 9934,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 9934,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 9830,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 9830,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 9830,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 9830,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 9830,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 9725,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 9725,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 9725,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 9725,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 9725,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 9625,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 9625,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 9625,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 9625,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 9625,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 9521,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 9521,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 9521,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 9521,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 9521,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 9417,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 9417,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 9417,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 9417,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 9417,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 9314,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 9314,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 9314,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 9314,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 9314,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 9210,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 9210,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 9210,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 9210,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 9210,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 9107,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 9107,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 9107,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 9107,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 9107,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 9004,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 9004,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 9004,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 9004,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 9004,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 8901,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 8901,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 8901,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 8901,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 8901,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 8798,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 8798,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 8798,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 8798,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 8798,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 8693,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 8693,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 8693,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 8693,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 8693,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 8590,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 8590,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 8590,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 8590,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 8590,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 8487,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 8487,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 8487,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 8487,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 8487,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 8383,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 8383,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 8383,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 8383,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 8383,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 8278,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 8278,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 8278,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 8278,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 8278,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 8175,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 8175,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 8175,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 8175,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 8175,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 8074,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 8074,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 8074,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 8074,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 8074,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 7970,
+    "duration" : 106,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 7970,
+    "duration" : 106,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 7970,
+    "duration" : 106,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 7970,
+    "duration" : 106,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 7970,
+    "duration" : 106,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 7864,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 7864,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 7864,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 7864,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 7864,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 7760,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 7760,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 7760,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 7760,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 7760,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 7656,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 7656,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 7656,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 7656,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 7656,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 7553,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 7553,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 7553,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 7553,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 7553,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 7449,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 7449,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 7449,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 7449,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 7449,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 7345,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 7345,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 7345,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 7345,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 7345,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 7241,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 7241,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 7241,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 7241,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 7241,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 7137,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 7137,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 7137,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 7137,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 7137,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 7032,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 7032,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 7032,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 7032,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 7032,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 6928,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 6928,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 6928,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 6928,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 6928,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 6824,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 6824,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 6824,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 6824,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 6824,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 6724,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 6724,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 6724,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 6724,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 6724,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 6622,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 6622,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 6622,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 6622,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 6622,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 6519,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 6519,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 6519,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 6519,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 6519,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 6414,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 6414,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 6414,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 6414,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 6414,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 6310,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 6310,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 6310,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 6310,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 6310,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 4
+  },
+  {
+    "time" : 6206,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 6206,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 6206,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 6206,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 6206,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 6102,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 6102,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 6102,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 6102,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 6102,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 6002,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 6002,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 6002,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 6002,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 6002,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 5901,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 5901,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 5901,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 5901,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 5901,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 5797,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 5797,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 5797,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 5797,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 5797,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 5695,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 5695,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 5695,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 5695,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 5695,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 5592,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 5592,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 5592,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 5592,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 5592,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 5488,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 5488,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 5488,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 5488,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 5488,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 5385,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 5385,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 5385,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 5385,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 5385,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 5284,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 0
+  },
+  {
+    "time" : 5284,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 0
+  },
+  {
+    "time" : 5284,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 0
+  },
+  {
+    "time" : 5284,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 0
+  },
+  {
+    "time" : 5284,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 5179,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 13
+  },
+  {
+    "time" : 5179,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 16
+  },
+  {
+    "time" : 5179,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 14
+  },
+  {
+    "time" : 5179,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 15
+  },
+  {
+    "time" : 5179,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 0
+  },
+  {
+    "time" : 5074,
+    "duration" : 107,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 5074,
+    "duration" : 107,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 5074,
+    "duration" : 107,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 5074,
+    "duration" : 107,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 5074,
+    "duration" : 107,
+    "actor" : 0,
+    "msgs" : 9
+  },
+  {
+    "time" : 4967,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 4967,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 4967,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 4967,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 4967,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 4864,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 4864,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 4864,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 4864,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 4864,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 4761,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 4761,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 4761,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 4761,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 4761,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 4656,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 4656,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 4656,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 4656,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 4656,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 4554,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 4554,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 4554,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 4554,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 4554,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 4451,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 4451,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 4451,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 4451,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 18
+  },
+  {
+    "time" : 4451,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 4351,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 4351,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 4351,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 4351,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 4351,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 4249,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 4249,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 4249,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 4249,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 4249,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 4144,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 4144,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 4144,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 4144,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 4144,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 4042,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 4042,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 4042,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 4042,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 19
+  },
+  {
+    "time" : 4042,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 3938,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 3938,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 3938,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 3938,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 3938,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 3834,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 3834,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 3834,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 3834,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 3834,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 3730,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 3730,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 3730,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 3730,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 3730,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 3628,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 3628,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 3628,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 3628,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 3628,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 3524,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 3524,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 3524,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 3524,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 3524,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 3423,
+    "duration" : 106,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 3423,
+    "duration" : 106,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 3423,
+    "duration" : 106,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 3423,
+    "duration" : 106,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 3423,
+    "duration" : 106,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 3317,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 3317,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 3317,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 3317,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 3317,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 3212,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 3212,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 3212,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 3212,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 3212,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 19
+  },
+  {
+    "time" : 3112,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 24
+  },
+  {
+    "time" : 3112,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 3112,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 3112,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 3112,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 23
+  },
+  {
+    "time" : 3007,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 3007,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 3007,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 3007,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 3007,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 2903,
+    "duration" : 102,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 2903,
+    "duration" : 102,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 2903,
+    "duration" : 102,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 2903,
+    "duration" : 102,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 2903,
+    "duration" : 102,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 2801,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 2801,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 23
+  },
+  {
+    "time" : 2801,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 2801,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 2801,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 2697,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 2697,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 2697,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 2697,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 2697,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 2593,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 2593,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 2593,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 2593,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 2593,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 2489,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 2489,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 2489,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 19
+  },
+  {
+    "time" : 2489,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 19
+  },
+  {
+    "time" : 2489,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 2384,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 2384,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 2384,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 2384,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 2384,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 2284,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 2284,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 2284,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 2284,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 2284,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 2179,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 2179,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 2179,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 2179,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 2179,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 2075,
+    "duration" : 101,
+    "actor" : 4,
+    "msgs" : 19
+  },
+  {
+    "time" : 2075,
+    "duration" : 101,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 2075,
+    "duration" : 101,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 2075,
+    "duration" : 101,
+    "actor" : 1,
+    "msgs" : 19
+  },
+  {
+    "time" : 2075,
+    "duration" : 101,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 1974,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 1974,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 1974,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 1974,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 1974,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 1871,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 1871,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 1871,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 1871,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 1871,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 1768,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 1768,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 1768,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 1768,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 1768,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 1664,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 1664,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 1664,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 1664,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 1664,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 1560,
+    "duration" : 106,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 1560,
+    "duration" : 106,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 1560,
+    "duration" : 106,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 1560,
+    "duration" : 106,
+    "actor" : 1,
+    "msgs" : 20
+  },
+  {
+    "time" : 1560,
+    "duration" : 106,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 1454,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 1454,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 1454,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 1454,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 1454,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 1351,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 1351,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 20
+  },
+  {
+    "time" : 1351,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 1351,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 1351,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 1248,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 1248,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 1248,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 1248,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 1248,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 1145,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 23
+  },
+  {
+    "time" : 1145,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 1145,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 23
+  },
+  {
+    "time" : 1145,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 1145,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 1041,
+    "duration" : 100,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 1041,
+    "duration" : 100,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 1041,
+    "duration" : 100,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 1041,
+    "duration" : 100,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 1041,
+    "duration" : 100,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 941,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 20
+  },
+  {
+    "time" : 941,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 19
+  },
+  {
+    "time" : 941,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 20
+  },
+  {
+    "time" : 941,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 18
+  },
+  {
+    "time" : 941,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 838,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 838,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 838,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 838,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 23
+  },
+  {
+    "time" : 838,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 734,
+    "duration" : 106,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 734,
+    "duration" : 106,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 734,
+    "duration" : 106,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 734,
+    "duration" : 106,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 734,
+    "duration" : 106,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 628,
+    "duration" : 103,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 628,
+    "duration" : 103,
+    "actor" : 3,
+    "msgs" : 22
+  },
+  {
+    "time" : 628,
+    "duration" : 103,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 628,
+    "duration" : 103,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 628,
+    "duration" : 103,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 525,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 16
+  },
+  {
+    "time" : 525,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 17
+  },
+  {
+    "time" : 525,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 16
+  },
+  {
+    "time" : 525,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 16
+  },
+  {
+    "time" : 525,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 17
+  },
+  {
+    "time" : 421,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 421,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 421,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 421,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 421,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 21
+  },
+  {
+    "time" : 317,
+    "duration" : 105,
+    "actor" : 4,
+    "msgs" : 22
+  },
+  {
+    "time" : 317,
+    "duration" : 105,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 317,
+    "duration" : 105,
+    "actor" : 2,
+    "msgs" : 22
+  },
+  {
+    "time" : 317,
+    "duration" : 105,
+    "actor" : 1,
+    "msgs" : 22
+  },
+  {
+    "time" : 317,
+    "duration" : 105,
+    "actor" : 0,
+    "msgs" : 22
+  },
+  {
+    "time" : 212,
+    "duration" : 108,
+    "actor" : 4,
+    "msgs" : 21
+  },
+  {
+    "time" : 212,
+    "duration" : 108,
+    "actor" : 3,
+    "msgs" : 21
+  },
+  {
+    "time" : 212,
+    "duration" : 108,
+    "actor" : 2,
+    "msgs" : 21
+  },
+  {
+    "time" : 212,
+    "duration" : 108,
+    "actor" : 1,
+    "msgs" : 21
+  },
+  {
+    "time" : 212,
+    "duration" : 108,
+    "actor" : 0,
+    "msgs" : 20
+  },
+  {
+    "time" : 104,
+    "duration" : 104,
+    "actor" : 4,
+    "msgs" : 5
+  },
+  {
+    "time" : 104,
+    "duration" : 104,
+    "actor" : 3,
+    "msgs" : 5
+  },
+  {
+    "time" : 104,
+    "duration" : 104,
+    "actor" : 2,
+    "msgs" : 5
+  },
+  {
+    "time" : 104,
+    "duration" : 104,
+    "actor" : 1,
+    "msgs" : 5
+  },
+  {
+    "time" : 104,
+    "duration" : 104,
+    "actor" : 0,
+    "msgs" : 5
+  }
+]
