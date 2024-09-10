@@ -25,48 +25,84 @@ case class RecConfig(
     val actors: Int,
     val output: String,
     val sampleInterval: Int,
-    val failures: List[Failure]
+    val failures: List[Failure],
+    val shouldWait: Boolean
 )
 
-val handle: AtomicBoolean => HandleM[GCounter[
+val handle: AtomicBoolean => Boolean => HandleM[GCounter[
   Double,
   ProcId
-], Int, FlagIntStream, Unit] = b =>
+], Int, FlagIntStream, Unit] = b => wait =>
   for {
     msg <- getMsg
     procId <- getProcId
     _ <-
-      if b.compareAndSet(true, false) then error("Introduced Failure")
+      if b.compareAndSet(true, false) then
+        for {
+          _ <- liftIO(Thread.sleep(1000))
+          _ <- error("Introduced Failure")
+        } yield ()
       else pure(())
     _ <- modifyCRDT[GCounter[Double, ProcId], Int, FlagIntStream](gs =>
-      gs.increase(procId)(msg)
+      gs.increase(procId)(1)
     )
+    _ <- liftIO(Thread.sleep(4))
+    v <- getLocalState
+    _ <-
+      if v.value.toInt % 80 == 0 then
+        for {
+          _ <- nextWindow[GCounter[Double, ProcId], Int, FlagIntStream]
+          w <- currentWindow
+          _ <-
+            (wait, w) match
+              case (false, _) => pure(())
+              case (true, 0) => await(0) >> pure(())
+              case (true, _) => await(w-1) >> pure(())
+        } yield ()
+      else pure(())
   } yield ()
 
 val stopFlag = new AtomicBoolean(false)
 
-var measures: List[(Long, Int)] = List()
-val measure = (trackers: List[AtomicInteger]) => (interval: Int) =>
-  Thread(() => {
-    while (!stopFlag.get()) {
-      val processed = trackers.map(x => x.get()).sum
-      measures = (System.currentTimeMillis(), processed) :: measures
+var measures: List[(Long, Long, Long, Long)] = List()
+val measure = (trackers: List[AtomicInteger]) =>
+  (interval: Int) =>
+    Thread(() => {
+      val init = System.currentTimeMillis()
+      var prev = List.fill(trackers.length)(0)
+      var t0 = init
       Thread.sleep(interval)
-    }
-  })
+      while (!stopFlag.get()) {
+        val now = System.currentTimeMillis()
+        prev = trackers
+          .zip(LazyList.from(0))
+          .zip(prev)
+          .map {
+            case ((x, i), x0) => {
+              val n = x.get()
+              measures = (now - init, now - t0, i, n - x0) :: measures
+              n
+            }
+          }
+          .toList
+        t0 = now
+        Thread.sleep(interval)
+      }
+    })
 
-val terminate = (streams: List[FlagIntStream]) => (totalTime: Int) =>
-  Thread(() => {
-    Thread.sleep(totalTime * 1000)
-    streams.foreach(x => x.setFlag)
-    stopFlag.set(true)
-  })
+val terminate = (streams: List[FlagIntStream]) =>
+  (totalTime: Int) =>
+    Thread(() => {
+      Thread.sleep(totalTime * 1000)
+      streams.foreach(x => x.setFlag)
+      stopFlag.set(true)
+    })
 
 val failure = (failFlags: List[AtomicBoolean]) =>
   (failures: List[Failure]) =>
     Thread(() => {
       failures.foreach(f =>
-        Thread.sleep(1000*f.delay)
+        Thread.sleep(1000 * f.delay)
         f.actors.foreach(i => failFlags(i).set(true))
       )
     })
@@ -93,7 +129,7 @@ val failure = (failFlags: List[AtomicBoolean]) =>
     ActorMain.withDispatcher[GCounter[Double, ProcId], Int, FlagIntStream](
       GCounter.newGCounter[Double, ProcId]
     )(
-      streams zip failFlags map ((s, f) => handle(f) -> s)
+      streams zip failFlags map ((s, f) => handle(f)(cfg.shouldWait) -> s)
     )(DispatcherSelector.fromConfig("benchmark-dispatcher")),
     "TestSystem"
   )
@@ -114,6 +150,20 @@ val failure = (failFlags: List[AtomicBoolean]) =>
   println(s"Total time: ${(end - start) / 1000}s")
 
   val fw = java.io.FileWriter(cfg.output, false)
-  fw.write(measures.asJson.show)
+  fw.write(
+    measures
+      .map((t, d, i, x) =>
+        Map.from(
+          List(
+            "time" -> t,
+            "duration" -> d,
+            "actor" -> i.toLong,
+            "msgs" -> x.toLong
+          )
+        )
+      )
+      .asJson
+      .show
+  )
   fw.flush()
   fw.close()

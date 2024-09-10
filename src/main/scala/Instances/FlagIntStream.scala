@@ -22,7 +22,9 @@ given [A]: PersistStream[FlagIntStream, Int] with
     def next: (Option[Int], FlagIntStream) =
       if x.flag.get() then (None, x)
       else
-        x.tracker.incrementAndGet()
+        if x.i >x.tracker.get() then
+          x.tracker.set(x.i)
+
         (Some(x.i), x.copy(i = x.i + 1))
 
   def empty: FlagIntStream =

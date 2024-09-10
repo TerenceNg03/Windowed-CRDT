@@ -1,11 +1,16 @@
-totalTime: 1
+totalTime: 30
 actors: 5
-sampleInterval: 200
-output: RecMeasure.json
+sampleInterval: 100
+output: target/RecMeasureNW.json
+shouldWait: false
 failures:
-  - delay: 1
-    actors: [0,1]
-  - delay: 1
-    actors: [1,2,3]
-  - delay: 2
-    actors: [0,1]
+  - delay: 5
+    actors: [0]
+  - delay: 5
+    actors: [2,3]
+  - delay: 5
+    actors: [0,1,4]
+  - delay: 5
+    actors: [4]
+  - delay: 5
+    actors: [1,3]
