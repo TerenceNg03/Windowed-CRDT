@@ -110,12 +110,6 @@ object Actor:
   ): (ActorContext[MsgT[A, M, S]], MsgT[A, M, S]) => ActorState[A, M, S] =
     (ctx, msg) =>
       msg match
-        case RequestMerge(nodeId, procId, ref) =>
-          ctx.log.debug(
-            s"Node ${s.nodeId} (Replica ${s.procId}) get a merge request from Node $nodeId (Replica $procId), sending"
-          )
-          ref ! Merge(s.nodeId, s.procId, s.wcrdt)
-          s
         case transferReplica(initCRDT, (procId, handle, stream), ref) =>
           assert(s.procId == 0)
           val restartPoint = s.wcrdt

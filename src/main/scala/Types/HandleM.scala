@@ -177,11 +177,8 @@ object HandleM:
         state.wcrdt.nextWindow(state.procId)(stream)
       state.actorRefs.foreach(ref =>
         new Thread(() =>
-            val t = System.currentTimeMillis();
             Thread.sleep(delay)
             ref ! Merge(state.nodeId, state.procId, wcrdt)
-            val t1 = System.currentTimeMillis();
-            print(s"Sent in ${t1 - t}")
           ).start()
       )
       ctx.log
@@ -236,9 +233,6 @@ object HandleM:
           case None =>
             ctx.log.info(
               s"Replica ${state.procId} stopped, waiting for window#$w"
-            )
-            state.actorRefs.foreach(ref =>
-              ref ! RequestMerge(state.nodeId, state.procId, ctx.self)
             )
             AwaitWindow(
               w,

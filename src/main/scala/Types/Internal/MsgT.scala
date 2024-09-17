@@ -5,11 +5,6 @@ import Types.HandleM
 import org.apache.pekko.actor.typed.ActorRef
 
 sealed trait MsgT[A, M, S]
-case class RequestMerge[A, M, S](
-    nodeId: ProcId,
-    procId: ProcId,
-    ref: ActorRef[MsgT[A, M, S]]
-) extends MsgT[A, M, S]
 case class Merge[A, M, S](nodeId: ProcId, procId: ProcId, v: Wcrdt[A, S])
     extends MsgT[A, M, S]
 case class Process[A, M, S](m: M, stream: S) extends MsgT[A, M, S]
