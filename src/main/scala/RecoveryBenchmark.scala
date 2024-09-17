@@ -107,7 +107,7 @@ val failure = (failFlags: List[AtomicBoolean]) =>
       )
     })
 
-@main def mainRec(args: String*) =
+def mainRec(args: String*) =
   val cfgStr =
     if args.length >= 1 then scala.io.Source.fromFile(args.head).mkString
     else scala.io.Source.fromResource("rec_cfg.yaml").mkString

@@ -1,0 +1,29 @@
+output: result.json
+repeat: 1
+delay: 1000
+grids:
+  # Warm Up
+  - nMsgPerWin : [100_000_000]
+    nActor : [3]
+    nWinPerAwait: [3]
+    time: 1
+    warmup: true
+
+  # Baseline
+  - nMsgPerWin : [1_000_000, 200, 400]
+    nActor : [1,2,4,8,16]
+    nWinPerAwait: [1]
+    time: 5
+    warmup: false
+
+  # Windows
+  # - nWin : [200, 400]
+  #   nActor : [1,2,4,8,16]
+  #   nWinPerAwait: [1]
+  #   time: 1
+
+  # Awaits
+  # - nWin : [200, 400]
+  #   nActor : [1,2,4,8,16]
+  #   nWinPerAwait: [10]
+  #   time: 1

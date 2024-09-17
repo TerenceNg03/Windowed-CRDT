@@ -163,6 +163,37 @@ object HandleM:
       )
     )
 
+  /** Go to next window
+    *
+    * Automatically broadcast update to all other actors but messages have a delay to arrive
+    *
+    * @return
+    */
+  def nextWindowDelayed[A: CRDT, M, S](delay: Int): HandleM[A, M, S, Unit] =
+    HandleM(hs =>
+      // Broadcast update
+      val HandleState(msg, stream, state, ctx) = hs
+      val wcrdt =
+        state.wcrdt.nextWindow(state.procId)(stream)
+      state.actorRefs.foreach(ref =>
+        new Thread(() =>
+            val t = System.currentTimeMillis();
+            Thread.sleep(delay)
+            ref ! Merge(state.nodeId, state.procId, wcrdt)
+            val t1 = System.currentTimeMillis();
+            print(s"Sent in ${t1 - t}")
+          ).start()
+      )
+      ctx.log
+        .info(
+          s"Replica ${state.procId} completed window#${state.wcrdt.window.v}"
+        )
+      Continue(
+        hs.copy(state = state.copy(wcrdt = wcrdt)),
+        ()
+      )
+    )
+
   /** Read current window number
     *
     * @return
@@ -190,6 +221,7 @@ object HandleM:
     */
   def await[A, M, S]: Int => HandleM[A, M, S, A] =
     w =>
+      assert(w >= 0)
       HandleM { case s @ HandleState(msg, stream, state, ctx) =>
         if state.wcrdt.window.v <= w then
           ctx.log.error(
